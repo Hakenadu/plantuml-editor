@@ -29,16 +29,22 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
-              "src/mode-diagram.js"
+              {
+                "glob": "**/*",
+                "input": "./node_modules/ace-builds/src-noconflict/",
+                "output": "/"
+              }
             ],
             "styles": [
               "src/styles.scss"
             ],
             "scripts": [
-              "./node_modules/ace-builds/src/ace.js",
-              "src/mode-diagram.js",
               "./node_modules/jquery/dist/jquery.js",
-              "./node_modules/bootstrap/dist/js/bootstrap.js"
+              "./node_modules/bootstrap/dist/js/bootstrap.js",
+              "./node_modules/ace-builds/src-noconflict/ace.js",
+              "./node_modules/ace-builds/src-noconflict/theme-eclipse.js",
+              "./node_modules/ace-builds/src-noconflict/theme-monokai.js",
+              "./node_modules/ace-builds/src-noconflict/mode-html.js"
             ]
           },
           "configurations": {
