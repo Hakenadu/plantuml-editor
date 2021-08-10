@@ -1,5 +1,7 @@
 package com.hakenadu.plantuml.controller;
 
+import java.util.Base64;
+
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,12 +24,17 @@ public class ImagesController {
 	}
 
 	@PostMapping(path = "/svg")
-	public byte[] getSvg(final @RequestBody String source) throws ImageServiceException {
-		return imageService.getSvg(source);
+	public String getSvg(final @RequestBody String source) throws ImageServiceException {
+		return toDataUrl("image/svg+xml", imageService.getSvg(source));
 	}
 
 	@PostMapping(path = "/png", produces = MediaType.IMAGE_PNG_VALUE)
-	public byte[] getPng(final @RequestBody String source) throws ImageServiceException {
-		return imageService.getPng(source);
+	public String getPng(final @RequestBody String source) throws ImageServiceException {
+		return toDataUrl("image/png", imageService.getPng(source));
+	}
+
+	private String toDataUrl(final String type, final byte[] data) {
+		return new StringBuilder().append("data:").append(type).append(";base64, ")
+				.append(Base64.getEncoder().encodeToString(data)).toString();
 	}
 }
