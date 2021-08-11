@@ -1,1 +1,9 @@
-<app-editor></app-editor>
+<as-split *ngIf="splitDirection"
+          [direction]="splitDirection">
+  <as-split-area [size]="60">
+    <app-editor></app-editor>
+  </as-split-area>
+  <as-split-area *ngIf="plantumlHolder.image" [size]="40">
+    <app-image></app-image>
+  </as-split-area>
+</as-split>

@@ -1,0 +1,15 @@
+<div class="d-flex flex-column h-100">
+  <div class="flex-grow-1">
+    <img class="mw-100 mh-100" [src]="plantumlHolder.image"/>
+  </div>
+  <div class="d-flex flex-row w-100 p-2 justify-content-end">
+    <mat-button-toggle-group [(value)]="plantumlHolder.type">
+      <mat-button-toggle value="svg">
+        svg
+      </mat-button-toggle>
+      <mat-button-toggle value="png">
+        png
+      </mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+</div>

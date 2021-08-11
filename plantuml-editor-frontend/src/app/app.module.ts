@@ -6,23 +6,29 @@ import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {EditorComponent} from './editor/editor.component';
 import {FormsModule} from '@angular/forms';
-import {NavbarComponent} from './navbar/navbar.component';
-import {PlantumlViewerComponent} from './plantuml-viewer/plantuml-viewer.component';
 import {HttpClientModule} from '@angular/common/http';
+import {AngularSplitModule} from 'angular-split';
+import {LayoutModule} from '@angular/cdk/layout';
+import {AngularResizedEventModule} from 'angular-resize-event';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import { ImageComponent } from './image/image.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     EditorComponent,
-    NavbarComponent,
-    PlantumlViewerComponent
+    ImageComponent
   ],
   imports: [
+    AngularResizedEventModule,
+    AngularSplitModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     BrowserModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    LayoutModule,
+    MatButtonToggleModule
   ],
   bootstrap: [AppComponent]
 })

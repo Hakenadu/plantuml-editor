@@ -20,7 +20,7 @@ $plantuml-editor-warn: mat.define-palette(mat.$red-palette);
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
-$plantuml-editor-theme: mat.define-light-theme((
+$plantuml-editor-theme: mat.define-dark-theme((
   color: (
     primary: $plantuml-editor-primary,
     accent: $plantuml-editor-accent,

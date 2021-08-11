@@ -2,8 +2,8 @@
 
 import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import ace from 'ace-builds';
-import {PlantumlAnnotationsService} from '../shared/plantuml-annotations.service';
 import {PlantumlHolder} from '../shared/plantuml-holder';
+import {ResizedEvent} from 'angular-resize-event';
 
 const oop = ace.require('ace/lib/oop');
 const TextMode = ace.require('ace/mode/text').Mode;
@@ -87,8 +87,7 @@ export class EditorComponent implements OnInit, AfterViewInit {
   @ViewChild('editor')
   editorRef?: ElementRef<HTMLDivElement>;
 
-  constructor(private plantumlHolder: PlantumlHolder,
-              private annotationsService: PlantumlAnnotationsService) {
+  constructor(private plantumlHolder: PlantumlHolder) {
   }
 
   ngOnInit() {
@@ -105,9 +104,25 @@ export class EditorComponent implements OnInit, AfterViewInit {
       this.editor.session.on('change', () => {
         this.plantumlHolder.plantuml = this.editor.getValue();
       });
-      this.annotationsService.annotations$.subscribe(annotations => {
+      this.plantumlHolder.annotations$.subscribe(annotations => {
         this.editor.session.setAnnotations(annotations);
       });
+    }
+  }
+
+  onResized($event: ResizedEvent) {
+    if (this.editor) {
+      const newContainerHeight = `${$event.newHeight}px`;
+      const newContainerWidth = `${$event.newWidth}px`;
+
+      if (this.editor.container.style.height === newContainerHeight
+        && this.editor.container.style.width === newContainerWidth) {
+        return;
+      }
+
+      this.editor.container.style.width = newContainerWidth;
+      this.editor.container.style.height = newContainerHeight;
+      this.editor.resize();
     }
   }
 }
