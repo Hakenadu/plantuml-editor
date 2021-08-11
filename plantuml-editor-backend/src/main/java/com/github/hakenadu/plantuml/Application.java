@@ -1,4 +1,4 @@
-package com.hakenadu.plantuml;
+package com.github.hakenadu.plantuml;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -6,9 +6,9 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @ComponentScan
-public class PlantumlEditorApplication extends SpringApplication {
+public class Application extends SpringApplication {
 
 	public static void main(String[] args) {
-		run(PlantumlEditorApplication.class, args);
+		run(Application.class, args);
 	}
 }

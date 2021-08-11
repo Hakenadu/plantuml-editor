@@ -1,4 +1,4 @@
-package com.hakenadu.plantuml.service.exception;
+package com.github.hakenadu.plantuml.service.exception;
 
 @SuppressWarnings("serial")
 public class ImageServiceException extends Exception {

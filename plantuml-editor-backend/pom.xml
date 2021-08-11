@@ -4,7 +4,7 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.hakenadu</groupId>
+	<groupId>com.github.hakenadu</groupId>
 	<artifactId>plantuml-editor-backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 
@@ -21,6 +21,13 @@
 		<plantuml.version>8059</plantuml.version>
 	</properties>
 
+	<repositories>
+		<repository>
+			<id>plantuml</id>
+			<url>file://${project.basedir}/repo</url>
+		</repository>
+	</repositories>
+
 	<build>
 		<finalName>${project.artifactId}</finalName>
 		<plugins>
@@ -29,7 +36,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<version>${spring.boot.version}</version>
 				<configuration>
-					<mainClass>com.github.hakenadu.strapi.rss.Application</mainClass>
+					<mainClass>com.github.hakenadu.plantuml.Application</mainClass>
 				</configuration>
 				<executions>
 					<execution>
@@ -47,8 +54,6 @@
 			<groupId>net.sourceforge.plantuml</groupId>
 			<artifactId>plantuml</artifactId>
 			<version>1.2021.9</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/repo/plantuml-1.2021.9-SNAPSHOT.jar</systemPath>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web -->

@@ -1,4 +1,4 @@
-package com.hakenadu.plantuml.model;
+package com.github.hakenadu.plantuml.model;
 
 public class Annotation {
 

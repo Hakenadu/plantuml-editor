@@ -1,4 +1,4 @@
-package com.hakenadu.plantuml.service;
+package com.github.hakenadu.plantuml.service;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.hakenadu.plantuml.service.exception.ImageServiceException;
+import com.github.hakenadu.plantuml.service.exception.ImageServiceException;
 
 import net.sourceforge.plantuml.FileFormat;
 import net.sourceforge.plantuml.FileFormatOption;

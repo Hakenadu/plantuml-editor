@@ -1,6 +1,6 @@
-package com.hakenadu.plantuml.service;
+package com.github.hakenadu.plantuml.service;
 
-import com.hakenadu.plantuml.service.exception.ImageServiceException;
+import com.github.hakenadu.plantuml.service.exception.ImageServiceException;
 
 public interface ImageService {
 

@@ -1,4 +1,4 @@
-package com.hakenadu.plantuml.service;
+package com.github.hakenadu.plantuml.service;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.hakenadu.plantuml.model.Annotation;
+import com.github.hakenadu.plantuml.model.Annotation;
 
 import net.sourceforge.plantuml.syntax.SyntaxChecker;
 import net.sourceforge.plantuml.syntax.SyntaxResult;

@@ -1,8 +1,8 @@
-package com.hakenadu.plantuml.service;
+package com.github.hakenadu.plantuml.service;
 
 import java.util.List;
 
-import com.hakenadu.plantuml.model.Annotation;
+import com.github.hakenadu.plantuml.model.Annotation;
 
 public interface AnnotationsService {
 

@@ -1,4 +1,4 @@
-package com.hakenadu.plantuml.controller;
+package com.github.hakenadu.plantuml.controller;
 
 import java.util.List;
 
@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hakenadu.plantuml.model.Annotation;
-import com.hakenadu.plantuml.service.AnnotationsService;
-import com.hakenadu.plantuml.service.exception.ImageServiceException;
+import com.github.hakenadu.plantuml.model.Annotation;
+import com.github.hakenadu.plantuml.service.AnnotationsService;
+import com.github.hakenadu.plantuml.service.exception.ImageServiceException;
 
 @CrossOrigin
 @RestController
