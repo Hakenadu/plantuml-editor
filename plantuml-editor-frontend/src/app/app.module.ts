@@ -11,13 +11,19 @@ import {AngularSplitModule} from 'angular-split';
 import {LayoutModule} from '@angular/cdk/layout';
 import {AngularResizedEventModule} from 'angular-resize-event';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
-import { ImageComponent } from './image/image.component';
+import {ImageComponent} from './image/image.component';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {DescriptionComponent} from './description/description.component';
+import {FooterComponent} from './footer/footer.component';
+import {MatButtonModule} from '@angular/material/button';
 
 @NgModule({
   declarations: [
     AppComponent,
     EditorComponent,
-    ImageComponent
+    ImageComponent,
+    DescriptionComponent,
+    FooterComponent
   ],
   imports: [
     AngularResizedEventModule,
@@ -28,7 +34,9 @@ import { ImageComponent } from './image/image.component';
     FormsModule,
     HttpClientModule,
     LayoutModule,
-    MatButtonToggleModule
+    MatButtonModule,
+    MatButtonToggleModule,
+    MatToolbarModule
   ],
   bootstrap: [AppComponent]
 })

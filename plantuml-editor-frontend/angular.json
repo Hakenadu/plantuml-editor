@@ -44,7 +44,8 @@
               "./node_modules/ace-builds/src-noconflict/ace.js",
               "./node_modules/ace-builds/src-noconflict/theme-eclipse.js",
               "./node_modules/ace-builds/src-noconflict/theme-monokai.js",
-              "./node_modules/ace-builds/src-noconflict/mode-html.js"
+              "./node_modules/ace-builds/src-noconflict/mode-html.js",
+              "./node_modules/ace-builds/src-noconflict/ext-language_tools.js"
             ]
           },
           "configurations": {

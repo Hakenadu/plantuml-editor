@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {BreakpointObserver, BreakpointState} from '@angular/cdk/layout';
 import {PlantumlHolder} from './shared/plantuml-holder';
+import {PlantumlStore} from './shared/plantuml-store';
 
 @Component({
   selector: 'app-root',
@@ -11,6 +12,7 @@ export class AppComponent {
   splitDirection?: 'horizontal' | 'vertical';
 
   constructor(public plantumlHolder: PlantumlHolder,
+              public plantumlStore: PlantumlStore,
               private breakpointObserver: BreakpointObserver) {
     this.breakpointObserver
       .observe(['(min-width: 576px)'])

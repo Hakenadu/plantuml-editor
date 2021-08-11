@@ -44,7 +44,7 @@ export class PlantumlHolder {
   }
 
   private updateImage() {
-    if (this.status$.value !== 'valid') {
+    if (this.status$.value !== 'valid' || !this.type$.value) {
       return;
     }
     if (this.plantuml === null || this.plantuml.trim().length === 0) {
