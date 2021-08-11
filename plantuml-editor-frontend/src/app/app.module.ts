@@ -16,6 +16,9 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {DescriptionComponent} from './description/description.component';
 import {FooterComponent} from './footer/footer.component';
 import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -36,7 +39,10 @@ import {MatButtonModule} from '@angular/material/button';
     LayoutModule,
     MatButtonModule,
     MatButtonToggleModule,
-    MatToolbarModule
+    MatIconModule,
+    MatMenuModule,
+    MatToolbarModule,
+    MatTooltipModule
   ],
   bootstrap: [AppComponent]
 })

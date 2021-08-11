@@ -150,7 +150,7 @@ export class EditorComponent implements OnInit, AfterViewInit {
         this.editor.session.setAnnotations(annotations);
       });
       if (this.plantumlHolder.plantuml !== null) {
-        this.editor.setValue(this.plantumlHolder.plantuml);
+        this.editor.setValue(this.plantumlHolder.plantuml, 1);
       }
     }
   }
