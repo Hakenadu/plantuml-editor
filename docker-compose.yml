@@ -1,5 +1,12 @@
 version: '3'
 services:
+  plantuml-editor:
+    image: hakenadu/plantuml-editor
+    container_name: plantuml-editor
+    ports:
+    - 80:80
+    build:
+      context: ./
   plantuml-editor-backend:
     image: hakenadu/plantuml-editor-backend
     container_name: plantuml-editor-backend
