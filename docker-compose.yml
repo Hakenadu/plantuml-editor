@@ -6,3 +6,4 @@ services:
     ports:
     - 80:80
     build:
+      context: ./
