@@ -11,6 +11,11 @@ const TextMode = ace.require('ace/mode/text').Mode;
 const TextHighlightRules = ace.require('ace/mode/text_highlight_rules').TextHighlightRules;
 
 const CustomHighlightRules = function () {
+
+
+  /*
+   * NOTICE: The current rule set is a slightly adapted excerpt from https://github.com/sujoyu/plantuml-previewer
+   */
   this.$rules = {
     start: [
       {
