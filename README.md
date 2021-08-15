@@ -7,8 +7,11 @@
     * [run with docker](#run-with-docker)
     * [run with docker-compose](#run-with-docker-compose) 
 * [Customized usage](#customized-usage)
-    * [run with docker](#run-with-docker)
-    * [run with docker-compose](#run-with-docker-compose) 
+    * [Frontend config](#frontend-config)
+        * [Footer actions](#footer-actions)
+        * [Icons](#icons)
+    * [run with docker](#run-with-docker-1)
+    * [run with docker-compose](#run-with-docker-compose-1) 
 
 
 Backend and frontend for a [PlantUML](https://plantuml.com/de/) editor web application 
@@ -143,5 +146,17 @@ Currently two types of icons are supported:
 * *img* shows an image using an img tag and a resource uri
 
 ### run with docker
+```shell
+docker run -d -p 80:80 --name plantuml-editor -v /path/to/your/frontend-config.json:/opt/config/frontend-config.json hakenadu/plantuml-editor
+```
 
 ### run with docker-compose
+```yaml
+plantuml-editor:
+   image: hakenadu/plantuml-editor
+   container_name: plantuml-editor
+   ports:
+   - "80:80"
+   volumes:
+   - /path/to/your/frontend-config.json:/opt/config/frontend-config.json
+```
