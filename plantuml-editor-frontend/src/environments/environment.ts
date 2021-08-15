@@ -28,8 +28,8 @@ export const environment = {
           icon: {
             type: 'img',
             src: 'assets/images/github.svg',
-            height: '32',
-            width: '32'
+            height: '28',
+            width: '28'
           },
           href: 'https://github.com/Hakenadu/plantuml-editor',
           tooltip: 'View the code for this page on GitHub'
