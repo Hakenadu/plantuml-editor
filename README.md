@@ -1,5 +1,6 @@
 # PlantUML Editor
-Backend and frontend for a [PlantUML](https://plantuml.com/de/) editor web application:
+Backend and frontend for a [PlantUML](https://plantuml.com/de/) editor web application 
+![hakenadu/plantuml-editor logo](./plantuml-editor-frontend/src/favicon.svg)
 * The backend generates images from [PlantUML](https://plantuml.com/de/) using the [plantuml.jar](https://github.com/plantuml/plantuml). It also provides annotations in case of invalid source.
 * The fully responsive frontend allows you to see the generated images as you type and also highlights syntax errors linewise
 
@@ -52,4 +53,13 @@ A running demo is available at https://plantuml.mseiche.de/.
 ## Run via docker
 ```shell
 docker run -d -p 80:80 --name plantuml-editor hakenadu/plantuml-editor
+```
+
+## Run via docker-compose
+```yaml
+plantuml-editor:
+  image: hakenadu/plantuml-editor
+  container_name: plantuml-editor
+  ports:
+  - "80:80"
 ```
