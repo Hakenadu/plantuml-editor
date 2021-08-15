@@ -1,10 +1,14 @@
 # PlantUML Editor
 
 * [How does it work?](#how-does-it-work)  
+* [Screenshot](#screenshot)
 * [Demo](#demo)
 * [Basic usage](#basic-usage)
-    * [with docker](#with-docker)
-    * [with docker-compose](#with-docker-compose) 
+    * [run with docker](#run-with-docker)
+    * [run with docker-compose](#run-with-docker-compose) 
+* [Customized usage](#customized-usage)
+    * [run with docker](#run-with-docker)
+    * [run with docker-compose](#run-with-docker-compose) 
 
 
 Backend and frontend for a [PlantUML](https://plantuml.com/de/) editor web application 
@@ -62,12 +66,12 @@ Backend and frontend for a [PlantUML](https://plantuml.com/de/) editor web appli
 A running demo is available at https://plantuml.mseiche.de/.
 
 ## Basic usage
-### with docker
+### run with docker
 ```shell
 docker run -d -p 80:80 --name plantuml-editor hakenadu/plantuml-editor
 ```
 
-### with docker-compose
+### run with docker-compose
 ```yaml
 plantuml-editor:
   image: hakenadu/plantuml-editor
@@ -75,3 +79,69 @@ plantuml-editor:
   ports:
   - "80:80"
 ```
+
+## Customized usage
+You may customize parts of the application by providing config options.
+At the moment it is possible to override the default set footer icons (atm the link to this GitHub repository) with a custom set of icons.
+This can especially be useful, if you need to provide a custom privacy policy.
+
+### Frontend config
+For the app published at https://plantuml.mseiche.de/ I'm using the following *frontend-config.json*
+
+```json
+{
+   "footer": {
+      "actions": [
+         {
+            "type": "popup",
+            "icon": {
+               "type": "material",
+               "name": "privacy_tip"
+            },
+            "content": "<div>This page belongs to <a href=\"https:\/\/mseiche.de\" target=\"_blank\">mseiche.de<\/a> therefore the following documents also apply for this page:<ul class=\"mb-0\"><li><a href=\"https:\/\/mseiche.de\/privacy-policy\" target=\"_blank\">Privacy Policy<\/a><\/li><li><a href=\"https:\/\/mseiche.de\/terms-of-service\" target=\"_blank\">Terms of Service<\/a><\/li><li><a href=\"https:\/\/mseiche.de\/about\" target=\"_blank\">About<\/a><\/li><\/ul><\/div>",
+            "tooltip": "Privacy and Terms of Service"
+         },
+         {
+            "type": "link",
+            "icon": {
+               "type": "img",
+               "src": "assets/images/github.svg",
+               "width": "28",
+               "height": "28"
+            },
+            "href": "https://github.com/Hakenadu/plantuml-editor",
+            "tooltip": "View the code for this page on GitHub"
+         },
+         {
+            "type": "link",
+            "icon": {
+               "type": "img",
+               "src": "assets/images/mseiche.svg",
+               "width": "28",
+               "height": "28"
+            },
+            "href": "https://mseiche.de",
+            "tooltip": "Visit my main page"
+         }
+      ]
+   }
+}
+```
+
+#### Footer actions
+The following types of actions are supported:
+* *popup* contains a custom html template which will be shown in a popup menu after clicking the generated action button
+* *link* opens a provided link in a new tab after clicking the generated action button
+
+each action can be parameterized with the following attributes:
+* *tooltip* (optional) contains a text which will be shown while hovering the generated action button
+* *icon* controls the appearance of the generated action button
+
+#### Icons
+Currently two types of icons are supported:
+* *material* shows a [google material icon](https://fonts.google.com/icons) by its name
+* *img* shows an image using an img tag and a resource uri
+
+### run with docker
+
+### run with docker-compose
