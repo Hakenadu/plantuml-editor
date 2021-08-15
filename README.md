@@ -1,4 +1,12 @@
 # PlantUML Editor
+
+* [How does it work?](#how-does-it-work)  
+* [Demo](#demo)
+* [Basic usage](#basic-usage)
+    * [with docker](#with-docker)
+    * [with docker-compose](#with-docker-compose) 
+
+
 Backend and frontend for a [PlantUML](https://plantuml.com/de/) editor web application 
 ![hakenadu/plantuml-editor logo](./plantuml-editor-frontend/src/favicon.svg)
 * The backend generates images from [PlantUML](https://plantuml.com/de/) using [plantuml/plantuml](https://github.com/plantuml/plantuml). It also provides annotations in case of invalid source.
@@ -50,12 +58,13 @@ Backend and frontend for a [PlantUML](https://plantuml.com/de/) editor web appli
 ## Demo
 A running demo is available at https://plantuml.mseiche.de/.
 
-## Run via docker
+## Basic usage
+### with docker
 ```shell
 docker run -d -p 80:80 --name plantuml-editor hakenadu/plantuml-editor
 ```
 
-## Run via docker-compose
+### with docker-compose
 ```yaml
 plantuml-editor:
   image: hakenadu/plantuml-editor
