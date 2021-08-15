@@ -15,24 +15,38 @@
   <mat-toolbar>
     <div class="d-flex flex-row w-100 align-items-center">
       <h1>PlantUML Editor</h1>
-      <div class="ps-2 flex-grow-1 d-flex flex-row justify-content-end align-items-center">
-        <button mat-icon-button
-                [matMenuTriggerFor]="privacyMenu"
-                matTooltip="Privacy and Terms of Service">
-          <mat-icon>privacy_tip</mat-icon>
-        </button>
-        <a mat-icon-button
-           href="https://github.com/Hakenadu/plantuml-editor"
-           target="_blank"
-           matTooltip="View the code for this page on GitHub">
-          <img src="assets/images/github.svg"/>
-        </a>
-        <a mat-icon-button
-           href="https://mseiche.de"
-           target="_blank"
-           matTooltip="Visit my main page">
-          <img height="32" width="auto" src="favicon.svg"/>
-        </a>
+
+      <!-- the following content is dynamically rendered based on the contents of the FrontendConfig -->
+      <div *ngIf="configService.config$ | async as config"
+           class="ps-2 flex-grow-1 d-flex flex-row justify-content-end align-items-center">
+        <ng-container *ngFor="let action of config.footer?.actions || []">
+          <ng-template #iconTemplate>
+            <mat-icon *ngIf="action.icon.type==='material'">
+              {{action.icon.name}}
+            </mat-icon>
+            <img *ngIf="action.icon.type==='img'"
+                 [src]="action.icon.src"
+                 [height]="action.icon.height || '32'"
+                 [width]="action.icon.width || 'auto'"/>
+          </ng-template>
+          <ng-container *ngIf="action.type==='popup'">
+            <mat-menu #menu="matMenu">
+              <div class="text-light" [innerHTML]="action.content"></div>
+            </mat-menu>
+            <button mat-icon-button
+                    [matMenuTriggerFor]="menu"
+                    [matTooltip]="action.tooltip || ''">
+              <ng-container *ngTemplateOutlet="iconTemplate"></ng-container>
+            </button>
+          </ng-container>
+          <a *ngIf="action.type==='link'"
+             mat-icon-button
+             [href]="action.href"
+             target="_blank"
+             [matTooltip]="action.tooltip || ''">
+            <ng-container *ngTemplateOutlet="iconTemplate"></ng-container>
+          </a>
+        </ng-container>
       </div>
     </div>
   </mat-toolbar>

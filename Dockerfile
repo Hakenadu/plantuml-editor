@@ -37,6 +37,8 @@ ADD ./nginx.conf /etc/nginx/nginx.conf
 COPY --from=build-frontend /app/dist/plantuml-editor /usr/share/nginx/html
 COPY --from=build-backend /app/target/plantuml-editor-backend.jar ./plantuml-editor-backend.jar
 
+COPY ./config /opt/config
+
 EXPOSE 80
 
 CMD ["sh","-c","nginx && java -jar plantuml-editor-backend.jar"]

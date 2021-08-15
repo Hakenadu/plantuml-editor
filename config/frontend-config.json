@@ -1,0 +1,37 @@
+{
+	"footer": {
+		"actions": [
+			{
+				"type": "popup",
+				"icon": {
+					"type": "material",
+					"name": "privacy_tip"
+				},
+				"content": "",
+				"tooltip": "Privacy and Terms of Service"
+			},
+			{
+				"type": "link",
+				"icon": {
+					"type": "img",
+					"src": "assets/images/github.svg",
+					"width": "32",
+					"height": "32"
+				},
+				"href": "https://github.com/Hakenadu/plantuml-editor",
+				"tooltip": "View the code for this page on GitHub"
+			},
+			{
+				"type": "link",
+				"icon": {
+					"type": "img",
+					"src": "favicon.svg",
+					"width": "32",
+					"height": "32"
+				},
+				"href": "https://mseiche.de",
+				"tooltip": "Visit my main page"
+			}
+		]
+	}
+}
