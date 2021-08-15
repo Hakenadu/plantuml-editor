@@ -1,4 +1,5 @@
 # PlantUML Editor
+![hakenadu/plantuml-editor logo](./plantuml-editor-frontend/src/favicon.svg)
 
 * [How does it work?](#how-does-it-work)  
 * [Screenshot](#screenshot)
@@ -14,8 +15,7 @@
     * [run with docker-compose](#run-with-docker-compose-1) 
 
 
-Backend and frontend for a [PlantUML](https://plantuml.com/de/) editor web application 
-![hakenadu/plantuml-editor logo](./plantuml-editor-frontend/src/favicon.svg)
+Backend and frontend for a [PlantUML](https://plantuml.com/de/) editor web application
 * The backend generates images from [PlantUML](https://plantuml.com/de/) using [plantuml/plantuml](https://github.com/plantuml/plantuml). It also provides annotations in case of invalid source.
 * The fully responsive frontend allows you to see the generated images as you type and also highlights syntax errors linewise
 
