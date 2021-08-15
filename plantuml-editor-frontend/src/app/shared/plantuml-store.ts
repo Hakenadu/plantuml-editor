@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {PlantumlHolder} from './plantuml-holder';
 
-const LOCAL_STORAGE_KEY = 'plantuml.mseiche.de-spec';
+const LOCAL_STORAGE_KEY = 'hakenadu/plantuml-editor.value';
 
 @Injectable({
   providedIn: 'root'
