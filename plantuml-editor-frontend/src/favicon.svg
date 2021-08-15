@@ -1,19 +1,37 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64">
   <style>
-    circle {
+    line {
+      stroke-linecap: round;
+    }
+
+    circle.fg {
       fill: #CC5555;
     }
 
-    line, circle {
+    line.fg, circle.fg {
       stroke: white;
-      stroke-linecap: round;
+      stroke-width: 6px;
+    }
+
+    line.bg, circle.bg {
+      stroke: #424242;
       stroke-width: 8px;
     }
   </style>
-  <line x1="32" y1="14" x2="32" y2="50"/>
-  <line x1="4" y1="36" x2="60" y2="36"/>
-  <line x1="32" y1="50" x2="10" y2="60"/>
-  <line x1="32" y1="50" x2="54" y2="60"/>
-  <circle cx="32" cy="14" r="10"/>
+
+  <!-- Background -->
+  <line class="bg" x1="32" y1="14" x2="32" y2="50"/>
+  <line class="bg" x1="4" y1="36" x2="60" y2="36"/>
+  <line class="bg" x1="32" y1="50" x2="10" y2="60"/>
+  <line class="bg" x1="32" y1="50" x2="54" y2="60"/>
+  <circle class="bg" cx="32" cy="14" r="10"/>
+
+  <!-- Foreground -->
+  <line class="fg" x1="32" y1="14" x2="32" y2="50"/>
+  <line class="fg" x1="4" y1="36" x2="60" y2="36"/>
+  <line class="fg" x1="32" y1="50" x2="10" y2="60"/>
+  <line class="fg" x1="32" y1="50" x2="54" y2="60"/>
+  <circle class="fg" cx="32" cy="14" r="10"/>
+
 </svg>
