@@ -55,6 +55,8 @@ Backend and frontend for a [PlantUML](https://plantuml.com/de/) editor web appli
 
 </details>
 
+![Screenshot with area labels](./misc/plantuml-editor-areas.png)
+
 ## Demo
 A running demo is available at https://plantuml.mseiche.de/.
 
