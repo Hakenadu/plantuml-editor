@@ -21,7 +21,9 @@ public class PlantumlAnnotationsService implements AnnotationsService {
 			return Collections.emptyList();
 		}
 
-		final SyntaxResult result = SyntaxChecker.checkSyntax(source);
+		final String cleanedSource = source.replaceAll("\\r\\n", "\n");
+
+		final SyntaxResult result = SyntaxChecker.checkSyntax(cleanedSource);
 		if (!result.isError()) {
 			return Collections.emptyList();
 		}
