@@ -19,6 +19,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatButtonToggleModule,
     MatIconModule,
     MatMenuModule,
+    MatProgressSpinnerModule,
     MatToolbarModule,
     MatTooltipModule
   ],

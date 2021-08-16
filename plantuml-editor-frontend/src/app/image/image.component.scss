@@ -1,0 +1,9 @@
+.image-footer {
+  padding: 4px;
+  
+  ::ng-deep {
+    .mat-button-toggle-label-content {
+      line-height: 40px;
+    }
+  }
+}

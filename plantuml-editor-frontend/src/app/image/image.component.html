@@ -2,7 +2,10 @@
   <div class="flex-grow-1">
     <img class="mw-100 mh-100" [src]="plantumlHolder.image"/>
   </div>
-  <div class="d-flex flex-row w-100 p-2 justify-content-end">
+  <div class="image-footer d-flex flex-row w-100 p-1 align-items-center justify-content-end">
+    <div class="flex-grow-1">
+      <mat-spinner *ngIf="plantumlHolder.status$.value==='pending'" [diameter]="28"></mat-spinner>
+    </div>
     <mat-button-toggle-group [(value)]="plantumlHolder.type">
       <mat-button-toggle value="svg">
         svg

@@ -1,2 +1,2 @@
 https://plantuml.mseiche.de
-
+https://www.plantuml.mseiche.de
