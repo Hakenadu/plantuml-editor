@@ -1,5 +1,6 @@
 export const environment = {
   production: true,
-  backendUrl: '',
+  backendUrl: '/api',
+  configUrl: '/config',
   config: undefined
 };

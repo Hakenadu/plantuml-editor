@@ -30,7 +30,7 @@ export class PlantumlHolder {
         if (source === null) {
           return of([]);
         }
-        return this.httpClient.post<Annotation[]>(`${environment.backendUrl}/api/annotations`, source);
+        return this.httpClient.post<Annotation[]>(`${environment.backendUrl}/annotations`, source);
       })
     );
     this.annotations$.subscribe(annotations => {
@@ -50,7 +50,7 @@ export class PlantumlHolder {
     if (this.plantuml === null || this.plantuml.trim().length === 0) {
       this.image = undefined;
     } else {
-      this.httpClient.post(`${environment.backendUrl}/api/images/${this.type$.value}`, this.plantuml, {responseType: 'text'})
+      this.httpClient.post(`${environment.backendUrl}/images/${this.type$.value}`, this.plantuml, {responseType: 'text'})
         .subscribe(dataUri => {
           this.image = this.domSanitizer.bypassSecurityTrustUrl(dataUri);
         });

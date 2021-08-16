@@ -53,8 +53,8 @@ export class ConfigService {
 
   constructor(private httpClient: HttpClient,
               private domSanitizer: DomSanitizer) {
-    if (environment.production) {
-      this._config$ = this.httpClient.get<FrontendConfig>(`${environment.backendUrl}/config/frontend/`);
+    if (environment.configUrl !== undefined && environment.configUrl !== null) {
+      this._config$ = this.httpClient.get<FrontendConfig>(`${environment.configUrl}/frontend/`);
     } else { // for local development read config from environment.ts
       const config = environment.config;
       this._config$ = of(config ? <FrontendConfig>config : {});
