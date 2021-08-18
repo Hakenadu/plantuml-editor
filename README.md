@@ -85,7 +85,7 @@ plantuml-editor:
 
 ## Customized usage
 You may customize parts of the application by providing config options.
-At the moment it is possible to override the default set footer icons (atm the link to this GitHub repository) with a custom set of icons.
+At the moment it is possible to override the default set of footer icons (atm the link to this GitHub repository) with a custom set of icons.
 This can especially be useful, if you need to provide a custom privacy policy.
 
 ### Frontend config
