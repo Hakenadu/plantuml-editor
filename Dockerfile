@@ -30,7 +30,7 @@ RUN mvn package spring-boot:repackage
 # --------------------------------------------------------------------------------
 FROM adoptopenjdk:16-jre-hotspot-focal
 
-RUN apt update && apt install --yes nginx
+RUN apt update && apt install --yes nginx && apt install --yes graphviz
 
 ADD ./nginx.conf /etc/nginx/nginx.conf
 
