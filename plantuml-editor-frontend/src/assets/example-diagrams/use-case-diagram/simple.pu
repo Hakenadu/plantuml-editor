@@ -1,18 +1,18 @@
 @startuml
 
-autonumber
+left to right direction
 
-actor A
-participant B
+actor Developer as dev
 
-activate A
+note bottom: just to name a few
 
-A -> B: click()
+package Home {
+  usecase Eat
+  usecase Sleep
+  usecase Drink
+}
 
-activate B
-B --> A: result
-deactivate B
-
-deactivate A
+dev --> Eat
+dev --> Sleep
 
 @enduml

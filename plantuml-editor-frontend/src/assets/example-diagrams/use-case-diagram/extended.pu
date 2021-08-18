@@ -1,33 +1,30 @@
 @startuml
 
-autonumber
+actor Developer as d
+actor Chef as c
 
-actor Developer
-participant PlantUmlEditorFrontend
-participant PlantUmlEditorBackend
+package Home {
+  usecase Eat
+  usecase Sleep as S1
+  usecase Drink
+}
 
-activate Developer
-Developer -> PlantUmlEditorFrontend: type plantuml source
+package Office {
+  usecase Work
+  usecase Sleep as S2
+  usecase Pay
+  usecase Fire
+}
 
-activate PlantUmlEditorFrontend
-PlantUmlEditorFrontend -> PlantUmlEditorBackend: get annotations
+Work .> Pay : include
+S2 .> Fire: include
 
-alt #pink source invalid
-    PlantUmlEditorBackend --> PlantUmlEditorFrontend: error annotations
-    deactivate PlantUmlEditorBackend
-    PlantUmlEditorFrontend --> Developer: marked error annotation at specific line
-else #lightgreen source valid
-    PlantUmlEditorBackend --> PlantUmlEditorFrontend: empty annotations
-    deactivate PlantUmlEditorBackend
-    PlantUmlEditorFrontend -> PlantUmlEditorBackend: generate image for source
-    activate PlantUmlEditorBackend
-    PlantUmlEditorBackend -> PlantUmlEditorBackend: generate image using plantuml/plantuml
-    PlantUmlEditorBackend --> PlantUmlEditorFrontend: generated image
-    deactivate PlantUmlEditorBackend
-    PlantUmlEditorFrontend --> Developer: visualized generated image
-end
+c --> Pay #line:green;line.bold
+c --> Fire #line:red;line.bold
+d --> Work #line:green;line.bold
+d --> Eat
 
-deactivate PlantUmlEditorFrontend
-deactivate Developer
+d --> S2 #line:red;line.bold
+d --> S1
 
 @enduml

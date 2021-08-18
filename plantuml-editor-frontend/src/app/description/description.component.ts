@@ -12,8 +12,7 @@ export class DescriptionComponent {
 
   exampleDiagramEntries: { type: string, title: string }[] = [
     {type: 'sequence-diagram', title: 'Sequence Diagram'},
-    {type: 'sequence-diagram', title: 'Sequence Diagram'},
-    {type: 'sequence-diagram', title: 'Sequence Diagram'}
+    {type: 'use-case-diagram', title: 'Use Case Diagram'}
   ];
 
   constructor(public plantumlHolder: PlantumlHolder) {
