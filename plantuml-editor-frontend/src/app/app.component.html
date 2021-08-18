@@ -4,7 +4,7 @@
     <app-footer *ngIf="splitDirection==='vertical'"></app-footer>
   </div>
 
-  <div class="flex-grow-1">
+  <div class="flex-grow-1 overflow-hidden" [ngClass]="{'mh-100': splitDirection==='horizontal'}">
     <as-split [direction]="splitDirection || 'horizontal'">
 
       <as-split-area [size]="60">
