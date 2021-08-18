@@ -1,0 +1,18 @@
+@startuml
+
+autonumber
+
+actor A
+participant B
+
+activate A
+
+A -> B: click()
+
+activate B
+B --> A: result
+deactivate B
+
+deactivate A
+
+@enduml

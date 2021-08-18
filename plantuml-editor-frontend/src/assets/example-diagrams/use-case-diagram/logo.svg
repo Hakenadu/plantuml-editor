@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="222px" preserveAspectRatio="none" style="width:316px;height:222px;background:#FFFFFF;" version="1.1" viewBox="0 0 316 222" width="316px" zoomAndPan="magnify"><defs><filter height="300%" id="fmydcfhek1x4l" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[b1ba588ec95fec2697a6a100a3b7d3ce]
+cluster Home--><polygon fill="#FFFFFF" filter="url(#fmydcfhek1x4l)" points="189,6,240,6,247,28.2969,299,28.2969,299,215,189,215,189,6" style="stroke:#000000;stroke-width:1.5;"/><line style="stroke:#000000;stroke-width:1.5;" x1="189" x2="247" y1="28.2969" y2="28.2969"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="45" x="193" y="20.9951">Home</text><ellipse cx="244.0416" cy="56.0236" fill="#FEFECE" filter="url(#fmydcfhek1x4l)" rx="27.0416" ry="14.5236" style="stroke:#A80036;stroke-width:1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="22" x="233.0416" y="58.8703">Eat</text><ellipse cx="244.1869" cy="120.0634" fill="#FEFECE" filter="url(#fmydcfhek1x4l)" rx="39.1869" ry="14.5634" style="stroke:#A80036;stroke-width:1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="39" x="222.5666" y="123.5876">Sleep</text><ellipse cx="243.9961" cy="184.0423" fill="#FEFECE" filter="url(#fmydcfhek1x4l)" rx="36.9961" ry="14.5423" style="stroke:#A80036;stroke-width:1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="36" x="224.6301" y="187.3527">Drink</text><!--MD5=[3d99d59a27ec55cd9b0b1490801f78bc]
+entity dev--><ellipse cx="75.5" cy="57" fill="#FEFECE" filter="url(#fmydcfhek1x4l)" rx="8" ry="8" style="stroke:#A80036;stroke-width:1.5;"/><path d="M75.5,65 L75.5,92 M62.5,73 L88.5,73 M75.5,92 L62.5,107 M75.5,92 L88.5,107 " fill="none" filter="url(#fmydcfhek1x4l)" style="stroke:#A80036;stroke-width:1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="71" x="40" y="125.4951">Developer</text><path d="M6,163.5 L6,188.6328 A0,0 0 0 0 6,188.6328 L145,188.6328 A0,0 0 0 0 145,188.6328 L145,173.5 L135,163.5 L79.5,163.5 L75.5,128.58 L71.5,163.5 L6,163.5 A0,0 0 0 0 6,163.5 " fill="#FBFB77" filter="url(#fmydcfhek1x4l)" style="stroke:#A80036;stroke-width:1.0;"/><path d="M135,163.5 L135,173.5 L145,173.5 L135,163.5 " fill="#FBFB77" style="stroke:#A80036;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="118" x="12" y="180.5669">just to name a few</text><!--MD5=[671cba19d1190821a83b59354d7d9001]
+link dev to Eat--><path d="M111.4,81.29 C141.57,75.49 184.69,67.21 213.24,61.72 " fill="none" id="dev-to-Eat" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="218.4,60.73,208.8075,58.4975,213.4896,61.6721,210.3149,66.3542,218.4,60.73" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[bd9446b407c5fb7cc1f45ea02ca425c8]
+link dev to Sleep--><path d="M111.4,94.71 C138.42,99.9 175.84,107.09 203.88,112.48 " fill="none" id="dev-to-Sleep" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="209,113.46,200.9149,107.8358,204.0896,112.5179,199.4075,115.6925,209,113.46" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[c1fe99a4775e37f5607b8269777de18a]
+@startuml
+
+left to right direction
+
+actor Developer as dev
+
+note bottom: just to name a few
+
+package Home {
+  usecase Eat
+  usecase Sleep
+  usecase Drink
+}
+
+dev - -> Eat
+dev - -> Sleep
+
+@enduml
+
+PlantUML version 1.2021.9(Sun Jul 25 10:13:56 GMT 2021)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>

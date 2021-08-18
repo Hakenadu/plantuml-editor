@@ -131,6 +131,7 @@ export class EditorComponent implements OnInit, AfterViewInit {
   editorRef?: ElementRef<HTMLDivElement>;
 
   constructor(private plantumlHolder: PlantumlHolder) {
+
   }
 
   ngOnInit() {
@@ -141,6 +142,7 @@ export class EditorComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     if (this.editorRef) {
+
       this.editor = ace.edit(this.editorRef.nativeElement);
       this.editor.setTheme('ace/theme/monokai');
       this.editor.session.setMode(new Mode);
@@ -148,15 +150,25 @@ export class EditorComponent implements OnInit, AfterViewInit {
       this.editor.setOptions({
         enableBasicAutocompletion: true
       });
+
       this.editor.session.on('change', () => {
         this.plantumlHolder.plantuml = this.editor.getValue();
       });
+
       this.plantumlHolder.annotations$.subscribe(annotations => {
         this.editor.session.setAnnotations(annotations);
       });
+
       if (this.plantumlHolder.plantuml !== null) {
         this.editor.setValue(this.plantumlHolder.plantuml, 1);
       }
+
+      this.plantumlHolder.plantuml$.subscribe(plantuml => {
+        const cleanPlantuml = plantuml || '';
+        if (cleanPlantuml !== this.editor.getValue()) {
+          this.editor.setValue(cleanPlantuml, 1);
+        }
+      });
     }
   }
 

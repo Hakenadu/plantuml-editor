@@ -1,0 +1,31 @@
+@startuml
+
+actor Developer as d
+actor Chef as c
+
+package Home {
+  usecase Eat
+  usecase Sleep as S1
+  usecase Drink
+}
+
+package Office {
+  usecase Work
+  usecase Sleep as S2
+  usecase Pay
+  usecase Fire
+}
+
+
+Work .> Pay : include
+S2 .> Fire: include
+
+c --> Pay #line:green;line.bold
+c --> Fire #line:red;line.bold
+d --> Work #line:green;line.bold
+d --> Eat
+
+d --> S2 #line:red;line.bold
+d --> S1
+
+@enduml

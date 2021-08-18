@@ -1,13 +1,14 @@
 <div class="h-100 w-100 d-flex flex-column">
 
-  <app-footer *ngIf="splitDirection==='vertical'"></app-footer>
+  <div class="app-primary-theme">
+    <app-footer *ngIf="splitDirection==='vertical'"></app-footer>
+  </div>
 
   <div class="flex-grow-1">
-    <as-split *ngIf="splitDirection"
-              [direction]="splitDirection">
+    <as-split [direction]="splitDirection || 'horizontal'">
 
       <as-split-area [size]="60">
-        <div class="d-flex flex-column h-100 w-100">
+        <div class="app-primary-theme d-flex flex-column h-100 w-100">
           <div class="flex-grow-1">
             <app-editor></app-editor>
           </div>
@@ -16,8 +17,12 @@
       </as-split-area>
 
       <as-split-area [size]="40">
-        <app-image *ngIf="plantumlHolder.image"></app-image>
-        <app-description *ngIf="!plantumlHolder.image"></app-description>
+        <div class="app-secondary-theme h-100 w-100">
+          <app-image *ngIf="plantumlHolder.image"></app-image>
+          <app-description *ngIf="!plantumlHolder.image"
+                           [scrollDirection]="splitDirection">
+          </app-description>
+        </div>
       </as-split-area>
 
     </as-split>

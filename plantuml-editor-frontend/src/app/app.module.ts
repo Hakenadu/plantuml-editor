@@ -20,6 +20,10 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {ExampleDiagramComponent} from './example-diagram/example-diagram.component';
+import {MatCardModule} from '@angular/material/card';
+import {NgbCarouselModule, NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {MatDividerModule} from '@angular/material/divider';
 
 @NgModule({
   declarations: [
@@ -27,7 +31,8 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     EditorComponent,
     ImageComponent,
     DescriptionComponent,
-    FooterComponent
+    FooterComponent,
+    ExampleDiagramComponent
   ],
   imports: [
     AngularResizedEventModule,
@@ -40,11 +45,15 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     LayoutModule,
     MatButtonModule,
     MatButtonToggleModule,
+    MatCardModule,
+    MatDividerModule,
     MatIconModule,
     MatMenuModule,
     MatProgressSpinnerModule,
     MatToolbarModule,
-    MatTooltipModule
+    MatTooltipModule,
+    NgbCarouselModule,
+    NgbModule
   ],
   bootstrap: [AppComponent]
 })

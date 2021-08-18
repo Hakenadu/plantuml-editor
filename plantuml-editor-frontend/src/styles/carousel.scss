@@ -1,0 +1,47 @@
+.carousel {
+
+  .carousel-control-prev-icon, .carousel-control-next-icon {
+    direction: ltr;
+    display: inline-block;
+    font-family: 'Material Icons';
+    font-size: 32px;
+    font-style: normal;
+    font-weight: normal;
+    letter-spacing: normal;
+    line-height: 1;
+    text-transform: none;
+    white-space: nowrap;
+    word-wrap: normal;
+    -webkit-font-feature-settings: 'liga';
+    -webkit-font-smoothing: antialiased;
+    background-image: none;
+  }
+
+  .carousel-control-prev-icon {
+    &::after {
+      content: 'chevron_left';
+    }
+  }
+
+  .carousel-control-next-icon {
+    &::after {
+      content: 'chevron_right';
+    }
+  }
+}
+
+.dark-theme {
+  .carousel {
+    .carousel-control-prev-icon, .carousel-control-next-icon {
+      color: white;
+    }
+  }
+}
+
+.light-theme {
+  .carousel {
+    .carousel-control-prev-icon, .carousel-control-next-icon {
+      color: #424242;
+    }
+  }
+}

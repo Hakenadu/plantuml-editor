@@ -1,0 +1,18 @@
+@startuml
+
+left to right direction
+
+actor Developer as dev
+
+note bottom: just to name a few
+
+package Home {
+  usecase Eat
+  usecase Sleep
+  usecase Drink
+}
+
+dev --> Eat
+dev --> Sleep
+
+@enduml

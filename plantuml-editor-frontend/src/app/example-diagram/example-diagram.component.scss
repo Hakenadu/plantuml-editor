@@ -1,0 +1,17 @@
+.app-example-diagram {
+
+  ::ng-deep {
+
+    img {
+      user-select: none;
+    }
+
+    .mat-card-header-text {
+      margin: 0;
+    }
+
+    .mat-card-title {
+      overflow-wrap: anywhere;
+    }
+  }
+}

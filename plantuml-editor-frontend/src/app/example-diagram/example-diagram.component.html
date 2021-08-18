@@ -1,0 +1,28 @@
+<div class="app-example-diagram d-flex justify-content-center align-items-center w-100 h-100">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>{{title}}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <img width="100%" height="auto" [src]="logoSrc"/>
+    </mat-card-content>
+    <mat-card-actions>
+      <div class="row justify-content-center">
+        <div class="col-auto">
+          <button mat-flat-button
+                  class="w-100"
+                  (click)="simpleClicked()">
+            Simple
+          </button>
+        </div>
+        <div class="col-auto">
+          <button mat-flat-button
+                  class="w-100"
+                  (click)="extendedClicked()">
+            Extended
+          </button>
+        </div>
+      </div>
+    </mat-card-actions>
+  </mat-card>
+</div>
