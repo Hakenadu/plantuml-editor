@@ -5,7 +5,7 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {EditorComponent} from './editor/editor.component';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {AngularSplitModule} from 'angular-split';
 import {LayoutModule} from '@angular/cdk/layout';
@@ -24,6 +24,7 @@ import {ExampleDiagramComponent} from './example-diagram/example-diagram.compone
 import {MatCardModule} from '@angular/material/card';
 import {NgbCarouselModule, NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {MatDividerModule} from '@angular/material/divider';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import {MatDividerModule} from '@angular/material/divider';
     MatButtonModule,
     MatButtonToggleModule,
     MatCardModule,
+    MatCheckboxModule,
     MatDividerModule,
     MatIconModule,
     MatMenuModule,
@@ -53,7 +55,8 @@ import {MatDividerModule} from '@angular/material/divider';
     MatToolbarModule,
     MatTooltipModule,
     NgbCarouselModule,
-    NgbModule
+    NgbModule,
+    ReactiveFormsModule
   ],
   bootstrap: [AppComponent]
 })
