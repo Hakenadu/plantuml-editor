@@ -1,16 +1,32 @@
 <div class="d-flex flex-column h-100">
-  <div class="flex-grow-1" *ngIf="plantumlHolder.image">
-    <img class="mw-100 mh-100" [src]="plantumlHolder.image"/>
+  <div class="flex-grow-1"
+       *ngIf="plantumlHolder.image"
+       [ngClass]="{
+          'overflow-auto': allowOverflow.value
+       }">
+    <img [src]="plantumlHolder.image"
+         [ngClass]="{
+            'mw-100 mh-100':!allowOverflow.value
+         }"/>
   </div>
   <div class="image-footer d-flex flex-row w-100 p-1 align-items-center justify-content-end">
     <div class="flex-grow-1">
       <mat-spinner *ngIf="plantumlHolder.loading" [diameter]="28"></mat-spinner>
     </div>
+
+    <mat-checkbox class="me-2"
+                  matTooltip="check this box to remove the image size limit"
+                  [formControl]="allowOverflow">
+      allow overflow
+    </mat-checkbox>
+
     <mat-button-toggle-group [(value)]="plantumlHolder.type">
-      <mat-button-toggle value="svg">
+      <mat-button-toggle value="svg"
+                         matTooltip="select this toggle to generate the plantuml image as scalable vector graphic">
         svg
       </mat-button-toggle>
-      <mat-button-toggle value="png">
+      <mat-button-toggle value="png"
+                         matTooltip="select this toggle to generate the plantuml image as portable network graphic">
         png
       </mat-button-toggle>
     </mat-button-toggle-group>
