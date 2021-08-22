@@ -25,39 +25,40 @@ Backend and frontend for a [PlantUML](https://plantuml.com/de/) editor web appli
   <summary>PlantUML source for this diagram</summary>
   
   ```
-  @startuml
+@startuml
 
-  autonumber
+autonumber
 
-  actor Developer
-  participant PlantUmlEditorFrontend
-  participant PlantUmlEditorBackend
+actor Developer
+participant PlantUmlEditorFrontend
+participant PlantUmlEditorBackend
 
-  activate Developer
-  Developer -> PlantUmlEditorFrontend: type plantuml source
+activate Developer
+Developer -> PlantUmlEditorFrontend: type plantuml source
 
-  activate PlantUmlEditorFrontend
-  PlantUmlEditorFrontend -> PlantUmlEditorBackend: get annotations
+activate PlantUmlEditorFrontend
+PlantUmlEditorFrontend -> PlantUmlEditorBackend: get annotations
 
-  alt #pink source invalid
-      PlantUmlEditorBackend --> PlantUmlEditorFrontend: error annotations
-      deactivate PlantUmlEditorBackend
-      PlantUmlEditorFrontend --> Developer: marked error annotation at specific line
-  else #lightgreen source valid
-      PlantUmlEditorBackend --> PlantUmlEditorFrontend: empty annotations
-      deactivate PlantUmlEditorBackend
-      PlantUmlEditorFrontend -> PlantUmlEditorBackend: generate image for source
-      activate PlantUmlEditorBackend
-      PlantUmlEditorBackend -> PlantUmlEditorBackend: generate image using plantuml/plantuml
-      PlantUmlEditorBackend --> PlantUmlEditorFrontend: generated image
-      deactivate PlantUmlEditorBackend
-      PlantUmlEditorFrontend --> Developer: visualized generated image
-  end
+activate PlantUmlEditorBackend
 
-  deactivate PlantUmlEditorFrontend
-  deactivate Developer
+alt #pink source invalid
+    PlantUmlEditorBackend --> PlantUmlEditorFrontend: error annotations
+    PlantUmlEditorFrontend --> Developer: marked error annotation at specific line
+else #lightgreen source valid
+    PlantUmlEditorBackend --> PlantUmlEditorFrontend: empty annotations
+    deactivate PlantUmlEditorBackend
+    PlantUmlEditorFrontend -> PlantUmlEditorBackend: generate image for source
+    activate PlantUmlEditorBackend
+    PlantUmlEditorBackend -> PlantUmlEditorBackend: generate image using plantuml/plantuml
+    PlantUmlEditorBackend --> PlantUmlEditorFrontend: generated image
+    deactivate PlantUmlEditorBackend
+    PlantUmlEditorFrontend --> Developer: visualized generated image
+end
 
-  @enduml
+deactivate PlantUmlEditorFrontend
+deactivate Developer
+
+@enduml
   ```
 
 </details>
