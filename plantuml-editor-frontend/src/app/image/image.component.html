@@ -1,13 +1,9 @@
 <div class="d-flex flex-column h-100">
   <div class="flex-grow-1"
        *ngIf="plantumlHolder.image"
-       [ngClass]="{
-          'overflow-auto': allowOverflow.value
-       }">
+       [ngClass]="{'overflow-auto': allowOverflow.value}">
     <img [src]="plantumlHolder.image"
-         [ngClass]="{
-            'mw-100 mh-100':!allowOverflow.value
-         }"/>
+         [ngClass]="{'mw-100 mh-100':!allowOverflow.value}"/>
   </div>
   <div class="image-footer d-flex flex-row w-100 p-1 align-items-center justify-content-end">
     <div class="flex-grow-1">
