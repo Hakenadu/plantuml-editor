@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable, of} from 'rxjs';
 import {environment} from '../../environments/environment';
-import {DomSanitizer, SafeHtml, SafeUrl} from '@angular/platform-browser';
+import {DomSanitizer, SafeHtml, SafeScript, SafeUrl} from '@angular/platform-browser';
 import {map} from 'rxjs/operators';
 
 export type IconConfig = MaterialIconConfig | ImgIconConfig;
@@ -39,8 +39,19 @@ export interface FooterConfig {
   actions?: FooterActionConfig[];
 }
 
+export interface PermalinkStorageConfig {
+  uploadScript: string | SafeScript;
+  downloadScript?: string | SafeScript;
+}
+
+export interface PermalinkConfig {
+  enabled?: boolean;
+  storages?: { [key: string]: PermalinkStorageConfig };
+}
+
 export interface FrontendConfig {
   footer?: FooterConfig;
+  permalink?: PermalinkConfig;
 }
 
 @Injectable({
@@ -62,9 +73,9 @@ export class ConfigService {
     this._config$.pipe(map(config => this.sanitize(config))).subscribe(config => this._config = config);
   }
 
-  private sanitize(config: FrontendConfig): FrontendConfig {
+  private sanitizeFooterConfig(config: FrontendConfig) {
     if (!config?.footer?.actions) {
-      return config;
+      return;
     }
 
     for (const action of config.footer.actions) {
@@ -80,6 +91,24 @@ export class ConfigService {
         action.icon.src = this.domSanitizer.bypassSecurityTrustUrl(<string>action.icon.src)
       }
     }
+  }
+
+  private sanitizePermalinkConfig(config: FrontendConfig) {
+    if (!config?.permalink?.storages) {
+      return;
+    }
+    for (const key of Object.keys(config.permalink.storages)) {
+      const storageConfig = config.permalink.storages[key];
+      storageConfig.uploadScript = this.domSanitizer.bypassSecurityTrustScript(<string>storageConfig.uploadScript);
+      if (storageConfig.downloadScript) {
+        storageConfig.downloadScript = this.domSanitizer.bypassSecurityTrustScript(<string>storageConfig.downloadScript);
+      }
+    }
+  }
+
+  private sanitize(config: FrontendConfig): FrontendConfig {
+    this.sanitizeFooterConfig(config);
+    this.sanitizePermalinkConfig(config);
     return config;
   }
 

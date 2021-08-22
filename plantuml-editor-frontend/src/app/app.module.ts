@@ -25,6 +25,8 @@ import {MatCardModule} from '@angular/material/card';
 import {NgbCarouselModule, NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatDialogModule} from '@angular/material/dialog';
+import { PermalinkComponent } from './permalink/permalink.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     ImageComponent,
     DescriptionComponent,
     FooterComponent,
-    ExampleDiagramComponent
+    ExampleDiagramComponent,
+    PermalinkComponent
   ],
   imports: [
     AngularResizedEventModule,
@@ -48,6 +51,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     MatButtonToggleModule,
     MatCardModule,
     MatCheckboxModule,
+    MatDialogModule,
     MatDividerModule,
     MatIconModule,
     MatMenuModule,

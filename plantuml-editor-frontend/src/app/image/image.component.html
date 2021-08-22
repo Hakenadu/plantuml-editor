@@ -5,26 +5,44 @@
     <img [src]="plantumlHolder.image"
          [ngClass]="{'mw-100 mh-100':!allowOverflow.value}"/>
   </div>
-  <div class="image-footer d-flex flex-row w-100 p-1 align-items-center justify-content-end">
+  <div class="image-footer ps-1 pe-1 d-flex flex-row w-100 align-items-center justify-content-end">
     <div class="flex-grow-1">
       <mat-spinner *ngIf="plantumlHolder.loading" [diameter]="28"></mat-spinner>
     </div>
 
-    <mat-checkbox class="me-2"
-                  matTooltip="check this box to remove the image size limit"
-                  [formControl]="allowOverflow">
-      allow overflow
-    </mat-checkbox>
+    <div class="row align-items-center justify-content-center">
 
-    <mat-button-toggle-group [(value)]="plantumlHolder.type">
-      <mat-button-toggle value="svg"
-                         matTooltip="select this toggle to generate the plantuml image as scalable vector graphic">
-        svg
-      </mat-button-toggle>
-      <mat-button-toggle value="png"
-                         matTooltip="select this toggle to generate the plantuml image as portable network graphic">
-        png
-      </mat-button-toggle>
-    </mat-button-toggle-group>
+      <div class="col-auto py-1">
+        <mat-checkbox [matTooltip]="allowOverflowTooltip"
+                      [formControl]="allowOverflow"
+                      color="primary">
+          allow overflow
+        </mat-checkbox>
+      </div>
+
+      <div class="col-auto py-1 pe-1">
+        <mat-button-toggle-group [(value)]="plantumlHolder.type">
+          <mat-button-toggle value="svg"
+                             matTooltip="select this toggle to generate the plantuml image as scalable vector graphic">
+            svg
+          </mat-button-toggle>
+          <mat-button-toggle value="png"
+                             matTooltip="select this toggle to generate the plantuml image as portable network graphic">
+            png
+          </mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+
+      <ng-container *ngIf="configService.config$ | async as config">
+        <div class="col-auto py-1 ps-1" *ngIf="config.permalink?.enabled">
+          <button mat-icon-button
+                  matTooltip="create a permalink for your diagram to share it with others"
+                  (click)="onShareClicked()">
+            <mat-icon>share</mat-icon>
+          </button>
+        </div>
+      </ng-container>
+
+    </div>
   </div>
 </div>

@@ -1,9 +1,17 @@
 .image-footer {
-  padding: 4px;
-  
+
   ::ng-deep {
-    .mat-button-toggle-label-content {
-      line-height: 40px;
+    .mat-icon-button {
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      border-radius: 0px;
+    }
+
+    .mat-button-toggle-group {
+      border-radius: 0px;
+
+      .mat-button-toggle-label-content {
+        line-height: 40px;
+      }
     }
   }
 }
