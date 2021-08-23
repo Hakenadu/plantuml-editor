@@ -1,0 +1,15 @@
+@use '~@angular/material' as mat;
+
+ngx-file-drop.app-ngx-file-drop {
+
+  .ngx-file-drop__drop-zone {
+    border-radius: 0;
+    border: 1px solid white;
+
+    .ngx-file-drop__content {
+      color: white;
+      height: 100%;
+      padding: 1em;
+    }
+  }
+}

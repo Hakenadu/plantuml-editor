@@ -1,6 +1,16 @@
 <h2 mat-dialog-title>Create Permalink</h2>
 <mat-dialog-content>
-  Test
+  <ngx-file-drop class="app-ngx-file-drop"
+                 (onFileDrop)="dropped($event)">
+    <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+      <div class="h-100 d-flex flex-column">
+        <div class="flex-grow-1 d-flex align-items-center justify-content-center mb-2">
+          Drag and drop permalink config file here
+        </div>
+        <button mat-raised-button (click)="openFileSelector()">Browse Files</button>
+      </div>
+    </ng-template>
+  </ngx-file-drop>
 </mat-dialog-content>
 <mat-dialog-actions>
   <div class="w-100 d-flex justify-content-end">

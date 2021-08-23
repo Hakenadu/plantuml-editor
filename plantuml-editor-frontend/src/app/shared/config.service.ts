@@ -40,13 +40,14 @@ export interface FooterConfig {
 }
 
 export interface PermalinkStorageConfig {
+  name: string;
   uploadScript: string | SafeScript;
   downloadScript?: string | SafeScript;
 }
 
 export interface PermalinkConfig {
   enabled?: boolean;
-  storages?: { [key: string]: PermalinkStorageConfig };
+  storages?: PermalinkStorageConfig[];
 }
 
 export interface FrontendConfig {
@@ -97,8 +98,7 @@ export class ConfigService {
     if (!config?.permalink?.storages) {
       return;
     }
-    for (const key of Object.keys(config.permalink.storages)) {
-      const storageConfig = config.permalink.storages[key];
+    for (const storageConfig of config.permalink.storages) {
       storageConfig.uploadScript = this.domSanitizer.bypassSecurityTrustScript(<string>storageConfig.uploadScript);
       if (storageConfig.downloadScript) {
         storageConfig.downloadScript = this.domSanitizer.bypassSecurityTrustScript(<string>storageConfig.downloadScript);
