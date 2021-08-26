@@ -1,4 +1,8 @@
 plantuml-editor:
+  document:
+    lifetime: ${DOCUMENT_REAPER_LIFETIME:P7DT}
+    reaper:
+      cron: ${DOCUMENT_REAPER_CRON:'0 0/10 * * * ?'}
   webdav:
     collection: ${WEBDAV_COLLECTION:}
     secret: ${WEBDAV_SECRET}

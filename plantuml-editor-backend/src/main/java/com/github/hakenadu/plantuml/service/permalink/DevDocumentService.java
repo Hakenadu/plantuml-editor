@@ -1,5 +1,6 @@
 package com.github.hakenadu.plantuml.service.permalink;
 
+import java.time.Duration;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -36,5 +37,15 @@ public class DevDocumentService implements DocumentService {
 	@Override
 	public String getDocument(final UUID id) throws DocumentServiceException {
 		return data.get(id);
+	}
+
+	@Override
+	public void deleteDocument(final UUID id) throws DocumentServiceException {
+		this.data.remove(id);
+	}
+
+	@Override
+	public void deleteDocumentsOlderThan(final Duration lifetime) throws DocumentServiceException {
+		// noop
 	}
 }

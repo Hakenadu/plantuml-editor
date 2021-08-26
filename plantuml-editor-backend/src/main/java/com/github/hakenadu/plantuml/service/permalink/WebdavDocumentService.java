@@ -10,6 +10,7 @@ import java.net.http.HttpResponse.BodyHandlers;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.time.Duration;
 import java.util.Base64;
 import java.util.UUID;
 
@@ -100,6 +101,18 @@ public class WebdavDocumentService implements DocumentService {
 		final byte[] encryptedDocumentBytes = readDocument(documentName);
 
 		return new String(createEncryptor(id).decrypt(encryptedDocumentBytes), StandardCharsets.UTF_8);
+	}
+
+	@Override
+	public void deleteDocument(final UUID id) throws DocumentServiceException {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void deleteDocumentsOlderThan(final Duration lifetime) throws DocumentServiceException {
+		// TODO Auto-generated method stub
+
 	}
 
 	private UriComponentsBuilder webdavCollectionUriComponentsBuilder() {
