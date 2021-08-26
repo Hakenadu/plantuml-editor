@@ -18,7 +18,8 @@
 		<project.reporting.outputEncoding>${encoding}</project.reporting.outputEncoding>
 
 		<spring.boot.version>2.5.3</spring.boot.version>
-		<plantuml.version>8059</plantuml.version>
+		<spring.framework.version>5.5.2</spring.framework.version>
+		<plantuml.version>1.2021.9</plantuml.version>
 	</properties>
 
 	<repositories>
@@ -53,15 +54,19 @@
 		<dependency>
 			<groupId>net.sourceforge.plantuml</groupId>
 			<artifactId>plantuml</artifactId>
-			<version>1.2021.9</version>
+			<version>${plantuml.version}</version>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 			<version>${spring.boot.version}</version>
 		</dependency>
-	</dependencies>
 
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-crypto</artifactId>
+			<version>${spring.framework.version}</version>
+		</dependency>
+	</dependencies>
 </project>
