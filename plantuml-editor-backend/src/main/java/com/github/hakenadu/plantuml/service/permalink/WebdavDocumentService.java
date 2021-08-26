@@ -34,11 +34,12 @@ public class WebdavDocumentService implements DocumentService {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(WebdavDocumentService.class);
 
-	private final String webdavCollection;
 	private final String webdavSecret;
 	private final String webdavUsername;
 	private final String webdavPassword;
 	private final URI webdavUri;
+
+	private String webdavCollection;
 
 	public WebdavDocumentService(final @Value("${plantuml-editor.webdav.collection}") String webdavCollection,
 			final @Value("${plantuml-editor.webdav.secret}") String webdavSecret,
@@ -54,6 +55,12 @@ public class WebdavDocumentService implements DocumentService {
 
 	@PostConstruct
 	public void createCollection() throws DocumentServiceException {
+		if (!this.webdavCollection.trim().isEmpty()) {
+			return;
+		}
+
+		this.webdavCollection = "/data";
+
 		final URI collectionUri = webdavCollectionUriComponentsBuilder().build().toUri();
 		LOGGER.info("creating collection {}", collectionUri);
 
@@ -96,7 +103,7 @@ public class WebdavDocumentService implements DocumentService {
 	}
 
 	private UriComponentsBuilder webdavCollectionUriComponentsBuilder() {
-		return UriComponentsBuilder.fromUri(webdavUri).path('/' + webdavCollection);
+		return UriComponentsBuilder.fromUri(webdavUri).path(webdavCollection);
 	}
 
 	private BytesEncryptor createEncryptor(final UUID id) {

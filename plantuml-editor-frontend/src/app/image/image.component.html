@@ -34,7 +34,7 @@
       </div>
 
       <ng-container *ngIf="configService.config$ | async as config">
-        <div class="col-auto py-1 ps-1" *ngIf="permalinkSupported | async">
+        <div class="col-auto py-1 ps-1" *ngIf="config.permalink">
           <button mat-icon-button
                   matTooltip="create a permalink for your diagram to share it with others"
                   (click)="onShareClicked()">

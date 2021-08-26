@@ -8,6 +8,7 @@ import {PermalinkComponent} from '../permalink/permalink.component';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 import {catchError, map} from 'rxjs/operators';
+import {NGXLogger} from 'ngx-logger';
 
 const ALLOW_OVERFLOW_LOCAL_STORAGE_KEY = 'hakenadu/plantuml-editor.allow-overflow';
 
@@ -23,14 +24,21 @@ export class ImageComponent implements OnInit, OnDestroy {
 
   permalinkSupported: Observable<boolean>;
 
-  constructor(public plantumlHolder: PlantumlHolder,
+  constructor(private logger: NGXLogger,
+              public plantumlHolder: PlantumlHolder,
               public configService: ConfigService,
               private matDialog: MatDialog,
               httpClient: HttpClient) {
-    this.permalinkSupported = httpClient.get(`${environment.backendUrl}/documents`)
+    this.permalinkSupported = httpClient.get(
+      `${environment.backendUrl}/documents`,
+      {responseType: 'text'}
+    )
       .pipe(
-        map(() => true),
-        catchError(error => of(false))
+        catchError(error => {
+          this.logger.info('/documents route is disabled, disabling permalinks');
+          return of(false);
+        }),
+        map(() => true)
       );
   }
 

@@ -39,8 +39,13 @@ export interface FooterConfig {
   actions?: FooterActionConfig[];
 }
 
+export interface PermalinkConfig {
+  alertContent?: string | SafeHtml;
+}
+
 export interface FrontendConfig {
   footer?: FooterConfig;
+  permalink?: PermalinkConfig;
 }
 
 @Injectable({
@@ -82,8 +87,15 @@ export class ConfigService {
     }
   }
 
+  private sanitizePermalinkConfig(config: FrontendConfig) {
+    if (config?.permalink?.alertContent) {
+      config.permalink.alertContent = this.domSanitizer.bypassSecurityTrustHtml(<string>config.permalink.alertContent);
+    }
+  }
+
   private sanitize(config: FrontendConfig): FrontendConfig {
     this.sanitizeFooterConfig(config);
+    this.sanitizePermalinkConfig(config);
     return config;
   }
 

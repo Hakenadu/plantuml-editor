@@ -1,6 +1,6 @@
 plantuml-editor:
   webdav:
-    collection: ${WEBDAV_COLLECTION:plantuml}
+    collection: ${WEBDAV_COLLECTION:}
     secret: ${WEBDAV_SECRET}
     url: ${WEBDAV_URL}
     username: ${WEBDAV_USERNAME}
