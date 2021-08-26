@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable, of} from 'rxjs';
 import {environment} from '../../environments/environment';
-import {DomSanitizer, SafeHtml, SafeScript, SafeUrl} from '@angular/platform-browser';
+import {DomSanitizer, SafeHtml, SafeUrl} from '@angular/platform-browser';
 import {map} from 'rxjs/operators';
 
 export type IconConfig = MaterialIconConfig | ImgIconConfig;
@@ -39,20 +39,8 @@ export interface FooterConfig {
   actions?: FooterActionConfig[];
 }
 
-export interface PermalinkStorageConfig {
-  name: string;
-  uploadScript: string | SafeScript;
-  downloadScript?: string | SafeScript;
-}
-
-export interface PermalinkConfig {
-  enabled?: boolean;
-  storages?: PermalinkStorageConfig[];
-}
-
 export interface FrontendConfig {
   footer?: FooterConfig;
-  permalink?: PermalinkConfig;
 }
 
 @Injectable({
@@ -94,21 +82,8 @@ export class ConfigService {
     }
   }
 
-  private sanitizePermalinkConfig(config: FrontendConfig) {
-    if (!config?.permalink?.storages) {
-      return;
-    }
-    for (const storageConfig of config.permalink.storages) {
-      storageConfig.uploadScript = this.domSanitizer.bypassSecurityTrustScript(<string>storageConfig.uploadScript);
-      if (storageConfig.downloadScript) {
-        storageConfig.downloadScript = this.domSanitizer.bypassSecurityTrustScript(<string>storageConfig.downloadScript);
-      }
-    }
-  }
-
   private sanitize(config: FrontendConfig): FrontendConfig {
     this.sanitizeFooterConfig(config);
-    this.sanitizePermalinkConfig(config);
     return config;
   }
 

@@ -27,7 +27,6 @@ import {MatDividerModule} from '@angular/material/divider';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatDialogModule} from '@angular/material/dialog';
 import {PermalinkComponent} from './permalink/permalink.component';
-import {NgxFileDropModule} from 'ngx-file-drop';
 
 @NgModule({
   declarations: [
@@ -61,7 +60,6 @@ import {NgxFileDropModule} from 'ngx-file-drop';
     MatTooltipModule,
     NgbCarouselModule,
     NgbModule,
-    NgxFileDropModule,
     ReactiveFormsModule
   ],
   bootstrap: [AppComponent]

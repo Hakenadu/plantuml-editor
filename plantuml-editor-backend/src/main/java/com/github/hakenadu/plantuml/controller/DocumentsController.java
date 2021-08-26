@@ -43,4 +43,9 @@ public class DocumentsController {
 	public String getDocument(final @PathVariable UUID id) throws DocumentServiceException {
 		return documentService.getDocument(id);
 	}
+
+	@GetMapping
+	public ResponseEntity<String> enabled() {
+		return ResponseEntity.ok("permalinks enabled");
+	}
 }
