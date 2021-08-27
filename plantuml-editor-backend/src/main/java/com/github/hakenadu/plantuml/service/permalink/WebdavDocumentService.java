@@ -11,8 +11,10 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.UUID;
+import java.util.regex.Pattern;
 
 import javax.annotation.PostConstruct;
 
@@ -27,6 +29,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.github.hakenadu.plantuml.service.permalink.exception.DocumentEncryptionFailedException;
+import com.github.hakenadu.plantuml.service.permalink.exception.DocumentNotFoundException;
 import com.github.hakenadu.plantuml.service.permalink.exception.DocumentServiceException;
 
 @Profile("webdav")
@@ -70,7 +73,7 @@ public class WebdavDocumentService implements DocumentService {
 
 		try {
 			final HttpResponse<byte[]> response = HttpClient.newHttpClient().send(request, BodyHandlers.ofByteArray());
-			if (response.statusCode() >= 300) {
+			if (response.statusCode() >= 400) {
 				throw new DocumentServiceException(
 						"unexpected http status creating collection: " + response.statusCode());
 			}
@@ -136,7 +139,10 @@ public class WebdavDocumentService implements DocumentService {
 
 		try {
 			final HttpResponse<byte[]> response = HttpClient.newHttpClient().send(request, BodyHandlers.ofByteArray());
-			if (response.statusCode() >= 300) {
+			if (response.statusCode() == 404) {
+				throw new DocumentNotFoundException(documentName);
+			}
+			if (response.statusCode() >= 400) {
 				throw new DocumentServiceException("unexpected http status reading document: " + response.statusCode());
 			}
 			return response.body();
@@ -154,7 +160,7 @@ public class WebdavDocumentService implements DocumentService {
 
 		try {
 			final HttpResponse<?> response = HttpClient.newHttpClient().send(request, BodyHandlers.discarding());
-			if (response.statusCode() >= 300) {
+			if (response.statusCode() >= 400) {
 				throw new DocumentServiceException("unexpected http status storing document: " + response.statusCode());
 			}
 		} catch (final IOException | InterruptedException ioException) {

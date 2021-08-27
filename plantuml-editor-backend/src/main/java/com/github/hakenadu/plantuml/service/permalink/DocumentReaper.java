@@ -16,13 +16,13 @@ import com.github.hakenadu.plantuml.service.permalink.exception.DocumentServiceE
 @EnableScheduling
 public class DocumentReaper {
 
-	@Value("${document.lifetime}")
+	@Value("${plantuml-editor.document.lifetime}")
 	private Duration lifetime;
 
 	@Autowired
 	private DocumentService documentService;
 
-	@Scheduled(cron = "${document.reaper.cron}")
+	@Scheduled(cron = "${plantuml-editor.document.reaper.cron}")
 	public void deleteOldDocuments() throws DocumentServiceException {
 		documentService.deleteDocumentsOlderThan(lifetime);
 	}
