@@ -16,6 +16,8 @@ services:
   plantuml-editor-webdav:
     image: bytemark/webdav
     container_name: plantuml-editor-webdav
+    ports:
+    - 8080:80 # only for local debugging purposes
     environment:
       USERNAME: john
       PASSWORD: doe1337
