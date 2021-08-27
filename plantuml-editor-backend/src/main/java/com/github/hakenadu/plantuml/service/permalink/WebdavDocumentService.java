@@ -1,6 +1,7 @@
 package com.github.hakenadu.plantuml.service.permalink;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -10,13 +11,14 @@ import java.net.http.HttpResponse.BodyHandlers;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.time.Duration;
-import java.time.LocalDateTime;
 import java.util.Base64;
+import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
-import java.util.regex.Pattern;
 
 import javax.annotation.PostConstruct;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +29,10 @@ import org.springframework.security.crypto.encrypt.BytesEncryptor;
 import org.springframework.security.crypto.encrypt.Encryptors;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
+import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 
+import com.github.hakenadu.plantuml.model.DocumentMetaData;
 import com.github.hakenadu.plantuml.service.permalink.exception.DocumentEncryptionFailedException;
 import com.github.hakenadu.plantuml.service.permalink.exception.DocumentNotFoundException;
 import com.github.hakenadu.plantuml.service.permalink.exception.DocumentServiceException;
@@ -37,6 +42,11 @@ import com.github.hakenadu.plantuml.service.permalink.exception.DocumentServiceE
 public class WebdavDocumentService implements DocumentService {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(WebdavDocumentService.class);
+	private static final DocumentBuilderFactory DOCUMENT_BUILDER_FACTORY;
+	static {
+		DOCUMENT_BUILDER_FACTORY = DocumentBuilderFactory.newInstance();
+		DOCUMENT_BUILDER_FACTORY.setNamespaceAware(true);
+	}
 
 	private final String webdavSecret;
 	private final String webdavUsername;
@@ -107,15 +117,53 @@ public class WebdavDocumentService implements DocumentService {
 	}
 
 	@Override
-	public void deleteDocument(final UUID id) throws DocumentServiceException {
-		// TODO Auto-generated method stub
+	public void deleteDocument(final DocumentMetaData metaData) throws DocumentServiceException {
+		final URI documentUri = webdavCollectionUriComponentsBuilder().path('/' + metaData.getDocumentName()).build()
+				.toUri();
+		LOGGER.info("deleting document {}", documentUri);
 
+		final HttpRequest request = httpRequestBuilder().uri(documentUri).DELETE().build();
+
+		try {
+			final HttpResponse<byte[]> response = HttpClient.newHttpClient().send(request, BodyHandlers.ofByteArray());
+			if (response.statusCode() >= 500) {
+				throw new DocumentServiceException(
+						"unexpected http status deleting document: " + response.statusCode());
+			}
+		} catch (final IOException | InterruptedException ioException) {
+			throw new DocumentServiceException("error deleting document", ioException);
+		}
 	}
 
 	@Override
-	public void deleteDocumentsOlderThan(final Duration lifetime) throws DocumentServiceException {
-		// TODO Auto-generated method stub
+	public Collection<? extends DocumentMetaData> getDocumentMetaData() throws DocumentServiceException {
+		final URI collectionUri = webdavCollectionUriComponentsBuilder().build().toUri();
+		LOGGER.info("reading document meta data {}", collectionUri);
 
+		final HttpRequest request = httpRequestBuilder().uri(collectionUri).method("PROPFIND", BodyPublishers.noBody())
+				.build();
+
+		try {
+			final HttpResponse<InputStream> response = HttpClient.newHttpClient().send(request,
+					BodyHandlers.ofInputStream());
+			if (response.statusCode() >= 400) {
+				throw new DocumentServiceException("unexpected http status reading metadata: " + response.statusCode());
+			}
+			return readMetaDataFromResponse(response);
+		} catch (final IOException | InterruptedException ioException) {
+			throw new DocumentServiceException("error reading metadata", ioException);
+		}
+	}
+
+	private List<? extends DocumentMetaData> readMetaDataFromResponse(final HttpResponse<InputStream> response)
+			throws DocumentServiceException {
+		try (final InputStream inputStream = response.body()) {
+			final Document document = DOCUMENT_BUILDER_FACTORY.newDocumentBuilder().parse(inputStream);
+
+			// TODO
+		} catch (final SAXException | IOException | ParserConfigurationException exception) {
+			throw new DocumentServiceException("error parsing metadata", exception);
+		}
 	}
 
 	private UriComponentsBuilder webdavCollectionUriComponentsBuilder() {

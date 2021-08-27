@@ -1,8 +1,9 @@
 package com.github.hakenadu.plantuml.service.permalink;
 
-import java.time.Duration;
+import java.util.Collection;
 import java.util.UUID;
 
+import com.github.hakenadu.plantuml.model.DocumentMetaData;
 import com.github.hakenadu.plantuml.service.permalink.exception.DocumentServiceException;
 
 public interface DocumentService {
@@ -11,7 +12,7 @@ public interface DocumentService {
 
 	String getDocument(UUID id) throws DocumentServiceException;
 
-	void deleteDocument(UUID id) throws DocumentServiceException;
+	void deleteDocument(DocumentMetaData metaData) throws DocumentServiceException;
 
-	void deleteDocumentsOlderThan(Duration lifetime) throws DocumentServiceException;
+	Collection<? extends DocumentMetaData> getDocumentMetaData() throws DocumentServiceException;
 }
