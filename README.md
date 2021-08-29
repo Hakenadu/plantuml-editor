@@ -9,6 +9,7 @@
     * [run with docker-compose](#run-with-docker-compose) 
 * [Customized usage](#customized-usage)
     * [Frontend config](#frontend-config)
+        * [Share links](#share-links)
         * [Footer actions](#footer-actions)
         * [Icons](#icons)
     * [run with docker](#run-with-docker-1)
