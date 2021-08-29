@@ -86,14 +86,18 @@ plantuml-editor:
 
 ## Customized usage
 You may customize parts of the application by providing config options.
-At the moment it is possible to override the default set of footer icons (atm the link to this GitHub repository) with a custom set of icons.
-This can especially be useful, if you need to provide a custom privacy policy.
+
+### Backend Config
+The backend is configured using environment variables.
 
 ### Frontend config
 For the app published at https://plantuml.mseiche.de/ I'm using the following *frontend-config.json*
 
 ```json
 {
+	"permalink": {
+		"description": "<p>Your PlantUML spec will be stored symmetrically encrypted via <a href=\"https:\/\/en.wikipedia.org\/wiki\/WebDAV\">WebDAV<\/a>.<\/p><p>The information needed to decrypt the stored data is the id which is sent by your browser when accessing the data.<\/p><p class=\"mb-0\">Anyhow if you use this functionality you agree to my <a href=\"https:\/\/mseiche.de\/terms-of-service\">Terms of Service<\/a><\/p>"
+	},
    "footer": {
       "actions": [
          {
@@ -131,6 +135,10 @@ For the app published at https://plantuml.mseiche.de/ I'm using the following *f
    }
 }
 ```
+#### Permalink
+If permalinks are enabled you need to provide the "permalink" configuration entry to make the share button appear.
+You may provide a custom description for the share dialog using the permalink.description configuration entry.
+This can especially be useful, if you need to link custom terms of service.
 
 #### Footer actions
 The following types of actions are supported:
@@ -152,6 +160,8 @@ docker run -d -p 80:80 --name plantuml-editor -v /path/to/your/frontend-config.j
 ```
 
 ### run with docker-compose
+
+#### With sharing disabled
 ```yaml
 plantuml-editor:
    image: hakenadu/plantuml-editor
@@ -160,4 +170,37 @@ plantuml-editor:
    - "80:80"
    volumes:
    - /path/to/your/frontend-config.json:/opt/config/frontend-config.json
+```
+
+#### With sharing enabled
+For enabling permalinks you need to provide a WebDAV interface for the plantuml-editor.
+The following docker-compose example shows a maximal example.
+
+```yaml
+version: '3'
+services:
+  plantuml-editor:
+    image: hakenadu/plantuml-editor
+    container_name: plantuml-editor
+    environment:
+      # MANDATORY VARIABLES
+      SPRING_PROFILES_ACTIVE: webdav # activate the /documents endpoint using webdav
+      WEBDAV_SECRET: TOPSECRET # salt for symmetrically encrypting document content
+      WEBDAV_URL: http://plantuml-editor-webdav:80 # url to the webdav interface
+      WEBDAV_USERNAME: john # basic auth webdav username
+      WEBDAV_PASSWORD: doe1337 # basic auth webdav password
+      # OPTIONAL VARIABLES
+      DOCUMENT_LIFETIME: PT168H # the maximum age for stored documents (defaults to 7 days)
+      DOCUMENT_REAPER_CRON: '0 0/10 * * * ?' # the cron definition which determines the frequency for the document reaper to delete old documents (defaults to 10 minutes)
+      WEBDAV_COLLECTION: # if passed, an existing webdav collection will be used instead of creating a new one (defaults to '')
+    ports:
+    - 80:80
+    build:
+      context: ./
+  plantuml-editor-webdav:
+    image: bytemark/webdav
+    container_name: plantuml-editor-webdav
+    environment:
+      USERNAME: john # basic auth webdav username
+      PASSWORD: doe1337 # basic auth webdav password
 ```
