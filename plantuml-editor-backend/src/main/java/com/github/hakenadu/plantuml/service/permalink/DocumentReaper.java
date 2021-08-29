@@ -29,7 +29,7 @@ public class DocumentReaper {
 		final LocalDateTime now = LocalDateTime.now();
 
 		for (final DocumentMetaData metaData : documentService.getDocumentMetaData()) {
-			if (metaData.getCreationDate().plus(lifetime).isAfter(now)) {
+			if (metaData.getCreationDate().plus(lifetime).isBefore(now)) {
 				documentService.deleteDocument(metaData);
 			}
 		}

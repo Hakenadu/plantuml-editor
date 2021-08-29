@@ -1,9 +1,10 @@
 package com.github.hakenadu.plantuml.service.permalink;
 
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.StringReader;
 import java.net.URI;
 import java.net.http.HttpClient;
+import java.net.http.HttpClient.Redirect;
 import java.net.http.HttpRequest;
 import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse;
@@ -11,9 +12,14 @@ import java.net.http.HttpResponse.BodyHandlers;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.Base64;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import javax.annotation.PostConstruct;
@@ -30,6 +36,10 @@ import org.springframework.security.crypto.encrypt.Encryptors;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import com.github.hakenadu.plantuml.model.DocumentMetaData;
@@ -42,6 +52,7 @@ import com.github.hakenadu.plantuml.service.permalink.exception.DocumentServiceE
 public class WebdavDocumentService implements DocumentService {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(WebdavDocumentService.class);
+	private static final String DAV_NAMESPACE = "DAV:";
 	private static final DocumentBuilderFactory DOCUMENT_BUILDER_FACTORY;
 	static {
 		DOCUMENT_BUILDER_FACTORY = DocumentBuilderFactory.newInstance();
@@ -118,7 +129,7 @@ public class WebdavDocumentService implements DocumentService {
 
 	@Override
 	public void deleteDocument(final DocumentMetaData metaData) throws DocumentServiceException {
-		final URI documentUri = webdavCollectionUriComponentsBuilder().path('/' + metaData.getDocumentName()).build()
+		final URI documentUri = UriComponentsBuilder.fromUri(webdavUri).path(metaData.getDocumentName()).build()
 				.toUri();
 		LOGGER.info("deleting document {}", documentUri);
 
@@ -141,11 +152,11 @@ public class WebdavDocumentService implements DocumentService {
 		LOGGER.info("reading document meta data {}", collectionUri);
 
 		final HttpRequest request = httpRequestBuilder().uri(collectionUri).method("PROPFIND", BodyPublishers.noBody())
-				.build();
+				.header("Depth", "1").build();
 
 		try {
-			final HttpResponse<InputStream> response = HttpClient.newHttpClient().send(request,
-					BodyHandlers.ofInputStream());
+			final HttpResponse<String> response = HttpClient.newBuilder().followRedirects(Redirect.NORMAL).build()
+					.send(request, BodyHandlers.ofString());
 			if (response.statusCode() >= 400) {
 				throw new DocumentServiceException("unexpected http status reading metadata: " + response.statusCode());
 			}
@@ -155,15 +166,50 @@ public class WebdavDocumentService implements DocumentService {
 		}
 	}
 
-	private List<? extends DocumentMetaData> readMetaDataFromResponse(final HttpResponse<InputStream> response)
+	private List<? extends DocumentMetaData> readMetaDataFromResponse(final HttpResponse<String> httpResponse)
 			throws DocumentServiceException {
-		try (final InputStream inputStream = response.body()) {
-			final Document document = DOCUMENT_BUILDER_FACTORY.newDocumentBuilder().parse(inputStream);
+		try {
+			final Document document = DOCUMENT_BUILDER_FACTORY.newDocumentBuilder()
+					.parse(new InputSource(new StringReader(httpResponse.body())));
 
-			// TODO
+			final NodeList responses = document.getElementsByTagNameNS(DAV_NAMESPACE, "response");
+
+			final List<DocumentMetaData> metaData = new LinkedList<>();
+
+			for (int responseIndex = 0; responseIndex < responses.getLength(); responseIndex++) {
+				final Element response = (Element) responses.item(responseIndex);
+
+				final Element prop = findSingleNode(response, "prop").map(Element.class::cast).orElseThrow();
+
+				if (isCollection(prop)) {
+					continue;
+				}
+
+				final String href = findSingleNode(response, "href").map(Node::getTextContent).orElseThrow();
+				final LocalDateTime creationdate = findSingleNode(prop, "creationdate").map(Node::getTextContent)
+						.map(Instant::parse).map(instant -> LocalDateTime.ofInstant(instant, ZoneOffset.UTC))
+						.orElseThrow();
+
+				metaData.add(new DocumentMetaData(href, creationdate));
+			}
+
+			return metaData;
 		} catch (final SAXException | IOException | ParserConfigurationException exception) {
 			throw new DocumentServiceException("error parsing metadata", exception);
 		}
+	}
+
+	private boolean isCollection(final Element prop) {
+		return findSingleNode(prop, "resourcetype").map(Element.class::cast)
+				.flatMap(resourcetype -> findSingleNode(resourcetype, "collection")).isPresent();
+	}
+
+	private Optional<Node> findSingleNode(final Element element, final String tagName) {
+		final NodeList children = element.getElementsByTagNameNS(DAV_NAMESPACE, tagName);
+		if (children.getLength() == 0 || children.getLength() > 1) {
+			return Optional.empty();
+		}
+		return Optional.of(children.item(0));
 	}
 
 	private UriComponentsBuilder webdavCollectionUriComponentsBuilder() {
