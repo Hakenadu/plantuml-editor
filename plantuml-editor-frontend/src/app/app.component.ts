@@ -6,7 +6,7 @@ import {DOCUMENT} from '@angular/common';
 import {ThemeService} from './shared/theme.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {filter, map} from 'rxjs/operators';
-import {DocumentService} from './permalink/document.service';
+import {DocumentService} from './share/document.service';
 
 @Component({
   selector: 'app-root',

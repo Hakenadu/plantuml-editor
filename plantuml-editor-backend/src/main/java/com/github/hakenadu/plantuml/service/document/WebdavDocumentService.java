@@ -1,4 +1,4 @@
-package com.github.hakenadu.plantuml.service.permalink;
+package com.github.hakenadu.plantuml.service.document;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -43,9 +43,9 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import com.github.hakenadu.plantuml.model.DocumentMetaData;
-import com.github.hakenadu.plantuml.service.permalink.exception.DocumentEncryptionFailedException;
-import com.github.hakenadu.plantuml.service.permalink.exception.DocumentNotFoundException;
-import com.github.hakenadu.plantuml.service.permalink.exception.DocumentServiceException;
+import com.github.hakenadu.plantuml.service.document.exception.DocumentEncryptionFailedException;
+import com.github.hakenadu.plantuml.service.document.exception.DocumentNotFoundException;
+import com.github.hakenadu.plantuml.service.document.exception.DocumentServiceException;
 
 @Profile("webdav")
 @Service

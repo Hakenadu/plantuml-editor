@@ -4,7 +4,7 @@ import {FormControl} from '@angular/forms';
 import {Observable, of, Subscription} from 'rxjs';
 import {ConfigService} from '../shared/config.service';
 import {MatDialog} from '@angular/material/dialog';
-import {PermalinkComponent} from '../permalink/permalink.component';
+import {ShareComponent} from '../share/share.component';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 import {catchError, map} from 'rxjs/operators';
@@ -22,20 +22,20 @@ export class ImageComponent implements OnInit, OnDestroy {
   allowOverflow = new FormControl(localStorage.getItem(ALLOW_OVERFLOW_LOCAL_STORAGE_KEY) === 'true');
   private allowOverflowValueChangesSubscription?: Subscription;
 
-  permalinkSupported: Observable<boolean>;
+  sharingSupported: Observable<boolean>;
 
   constructor(private logger: NGXLogger,
               public plantumlHolder: PlantumlHolder,
               public configService: ConfigService,
               private matDialog: MatDialog,
               httpClient: HttpClient) {
-    this.permalinkSupported = httpClient.get(
+    this.sharingSupported = httpClient.get(
       `${environment.backendUrl}/documents`,
       {responseType: 'text'}
     )
       .pipe(
         catchError(error => {
-          this.logger.info('/documents route is disabled, disabling permalinks');
+          this.logger.info('/documents route is disabled, disabling links');
           return of(false);
         }),
         map(() => true)
@@ -52,7 +52,7 @@ export class ImageComponent implements OnInit, OnDestroy {
   }
 
   onShareClicked() {
-    this.matDialog.open(PermalinkComponent);
+    this.matDialog.open(ShareComponent);
   }
 
   get allowOverflowTooltip(): string {

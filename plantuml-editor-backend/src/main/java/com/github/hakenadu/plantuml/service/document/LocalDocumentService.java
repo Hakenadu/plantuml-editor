@@ -1,4 +1,4 @@
-package com.github.hakenadu.plantuml.service.permalink;
+package com.github.hakenadu.plantuml.service.document;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.github.hakenadu.plantuml.model.DocumentMetaData;
 import com.github.hakenadu.plantuml.model.LocalDocument;
-import com.github.hakenadu.plantuml.service.permalink.exception.DocumentServiceException;
+import com.github.hakenadu.plantuml.service.document.exception.DocumentServiceException;
 
 @Profile("local")
 @Service

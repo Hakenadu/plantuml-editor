@@ -1,24 +1,24 @@
-<h2 mat-dialog-title>Create Permalink</h2>
+<h2 mat-dialog-title>Share your PlantUML</h2>
 <mat-dialog-content *ngIf="configService.config$ | async as config">
-  <div *ngIf="config.permalink?.description"
-       [innerHTML]="config.permalink?.description || ''">
+  <div *ngIf="config.share?.description"
+       [innerHTML]="config.share?.description || ''">
   </div>
 </mat-dialog-content>
 <mat-dialog-actions>
   <div class="w-100 d-flex justify-content-end align-items-center">
     <mat-spinner *ngIf="loading" [diameter]="24" class="me-2"></mat-spinner>
-    <div *ngIf="permalink" class="flex-grow-1 d-flex flex-row align-items-center pe-2">
+    <div *ngIf="link" class="flex-grow-1 d-flex flex-row align-items-center pe-2">
       <button mat-icon-button
-              (click)="copyPermalinkToClipboard()">
+              (click)="copyLinkToClipboard()">
         <mat-icon>content_copy</mat-icon>
       </button>
-      <label>{{permalink}}</label>
+      <label>{{link}}</label>
     </div>
-    <button [disabled]="permalink"
+    <button [disabled]="link"
             mat-raised-button
             class="bg-success"
-            (click)="generatePermalink()">
-      Generate Permalink
+            (click)="generateLink()">
+      Generate Link
     </button>
     <button mat-raised-button
             (click)="matDialogRef.close()">

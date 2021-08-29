@@ -95,7 +95,7 @@ For the app published at https://plantuml.mseiche.de/ I'm using the following *f
 
 ```json
 {
-	"permalink": {
+	"share": {
 		"description": "<p>Your PlantUML spec will be stored symmetrically encrypted via <a href=\"https:\/\/en.wikipedia.org\/wiki\/WebDAV\">WebDAV<\/a>.<\/p><p>The information needed to decrypt the stored data is the id which is sent by your browser when accessing the data.<\/p><p class=\"mb-0\">Anyhow if you use this functionality you agree to my <a href=\"https:\/\/mseiche.de\/terms-of-service\">Terms of Service<\/a><\/p>"
 	},
    "footer": {
@@ -135,9 +135,9 @@ For the app published at https://plantuml.mseiche.de/ I'm using the following *f
    }
 }
 ```
-#### Permalink
-If permalinks are enabled you need to provide the "permalink" configuration entry to make the share button appear.
-You may provide a custom description for the share dialog using the permalink.description configuration entry.
+#### Share Links
+If share links are enabled you need to provide the "share" configuration entry to make the share button appear.
+You may provide a custom description for the share dialog using the share.description configuration entry.
 This can especially be useful, if you need to link custom terms of service.
 
 #### Footer actions
@@ -173,7 +173,7 @@ plantuml-editor:
 ```
 
 #### With sharing enabled
-For enabling permalinks you need to provide a WebDAV interface for the plantuml-editor.
+For enabling share links you need to provide a WebDAV interface for the plantuml-editor.
 The following docker-compose example shows a maximal example.
 
 ```yaml

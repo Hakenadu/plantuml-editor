@@ -26,7 +26,7 @@ import {NgbCarouselModule, NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatDialogModule} from '@angular/material/dialog';
-import {PermalinkComponent} from './permalink/permalink.component';
+import {ShareComponent} from './share/share.component';
 import {LoggerModule, NgxLoggerLevel} from 'ngx-logger';
 import {ClipboardModule} from '@angular/cdk/clipboard';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
@@ -39,7 +39,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     DescriptionComponent,
     FooterComponent,
     ExampleDiagramComponent,
-    PermalinkComponent
+    ShareComponent
   ],
   imports: [
     AngularResizedEventModule,

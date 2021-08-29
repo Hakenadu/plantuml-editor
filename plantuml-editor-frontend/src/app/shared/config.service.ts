@@ -39,13 +39,13 @@ export interface FooterConfig {
   actions?: FooterActionConfig[];
 }
 
-export interface PermalinkConfig {
+export interface ShareConfig {
   description?: string | SafeHtml;
 }
 
 export interface FrontendConfig {
   footer?: FooterConfig;
-  permalink?: PermalinkConfig;
+  share?: ShareConfig;
 }
 
 @Injectable({
@@ -87,15 +87,15 @@ export class ConfigService {
     }
   }
 
-  private sanitizePermalinkConfig(config: FrontendConfig) {
-    if (config?.permalink?.description) {
-      config.permalink.description = this.domSanitizer.bypassSecurityTrustHtml(<string>config.permalink.description);
+  private sanitizeShareConfig(config: FrontendConfig) {
+    if (config?.share?.description) {
+      config.share.description = this.domSanitizer.bypassSecurityTrustHtml(<string>config.share.description);
     }
   }
 
   private sanitize(config: FrontendConfig): FrontendConfig {
     this.sanitizeFooterConfig(config);
-    this.sanitizePermalinkConfig(config);
+    this.sanitizeShareConfig(config);
     return config;
   }
 

@@ -1,4 +1,4 @@
-package com.github.hakenadu.plantuml.service.permalink;
+package com.github.hakenadu.plantuml.service.document;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -11,7 +11,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.github.hakenadu.plantuml.model.DocumentMetaData;
-import com.github.hakenadu.plantuml.service.permalink.exception.DocumentServiceException;
+import com.github.hakenadu.plantuml.service.document.exception.DocumentServiceException;
 
 @ConditionalOnBean(DocumentService.class)
 @Component

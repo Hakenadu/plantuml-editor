@@ -18,8 +18,8 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.github.hakenadu.plantuml.service.AnnotationsService;
-import com.github.hakenadu.plantuml.service.permalink.DocumentService;
-import com.github.hakenadu.plantuml.service.permalink.exception.DocumentServiceException;
+import com.github.hakenadu.plantuml.service.document.DocumentService;
+import com.github.hakenadu.plantuml.service.document.exception.DocumentServiceException;
 
 @ConditionalOnBean(DocumentService.class)
 @RestController

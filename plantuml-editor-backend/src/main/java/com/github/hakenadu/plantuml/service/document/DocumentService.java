@@ -1,10 +1,10 @@
-package com.github.hakenadu.plantuml.service.permalink;
+package com.github.hakenadu.plantuml.service.document;
 
 import java.util.Collection;
 import java.util.UUID;
 
 import com.github.hakenadu.plantuml.model.DocumentMetaData;
-import com.github.hakenadu.plantuml.service.permalink.exception.DocumentServiceException;
+import com.github.hakenadu.plantuml.service.document.exception.DocumentServiceException;
 
 public interface DocumentService {
 
