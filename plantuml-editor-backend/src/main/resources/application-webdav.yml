@@ -2,7 +2,7 @@ server:
   port: 8081
 plantuml-editor:
   document:
-    lifetime: ${DOCUMENT_REAPER_LIFETIME:PT168H}
+    lifetime: ${DOCUMENT_LIFETIME:PT168H}
     reaper:
       cron: ${DOCUMENT_REAPER_CRON:0 0/10 * * * ?}
   webdav:
