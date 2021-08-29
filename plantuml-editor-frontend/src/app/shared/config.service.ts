@@ -40,7 +40,7 @@ export interface FooterConfig {
 }
 
 export interface PermalinkConfig {
-  alertContent?: string | SafeHtml;
+  description?: string | SafeHtml;
 }
 
 export interface FrontendConfig {
@@ -88,8 +88,8 @@ export class ConfigService {
   }
 
   private sanitizePermalinkConfig(config: FrontendConfig) {
-    if (config?.permalink?.alertContent) {
-      config.permalink.alertContent = this.domSanitizer.bypassSecurityTrustHtml(<string>config.permalink.alertContent);
+    if (config?.permalink?.description) {
+      config.permalink.description = this.domSanitizer.bypassSecurityTrustHtml(<string>config.permalink.description);
     }
   }
 
