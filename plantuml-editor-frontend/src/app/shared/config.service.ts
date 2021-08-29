@@ -39,8 +39,13 @@ export interface FooterConfig {
   actions?: FooterActionConfig[];
 }
 
+export interface PermalinkConfig {
+  description?: string | SafeHtml;
+}
+
 export interface FrontendConfig {
   footer?: FooterConfig;
+  permalink?: PermalinkConfig;
 }
 
 @Injectable({
@@ -62,9 +67,9 @@ export class ConfigService {
     this._config$.pipe(map(config => this.sanitize(config))).subscribe(config => this._config = config);
   }
 
-  private sanitize(config: FrontendConfig): FrontendConfig {
+  private sanitizeFooterConfig(config: FrontendConfig) {
     if (!config?.footer?.actions) {
-      return config;
+      return;
     }
 
     for (const action of config.footer.actions) {
@@ -80,6 +85,17 @@ export class ConfigService {
         action.icon.src = this.domSanitizer.bypassSecurityTrustUrl(<string>action.icon.src)
       }
     }
+  }
+
+  private sanitizePermalinkConfig(config: FrontendConfig) {
+    if (config?.permalink?.description) {
+      config.permalink.description = this.domSanitizer.bypassSecurityTrustHtml(<string>config.permalink.description);
+    }
+  }
+
+  private sanitize(config: FrontendConfig): FrontendConfig {
+    this.sanitizeFooterConfig(config);
+    this.sanitizePermalinkConfig(config);
     return config;
   }
 

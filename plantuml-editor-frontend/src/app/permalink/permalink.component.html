@@ -1,0 +1,28 @@
+<h2 mat-dialog-title>Create Permalink</h2>
+<mat-dialog-content *ngIf="configService.config$ | async as config">
+  <div *ngIf="config.permalink?.description"
+       [innerHTML]="config.permalink?.description || ''">
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <div class="w-100 d-flex justify-content-end align-items-center">
+    <mat-spinner *ngIf="loading" [diameter]="24" class="me-2"></mat-spinner>
+    <div *ngIf="permalink" class="flex-grow-1 d-flex flex-row align-items-center pe-2">
+      <button mat-icon-button
+              (click)="copyPermalinkToClipboard()">
+        <mat-icon>content_copy</mat-icon>
+      </button>
+      <label>{{permalink}}</label>
+    </div>
+    <button [disabled]="permalink"
+            mat-raised-button
+            class="bg-success"
+            (click)="generatePermalink()">
+      Generate Permalink
+    </button>
+    <button mat-raised-button
+            (click)="matDialogRef.close()">
+      Close
+    </button>
+  </div>
+</mat-dialog-actions>

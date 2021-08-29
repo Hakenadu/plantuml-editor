@@ -25,6 +25,11 @@ import {MatCardModule} from '@angular/material/card';
 import {NgbCarouselModule, NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatDialogModule} from '@angular/material/dialog';
+import {PermalinkComponent} from './permalink/permalink.component';
+import {LoggerModule, NgxLoggerLevel} from 'ngx-logger';
+import {ClipboardModule} from '@angular/cdk/clipboard';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -33,7 +38,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     ImageComponent,
     DescriptionComponent,
     FooterComponent,
-    ExampleDiagramComponent
+    ExampleDiagramComponent,
+    PermalinkComponent
   ],
   imports: [
     AngularResizedEventModule,
@@ -41,17 +47,24 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     AppRoutingModule,
     BrowserAnimationsModule,
     BrowserModule,
+    ClipboardModule,
     FormsModule,
     HttpClientModule,
     LayoutModule,
+    LoggerModule.forRoot({
+      level: NgxLoggerLevel.INFO,
+      colorScheme: ['purple', 'teal', 'gray', 'gray', 'red', 'red', 'red']
+    }),
     MatButtonModule,
     MatButtonToggleModule,
     MatCardModule,
     MatCheckboxModule,
+    MatDialogModule,
     MatDividerModule,
     MatIconModule,
     MatMenuModule,
     MatProgressSpinnerModule,
+    MatSnackBarModule,
     MatToolbarModule,
     MatTooltipModule,
     NgbCarouselModule,

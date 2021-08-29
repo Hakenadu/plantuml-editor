@@ -1,10 +1,37 @@
+$primary: #CC5555;
+
 @import "~bootstrap/scss/bootstrap";
 @import "styles/card";
 @import "styles/carousel";
 @import "styles/theming";
 @import "styles/menu";
 
-/* You can add global styles to this file, and also import other style files */
+::-moz-selection {
+  background-color: $primary;
+  color: $light;
+}
+
+::selection {
+  background-color: $primary;
+  color: $light;
+}
+
+*.unselectable {
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+button, a {
+  outline: 0 !important;
+}
+
+.link {
+  color: $primary !important;
+  cursor: pointer !important;
+}
 
 html, body {
   height: 100%;

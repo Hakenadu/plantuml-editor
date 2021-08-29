@@ -3,7 +3,21 @@ services:
   plantuml-editor:
     image: hakenadu/plantuml-editor
     container_name: plantuml-editor
+    environment:
+      SPRING_PROFILES_ACTIVE: webdav
+      WEBDAV_SECRET: TOPSECRET
+      WEBDAV_URL: http://plantuml-editor-webdav:80
+      WEBDAV_USERNAME: john
+      WEBDAV_PASSWORD: doe1337
     ports:
     - 80:80
     build:
       context: ./
+  plantuml-editor-webdav:
+    image: bytemark/webdav
+    container_name: plantuml-editor-webdav
+    ports:
+    - 8080:80 # only for local debugging purposes
+    environment:
+      USERNAME: john
+      PASSWORD: doe1337

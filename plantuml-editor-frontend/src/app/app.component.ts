@@ -4,6 +4,9 @@ import {PlantumlHolder} from './shared/plantuml-holder';
 import {OverlayContainer} from '@angular/cdk/overlay';
 import {DOCUMENT} from '@angular/common';
 import {ThemeService} from './shared/theme.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {filter, map} from 'rxjs/operators';
+import {DocumentService} from './permalink/document.service';
 
 @Component({
   selector: 'app-root',
@@ -17,6 +20,9 @@ export class AppComponent implements AfterViewInit {
               private themeService: ThemeService,
               private overlayContainer: OverlayContainer,
               private breakpointObserver: BreakpointObserver,
+              documentService: DocumentService,
+              activatedRoute: ActivatedRoute,
+              router: Router,
               @Inject(DOCUMENT) private document: Document) {
     this.breakpointObserver
       .observe(['(min-width: 576px)'])
@@ -27,6 +33,26 @@ export class AppComponent implements AfterViewInit {
           this.splitDirection = 'vertical';
         }
       });
+
+    const activatedRouteSubscription = activatedRoute.queryParamMap.pipe(
+      filter(params => params.has('document')),
+      map(params => params.get('document')),
+    ).subscribe(document => {
+      activatedRouteSubscription.unsubscribe();
+      router.navigate([], {
+        queryParams: {
+          document: null
+        },
+        queryParamsHandling: 'merge'
+      })
+      if (document !== null) {
+        const getDocumentSubscription = documentService.getDocument(document).subscribe(plantuml => {
+          getDocumentSubscription.unsubscribe();
+          this.plantumlHolder.plantuml = plantuml;
+        });
+      }
+    });
+
   }
 
   ngAfterViewInit() {
