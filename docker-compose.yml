@@ -5,7 +5,7 @@ services:
     container_name: plantuml-editor
     environment:
       SPRING_PROFILES_ACTIVE: webdav
-      DOCUMENT_SECRET: my-fancy-at-least-8-bytes-long-salt
+      DOCUMENT_SALT: my-fancy-at-least-8-bytes-long-salt
       WEBDAV_URL: http://plantuml-editor-webdav:80
       WEBDAV_USERNAME: john
       WEBDAV_PASSWORD: doe1337
