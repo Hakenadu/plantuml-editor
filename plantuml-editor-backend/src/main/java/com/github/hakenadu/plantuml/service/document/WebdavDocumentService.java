@@ -50,7 +50,7 @@ import com.github.hakenadu.plantuml.service.document.exception.DocumentServiceEx
 public class WebdavDocumentService implements DocumentService {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(WebdavDocumentService.class);
-	private static final Pattern UUID_PATTERN = Pattern.compile(".*/([a-f0-9]{8}-[a-f0-9]{4}{4}[a-f0-9]{8})$");
+	private static final Pattern UUID_PATTERN = Pattern.compile(".*/([a-f0-9]{8}(-[a-f0-9]{4}){4}[a-f0-9]{8})$");
 	private static final String DAV_NAMESPACE = "DAV:";
 	private static final DocumentBuilderFactory DOCUMENT_BUILDER_FACTORY;
 	static {
