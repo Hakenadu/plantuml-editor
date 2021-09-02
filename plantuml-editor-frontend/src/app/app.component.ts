@@ -1,12 +1,12 @@
 import {AfterViewInit, Component, Inject} from '@angular/core';
 import {BreakpointObserver, BreakpointState} from '@angular/cdk/layout';
-import {PlantumlHolder} from './shared/plantuml-holder';
+import {PlantumlHolder} from './services/plantuml-holder';
 import {OverlayContainer} from '@angular/cdk/overlay';
 import {DOCUMENT} from '@angular/common';
-import {ThemeService} from './shared/theme.service';
+import {ThemeService} from './services/theme.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {filter, map} from 'rxjs/operators';
-import {DocumentService} from './share/document.service';
+import {DocumentService} from './services/document.service';
 
 @Component({
   selector: 'app-root',
@@ -35,18 +35,27 @@ export class AppComponent implements AfterViewInit {
       });
 
     const activatedRouteSubscription = activatedRoute.queryParamMap.pipe(
-      filter(params => params.has('document')),
-      map(params => params.get('document')),
-    ).subscribe(document => {
+      filter(params => params.has('document-id') && params.has('document-key')),
+      map(params => {
+        return {
+          documentId: params.get('document-id'),
+          documentKey: params.get('document-key')
+        }
+      }),
+    ).subscribe(documentReference => {
       activatedRouteSubscription.unsubscribe();
       router.navigate([], {
         queryParams: {
-          document: null
+          'document-id': null,
+          'document-key': null
         },
         queryParamsHandling: 'merge'
       })
-      if (document !== null) {
-        const getDocumentSubscription = documentService.getDocument(document).subscribe(plantuml => {
+      if (documentReference.documentId !== null && documentReference.documentKey !== null) {
+        const getDocumentSubscription = documentService.getDocument(
+          documentReference.documentId,
+          documentReference.documentKey
+        ).subscribe(plantuml => {
           getDocumentSubscription.unsubscribe();
           this.plantumlHolder.plantuml = plantuml;
         });

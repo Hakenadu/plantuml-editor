@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {PlantumlHolder} from '../shared/plantuml-holder';
+import {PlantumlHolder} from '../services/plantuml-holder';
 
 @Component({
   selector: 'app-description',

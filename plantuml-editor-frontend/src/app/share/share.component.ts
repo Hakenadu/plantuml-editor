@@ -1,9 +1,10 @@
 import {Component} from '@angular/core';
 import {MatDialogRef} from '@angular/material/dialog';
-import {ConfigService} from '../shared/config.service';
-import {DocumentService} from './document.service';
+import {ConfigService} from '../services/config.service';
+import {DocumentService} from '../services/document.service';
 import {Clipboard} from '@angular/cdk/clipboard';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {FormControl, Validators} from '@angular/forms';
 
 @Component({
   templateUrl: './share.component.html'
@@ -12,6 +13,8 @@ export class ShareComponent {
 
   link?: string;
   loading = false;
+
+  key = new FormControl(this.createDefaultKey(8), Validators.required);
 
   constructor(public matDialogRef: MatDialogRef<ShareComponent>,
               public configService: ConfigService,
@@ -22,8 +25,14 @@ export class ShareComponent {
 
   generateLink() {
     this.loading = true;
-    this.documentService.createDocument().subscribe(uuid => {
-      this.link = `${window.location.href}?document=${uuid}`;
+
+    const keySnapshot = this.key.value;
+    this.documentService.createDocument(keySnapshot).subscribe(uuid => {
+      let baseUrl = window.location.href;
+      if (baseUrl.endsWith('/')) {
+        baseUrl = baseUrl.substring(0, baseUrl.length - 1);
+      }
+      this.link = `${baseUrl}?document-id=${uuid}&document-key=${keySnapshot}`;
       this.copyLinkToClipboard();
       this.loading = false;
     });
@@ -38,5 +47,17 @@ export class ShareComponent {
       horizontalPosition: 'end',
       duration: 3500
     });
+  }
+
+  createDefaultKey(length: number) {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const charactersLength = characters.length;
+
+    let result = '';
+    for (var i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() *
+        charactersLength));
+    }
+    return result;
   }
 }

@@ -8,9 +8,9 @@ import com.github.hakenadu.plantuml.service.document.exception.DocumentServiceEx
 
 public interface DocumentService {
 
-	UUID createDocument(String plantuml) throws DocumentServiceException;
+	UUID createDocument(String plantuml, String key) throws DocumentServiceException;
 
-	String getDocument(UUID id) throws DocumentServiceException;
+	String getDocument(UUID id, String key) throws DocumentServiceException;
 
 	void deleteDocument(DocumentMetaData metaData) throws DocumentServiceException;
 

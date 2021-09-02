@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {ConfigService} from '../shared/config.service';
+import {ConfigService} from '../services/config.service';
 
 @Component({
   selector: 'app-footer',

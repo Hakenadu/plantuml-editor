@@ -10,8 +10,6 @@ import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -21,6 +19,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.annotation.PostConstruct;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -31,8 +31,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpHeaders;
-import org.springframework.security.crypto.encrypt.BytesEncryptor;
-import org.springframework.security.crypto.encrypt.Encryptors;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.w3c.dom.Document;
@@ -43,7 +41,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import com.github.hakenadu.plantuml.model.DocumentMetaData;
-import com.github.hakenadu.plantuml.service.document.exception.DocumentEncryptionFailedException;
+import com.github.hakenadu.plantuml.service.crypt.CryptService;
 import com.github.hakenadu.plantuml.service.document.exception.DocumentNotFoundException;
 import com.github.hakenadu.plantuml.service.document.exception.DocumentServiceException;
 
@@ -52,6 +50,7 @@ import com.github.hakenadu.plantuml.service.document.exception.DocumentServiceEx
 public class WebdavDocumentService implements DocumentService {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(WebdavDocumentService.class);
+	private static final Pattern UUID_PATTERN = Pattern.compile(".*/([a-f0-9]{8}-[a-f0-9]{4}{4}[a-f0-9]{8})$");
 	private static final String DAV_NAMESPACE = "DAV:";
 	private static final DocumentBuilderFactory DOCUMENT_BUILDER_FACTORY;
 	static {
@@ -59,20 +58,22 @@ public class WebdavDocumentService implements DocumentService {
 		DOCUMENT_BUILDER_FACTORY.setNamespaceAware(true);
 	}
 
-	private final String webdavSecret;
+	private final CryptService cryptService;
+
 	private final String webdavUsername;
 	private final String webdavPassword;
 	private final URI webdavUri;
 
 	private String webdavCollection;
 
-	public WebdavDocumentService(final @Value("${plantuml-editor.webdav.collection}") String webdavCollection,
-			final @Value("${plantuml-editor.webdav.secret}") String webdavSecret,
+	public WebdavDocumentService(final CryptService cryptService,
+			final @Value("${plantuml-editor.webdav.collection}") String webdavCollection,
 			final @Value("${plantuml-editor.webdav.username}") String webdavUsername,
 			final @Value("${plantuml-editor.webdav.password}") String webdavPassword,
 			final @Value("${plantuml-editor.webdav.url}") URI webdavUri) {
+
+		this.cryptService = cryptService;
 		this.webdavCollection = webdavCollection;
-		this.webdavSecret = webdavSecret;
 		this.webdavUsername = webdavUsername;
 		this.webdavPassword = webdavPassword;
 		this.webdavUri = webdavUri;
@@ -104,32 +105,23 @@ public class WebdavDocumentService implements DocumentService {
 	}
 
 	@Override
-	public UUID createDocument(final String plantuml) throws DocumentServiceException {
-		final UUID uuid = UUID.randomUUID();
+	public UUID createDocument(final String source, final String key) throws DocumentServiceException {
+		final UUID id = UUID.randomUUID();
+		final String encrypted = cryptService.encrypt(source, key);
 
-		/*
-		 * the document bytes are encrypted using the random uuid which therefore needs
-		 * to be passed by the client for decryption
-		 */
-		final byte[] dataBytes = createEncryptor(uuid).encrypt(plantuml.getBytes(StandardCharsets.UTF_8));
+		storeDocument(id, encrypted);
 
-		storeDocument(createDocumentName(uuid), dataBytes);
-
-		return uuid;
+		return id;
 	}
 
 	@Override
-	public String getDocument(final UUID id) throws DocumentServiceException {
-		final String documentName = createDocumentName(id);
-
-		final byte[] encryptedDocumentBytes = readDocument(documentName);
-
-		return new String(createEncryptor(id).decrypt(encryptedDocumentBytes), StandardCharsets.UTF_8);
+	public String getDocument(final UUID id, final String key) throws DocumentServiceException {
+		return cryptService.decrypt(readDocument(id), key);
 	}
 
 	@Override
 	public void deleteDocument(final DocumentMetaData metaData) throws DocumentServiceException {
-		final URI documentUri = UriComponentsBuilder.fromUri(webdavUri).path(metaData.getDocumentName()).build()
+		final URI documentUri = webdavCollectionUriComponentsBuilder().path('/' + metaData.getId().toString()).build()
 				.toUri();
 		LOGGER.info("deleting document {}", documentUri);
 
@@ -190,7 +182,11 @@ public class WebdavDocumentService implements DocumentService {
 						.map(Instant::parse).map(instant -> LocalDateTime.ofInstant(instant, ZoneOffset.UTC))
 						.orElseThrow();
 
-				metaData.add(new DocumentMetaData(href, creationdate));
+				final Matcher matcher = UUID_PATTERN.matcher(href);
+				if (!matcher.find()) {
+					throw new DocumentServiceException("no uuid in " + href);
+				}
+				metaData.add(new DocumentMetaData(UUID.fromString(matcher.group(1)), creationdate));
 			}
 
 			return metaData;
@@ -216,25 +212,22 @@ public class WebdavDocumentService implements DocumentService {
 		return UriComponentsBuilder.fromUri(webdavUri).path(webdavCollection);
 	}
 
-	private BytesEncryptor createEncryptor(final UUID id) {
-		return Encryptors.standard(webdavSecret, bytesToHex(id.toString().getBytes(StandardCharsets.UTF_8)));
-	}
-
 	private HttpRequest.Builder httpRequestBuilder() {
 		return HttpRequest.newBuilder().header(HttpHeaders.AUTHORIZATION,
 				"Basic " + Base64.getEncoder().encodeToString((webdavUsername + ":" + webdavPassword).getBytes()));
 	}
 
-	private byte[] readDocument(final String documentName) throws DocumentServiceException {
-		final URI documentUri = webdavCollectionUriComponentsBuilder().path('/' + documentName).build().toUri();
+	private String readDocument(final UUID id) throws DocumentServiceException {
+		final URI documentUri = webdavCollectionUriComponentsBuilder().path('/' + id.toString()).build().toUri();
 		LOGGER.info("reading document {}", documentUri);
 
 		final HttpRequest request = httpRequestBuilder().uri(documentUri).GET().build();
 
 		try {
-			final HttpResponse<byte[]> response = HttpClient.newHttpClient().send(request, BodyHandlers.ofByteArray());
+			final HttpResponse<String> response = HttpClient.newHttpClient().send(request,
+					BodyHandlers.ofString(StandardCharsets.UTF_8));
 			if (response.statusCode() == 404) {
-				throw new DocumentNotFoundException(documentName);
+				throw new DocumentNotFoundException(id.toString());
 			}
 			if (response.statusCode() >= 400) {
 				throw new DocumentServiceException("unexpected http status reading document: " + response.statusCode());
@@ -245,11 +238,11 @@ public class WebdavDocumentService implements DocumentService {
 		}
 	}
 
-	private void storeDocument(final String documentName, final byte[] dataBytes) throws DocumentServiceException {
-		final URI documentUri = webdavCollectionUriComponentsBuilder().path('/' + documentName).build().toUri();
+	private void storeDocument(final UUID id, final String encrypted) throws DocumentServiceException {
+		final URI documentUri = webdavCollectionUriComponentsBuilder().path('/' + id.toString()).build().toUri();
 		LOGGER.info("storing document {}", documentUri);
 
-		final HttpRequest request = httpRequestBuilder().uri(documentUri).PUT(BodyPublishers.ofByteArray(dataBytes))
+		final HttpRequest request = httpRequestBuilder().uri(documentUri).PUT(BodyPublishers.ofString(encrypted))
 				.build();
 
 		try {
@@ -260,34 +253,5 @@ public class WebdavDocumentService implements DocumentService {
 		} catch (final IOException | InterruptedException ioException) {
 			throw new DocumentServiceException("error storing document", ioException);
 		}
-	}
-
-	private String createDocumentName(final UUID uuid) throws DocumentEncryptionFailedException {
-		final MessageDigest digest;
-		try {
-			digest = MessageDigest.getInstance("SHA3-256");
-		} catch (final NoSuchAlgorithmException noSuchAlgorithmException) {
-			throw new DocumentEncryptionFailedException("failed to encrypt", noSuchAlgorithmException);
-		}
-
-		/*
-		 * the documentName is generated from the hash of the random uuid
-		 */
-		return bytesToHex(digest.digest(uuid.toString().getBytes(StandardCharsets.UTF_8)));
-	}
-
-	/**
-	 * see <a href="https://www.baeldung.com/sha-256-hashing-java">baeldung.com</a>
-	 */
-	private String bytesToHex(final byte[] hash) {
-		final StringBuilder hexString = new StringBuilder(2 * hash.length);
-		for (int i = 0; i < hash.length; i++) {
-			final String hex = Integer.toHexString(0xff & hash[i]);
-			if (hex.length() == 1) {
-				hexString.append('0');
-			}
-			hexString.append(hex);
-		}
-		return hexString.toString();
 	}
 }

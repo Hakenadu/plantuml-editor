@@ -11,29 +11,35 @@ import org.springframework.stereotype.Service;
 
 import com.github.hakenadu.plantuml.model.DocumentMetaData;
 import com.github.hakenadu.plantuml.model.LocalDocument;
+import com.github.hakenadu.plantuml.service.crypt.CryptService;
 import com.github.hakenadu.plantuml.service.document.exception.DocumentServiceException;
 
 @Profile("local")
 @Service
 public class LocalDocumentService implements DocumentService {
 
-	private final Map<String, LocalDocument> data = new ConcurrentHashMap<>();
+	private final CryptService cryptService;
+	private final Map<UUID, LocalDocument> data = new ConcurrentHashMap<>();
 
-	@Override
-	public UUID createDocument(final String plantuml) throws DocumentServiceException {
-		final UUID uuid = UUID.randomUUID();
-		data.put(uuid.toString(), new LocalDocument(plantuml, uuid.toString(), LocalDateTime.now()));
-		return uuid;
+	public LocalDocumentService(final CryptService cryptService) {
+		this.cryptService = cryptService;
 	}
 
 	@Override
-	public String getDocument(final UUID id) throws DocumentServiceException {
-		return data.get(id.toString()).getContent();
+	public UUID createDocument(final String source, final String key) throws DocumentServiceException {
+		final UUID id = UUID.randomUUID();
+		data.put(id, new LocalDocument(cryptService.encrypt(source, key), id, LocalDateTime.now()));
+		return id;
+	}
+
+	@Override
+	public String getDocument(final UUID id, final String key) throws DocumentServiceException {
+		return cryptService.decrypt(data.get(id).getContent(), key);
 	}
 
 	@Override
 	public void deleteDocument(final DocumentMetaData metaData) throws DocumentServiceException {
-		this.data.remove(metaData.getDocumentName());
+		this.data.remove(metaData.getId());
 	}
 
 	@Override

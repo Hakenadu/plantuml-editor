@@ -2,7 +2,7 @@
 
 import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import ace, {Ace} from 'ace-builds';
-import {PlantumlHolder} from '../shared/plantuml-holder';
+import {PlantumlHolder} from '../services/plantuml-holder';
 import {ResizedEvent} from 'angular-resize-event';
 import Completer = Ace.Completer;
 

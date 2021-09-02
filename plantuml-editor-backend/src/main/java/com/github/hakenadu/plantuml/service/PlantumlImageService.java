@@ -12,7 +12,6 @@ import com.github.hakenadu.plantuml.service.exception.ImageServiceException;
 import net.sourceforge.plantuml.FileFormat;
 import net.sourceforge.plantuml.FileFormatOption;
 import net.sourceforge.plantuml.SourceStringReader;
-import net.sourceforge.plantuml.core.DiagramDescription;
 
 @Service
 public class PlantumlImageService implements ImageService {
@@ -32,8 +31,8 @@ public class PlantumlImageService implements ImageService {
 	private byte[] createImage(final String source, final FileFormat fileFormat) throws ImageServiceException {
 		final SourceStringReader reader = new SourceStringReader(source);
 		try (final ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
-			final DiagramDescription desc = reader.outputImage(outputStream, new FileFormatOption(fileFormat));
-			LOGGER.info("image created: {}", desc.getDescription());
+			reader.outputImage(outputStream, new FileFormatOption(fileFormat));
+			LOGGER.info("image created for source of length {}", source.length());
 			return outputStream.toByteArray();
 		} catch (final IOException ioException) {
 			throw new ImageServiceException("generateImage failed", ioException);

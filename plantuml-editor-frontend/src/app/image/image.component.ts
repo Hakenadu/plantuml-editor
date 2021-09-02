@@ -1,8 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {PlantumlHolder} from '../shared/plantuml-holder';
+import {PlantumlHolder} from '../services/plantuml-holder';
 import {FormControl} from '@angular/forms';
 import {Observable, of, Subscription} from 'rxjs';
-import {ConfigService} from '../shared/config.service';
+import {ConfigService} from '../services/config.service';
 import {MatDialog} from '@angular/material/dialog';
 import {ShareComponent} from '../share/share.component';
 import {HttpClient} from '@angular/common/http';

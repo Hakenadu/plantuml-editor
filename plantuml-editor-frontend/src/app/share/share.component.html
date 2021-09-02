@@ -1,20 +1,30 @@
-<h2 mat-dialog-title>Share your PlantUML</h2>
+<h2 mat-dialog-title>Share your PlantUML source</h2>
 <mat-dialog-content *ngIf="configService.config$ | async as config">
   <div *ngIf="config.share?.description"
        [innerHTML]="config.share?.description || ''">
+  </div>
+
+  <mat-divider class="mt-2 mb-2"></mat-divider>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Key</mat-label>
+    <input [formControl]="key" matInput>
+    <mat-icon matSuffix>key</mat-icon>
+    <mat-hint>key used to encrypt the stored data</mat-hint>
+  </mat-form-field>
+
+  <div *ngIf="link" class="mt-3 mb-0 p-2 alert alert-success flex-grow-1 d-flex flex-row align-items-center pe-2">
+    <button mat-icon-button
+            (click)="copyLinkToClipboard()">
+      <mat-icon>content_copy</mat-icon>
+    </button>
+    <label>{{link}}</label>
   </div>
 </mat-dialog-content>
 <mat-dialog-actions>
   <div class="w-100 d-flex justify-content-end align-items-center">
     <mat-spinner *ngIf="loading" [diameter]="24" class="me-2"></mat-spinner>
-    <div *ngIf="link" class="flex-grow-1 d-flex flex-row align-items-center pe-2">
-      <button mat-icon-button
-              (click)="copyLinkToClipboard()">
-        <mat-icon>content_copy</mat-icon>
-      </button>
-      <label>{{link}}</label>
-    </div>
-    <button [disabled]="link"
+    <button [disabled]="link || key.invalid"
             mat-raised-button
             class="bg-success"
             (click)="generateLink()">

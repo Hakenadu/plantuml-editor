@@ -2,6 +2,7 @@ server:
   port: 8080
 plantuml-editor:
   document:
+    salt: ${DOCUMENT_SALT:my-fancy-at-least-8-bytes-long-salt}
     lifetime: ${DOCUMENT_LIFETIME:PT168H}
     reaper:
       cron: ${DOCUMENT_REAPER_CRON:0 0/10 * * * ?}
