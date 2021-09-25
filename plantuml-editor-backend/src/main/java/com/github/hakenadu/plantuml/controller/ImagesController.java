@@ -23,13 +23,26 @@ public class ImagesController {
 		this.imageService = imageService;
 	}
 
-	@PostMapping(path = "/svg") // we'd like to use a getmapping here, but we need the request body
-	public String getSvg(final @RequestBody String source) throws ImageServiceException {
+	/*
+	 * we'd like to use a getmapping here, but we need the request body
+	 */
+	@PostMapping(path = "/svg", produces = "image/svg+xml") // :-(
+	public byte[] getSvg(final @RequestBody String source) throws ImageServiceException {
+		return imageService.getSvg(source);
+	}
+
+	@PostMapping(path = "/svg", produces = MediaType.TEXT_PLAIN_VALUE)
+	public String getSvgDataUri(final @RequestBody String source) throws ImageServiceException {
 		return toDataUri("image/svg+xml", imageService.getSvg(source));
 	}
 
 	@PostMapping(path = "/png", produces = MediaType.IMAGE_PNG_VALUE) // :-(
-	public String getPng(final @RequestBody String source) throws ImageServiceException {
+	public byte[] getPng(final @RequestBody String source) throws ImageServiceException {
+		return imageService.getPng(source);
+	}
+
+	@PostMapping(path = "/png", produces = MediaType.TEXT_PLAIN_VALUE) // :-(
+	public String getPngDataUri(final @RequestBody String source) throws ImageServiceException {
 		return toDataUri("image/png", imageService.getPng(source));
 	}
 

@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, of, timer} from 'rxjs';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {debounce, distinctUntilChanged, filter, switchMap, tap} from 'rxjs/operators';
 import {environment} from '../../environments/environment';
 import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
@@ -75,7 +75,10 @@ export class PlantumlHolder {
       this.image = undefined;
       this.loading = false;
     } else {
-      this.httpClient.post(`${environment.backendUrl}/images/${this.type}`, this.plantuml, {responseType: 'text'})
+      this.httpClient.post(`${environment.backendUrl}/images/${this.type}`, this.plantuml, {
+        responseType: 'text',
+        headers: new HttpHeaders().set('Accept', 'text/plain')
+      })
         .subscribe(dataUri => {
           this.image = this.domSanitizer.bypassSecurityTrustUrl(dataUri);
           this.loading = false;

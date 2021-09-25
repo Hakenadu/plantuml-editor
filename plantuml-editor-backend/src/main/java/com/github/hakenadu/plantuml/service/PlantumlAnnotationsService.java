@@ -23,6 +23,14 @@ public class PlantumlAnnotationsService implements AnnotationsService {
 
 		final String cleanedSource = source.replaceAll("\\r\\n", "\n");
 
+		/*
+		 * SyntaxChecker supports UML only. For other data types (for example beginning
+		 * with @startjson) syntax validation isn't supported.
+		 */
+		if (!cleanedSource.startsWith("@startuml") && cleanedSource.startsWith("@start")) {
+			return Collections.emptyList();
+		}
+
 		final SyntaxResult result = SyntaxChecker.checkSyntax(cleanedSource);
 		if (!result.isError()) {
 			return Collections.emptyList();
