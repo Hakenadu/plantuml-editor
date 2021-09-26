@@ -5,9 +5,11 @@
   </div>
 
   <div class="flex-grow-1 overflow-hidden" [ngClass]="{'mh-100': splitDirection==='horizontal'}">
-    <as-split [direction]="splitDirection || 'horizontal'">
+    <as-split [direction]="splitDirection || 'horizontal'"
+              [gutterSize]="15"
+              (dragEnd)="onAsSplitDragEnd($event)">
 
-      <as-split-area [size]="60">
+      <as-split-area [size]="leftSplitSize">
         <div class="app-primary-theme d-flex flex-column h-100 w-100">
           <div class="flex-grow-1">
             <app-editor></app-editor>
@@ -16,7 +18,7 @@
         </div>
       </as-split-area>
 
-      <as-split-area [size]="40">
+      <as-split-area [size]="rightSplitSize">
         <div class="app-secondary-theme h-100 w-100">
           <app-image *ngIf="plantumlHolder.image"></app-image>
           <app-description *ngIf="!plantumlHolder.image"

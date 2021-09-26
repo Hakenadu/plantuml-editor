@@ -7,6 +7,7 @@ import {ThemeService} from './services/theme.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {filter, map} from 'rxjs/operators';
 import {DocumentService} from './services/document.service';
+import {IOutputData} from 'angular-split';
 
 @Component({
   selector: 'app-root',
@@ -15,14 +16,15 @@ import {DocumentService} from './services/document.service';
 export class AppComponent implements AfterViewInit {
 
   splitDirection?: 'horizontal' | 'vertical';
+  splitPosition?: number;
 
   constructor(public plantumlHolder: PlantumlHolder,
               private themeService: ThemeService,
               private overlayContainer: OverlayContainer,
               private breakpointObserver: BreakpointObserver,
+              private router: Router,
               documentService: DocumentService,
               activatedRoute: ActivatedRoute,
-              router: Router,
               @Inject(DOCUMENT) private document: Document) {
     this.breakpointObserver
       .observe(['(min-width: 576px)'])
@@ -34,7 +36,17 @@ export class AppComponent implements AfterViewInit {
         }
       });
 
-    const activatedRouteSubscription = activatedRoute.queryParamMap.pipe(
+    const splitPositionSubscription = activatedRoute.queryParamMap.pipe(
+      filter(params => params.has('split-position')),
+      map(params => params.get('split-position')),
+      map(splitPosition => splitPosition === null ? undefined : Number.parseFloat(splitPosition)),
+      filter(splitPosition => splitPosition !== null)
+    ).subscribe(splitPosition => {
+      this.splitPosition = splitPosition;
+      splitPositionSubscription?.unsubscribe();
+    });
+
+    const sharedDocumentSubscription = activatedRoute.queryParamMap.pipe(
       filter(params => params.has('document-id') && params.has('document-key')),
       map(params => {
         return {
@@ -43,14 +55,14 @@ export class AppComponent implements AfterViewInit {
         }
       }),
     ).subscribe(documentReference => {
-      activatedRouteSubscription.unsubscribe();
+      sharedDocumentSubscription.unsubscribe();
       router.navigate([], {
         queryParams: {
           'document-id': null,
           'document-key': null
         },
         queryParamsHandling: 'merge'
-      })
+      });
       if (documentReference.documentId !== null && documentReference.documentKey !== null) {
         const getDocumentSubscription = documentService.getDocument(
           documentReference.documentId,
@@ -97,6 +109,34 @@ export class AppComponent implements AfterViewInit {
     this.applyPrimaryTheme(this.overlayContainer.getContainerElement(), primaryThemeClass, secondaryThemeClass);
     this.applyTheme('app-primary-theme', primaryThemeClass, secondaryThemeClass, this.applyPrimaryTheme.bind(this));
     this.applyTheme('app-secondary-theme', primaryThemeClass, secondaryThemeClass, this.applySecondaryTheme.bind(this));
+  }
+
+  get leftSplitSize(): number {
+    if (this.splitPosition === undefined) {
+      return 60;
+    }
+    return this.splitPosition;
+  }
+
+  get rightSplitSize(): number {
+    if (this.splitPosition === undefined) {
+      return 40;
+    }
+    return 100 - this.splitPosition;
+  }
+
+  onAsSplitDragEnd(splitDragEndEvent: IOutputData) {
+    if (!splitDragEndEvent.sizes) {
+      return;
+    }
+
+    const newSplitPosition = splitDragEndEvent.sizes[0];
+    this.router.navigate([], {
+      queryParams: {
+        'split-position': newSplitPosition
+      },
+      queryParamsHandling: 'merge'
+    });
   }
 }
 

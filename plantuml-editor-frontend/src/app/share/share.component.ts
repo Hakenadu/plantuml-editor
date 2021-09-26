@@ -15,6 +15,7 @@ export class ShareComponent {
   loading = false;
 
   key = new FormControl(this.createDefaultKey(8), Validators.required);
+  imageFullsize = new FormControl(false);
 
   constructor(public matDialogRef: MatDialogRef<ShareComponent>,
               public configService: ConfigService,
@@ -28,11 +29,16 @@ export class ShareComponent {
 
     const keySnapshot = this.key.value;
     this.documentService.createDocument(keySnapshot).subscribe(uuid => {
-      let baseUrl = window.location.href;
+      let baseUrl = location.protocol + '//' + location.host + location.pathname;
       if (baseUrl.endsWith('/')) {
         baseUrl = baseUrl.substring(0, baseUrl.length - 1);
       }
       this.link = `${baseUrl}?document-id=${uuid}&document-key=${keySnapshot}`;
+
+      if (this.imageFullsize.value) {
+        this.link += '&split-position=0'
+      }
+
       this.copyLinkToClipboard();
       this.loading = false;
     });
