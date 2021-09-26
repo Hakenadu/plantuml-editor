@@ -52,7 +52,7 @@ const CustomHighlightRules = function () {
       },
       {
         token: ["constant.string.source.wsd", "string.quoted.double.source.wsd", "keyword.control.source.wsd", "string.quoted.double.source.wsd", "constant.string.source.wsd", "string.quoted.double.source.wsd", "variable.parameter.source.wsd"],
-        regex: /([A-Za-z_0-9äöü]+)( +)(-?->|<-?-)( +)([A-Za-z_0-9]+)(:)(.*)/,
+        regex: /([A-Za-z_0-9äöüß]+)( +)(-?->|<-?-)( +)([A-Za-z_0-9]+)(:)(.*)/,
         push: [
           {
             token: "string.quoted.double.source.wsd",
@@ -87,12 +87,16 @@ const CustomHighlightRules = function () {
         ]
       },
       {
+        token: "variable.parameter.source.wsd",
+        regex: /:(.*)/
+      },
+      {
         token: "constant.string.source.wsd",
         regex: /\b[A-Z]+[A-Za-z_0-9]*\b/
       },
       // {token: "variable.parameter.source.wsd", regex: /@startuml|@enduml/}
       // {token: "variable.parameter.source.wsd", regex: /\b[a-z_]+[A-Za-z_0-9]*\b/}
-      {token: "variable.parameter.source.wsd", regex: /[A-ZÜÖÄa-züöä_]+[A-ZÜÖÄa-züöä_0-9\(\)]*/}
+      {token: "variable.parameter.source.wsd", regex: /[A-ZÜÖÄa-züöäß_]+[A-ZÜÖÄa-züöäß_0-9\(\)]*/}
     ]
   };
 };
