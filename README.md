@@ -195,7 +195,7 @@ services:
       DOCUMENT_SALT: my-fancy-at-least-8-bytes-long-salt # salt for symmetrically encrypting document content
       DOCUMENT_LIFETIME: PT168H # the maximum age for stored documents (defaults to 7 days)
       DOCUMENT_REAPER_CRON: '0 0/10 * * * ?' # the cron definition which determines the frequency for the document reaper to delete old documents (defaults to 10 minutes)
-      WEBDAV_COLLECTION: # if passed, an existing webdav collection will be used instead of creating a new one (defaults to '')
+      WEBDAV_COLLECTION: # if passed, an existing webdav collection will be used
     ports:
     - 80:8080
     build:
