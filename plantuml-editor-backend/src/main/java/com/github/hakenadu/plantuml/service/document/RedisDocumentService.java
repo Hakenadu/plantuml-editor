@@ -60,6 +60,10 @@ public class RedisDocumentService implements DocumentService {
 		createClient().del(prefix + metaData.getId());
 	}
 
+	/**
+	 * {@link Jedis} is not threadsafe, therefore we only provide the configurations as beans
+	 * and instantiate a new client for each request.
+	 */
 	private Jedis createClient() {
 		return new Jedis(hostAndPort, jedisClientConfig);
 	}
