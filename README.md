@@ -14,7 +14,9 @@
         * [Icons](#icons)
     * [run with docker](#run-with-docker-1)
     * [run with docker-compose](#run-with-docker-compose-1) 
-
+        * [With sharing disabled](#with-sharing-disabled)
+        * [With sharing enabled using WebDAV](#with-sharing-enabled-using-webdav)
+        * [With sharing enabled using Redis](#with-sharing-enabled-using-redis)
 
 Backend and frontend for a [PlantUML](https://plantuml.com/de/) editor web application
 * The backend generates images from [PlantUML](https://plantuml.com/de/) using [plantuml/plantuml](https://github.com/plantuml/plantuml). It also provides annotations in case of invalid source.
@@ -173,8 +175,8 @@ plantuml-editor:
    - /path/to/your/frontend-config.json:/opt/config/frontend-config.json
 ```
 
-#### With sharing enabled
-For enabling share links you need to provide a WebDAV interface for the plantuml-editor.
+#### With sharing enabled using WebDAV
+For enabling share links you may to provide a WebDAV interface for the plantuml-editor.
 The following docker-compose example shows a maximal example.
 
 ```yaml
@@ -204,4 +206,37 @@ services:
     environment:
       USERNAME: john # basic auth webdav username
       PASSWORD: doe1337 # basic auth webdav password
+```
+
+#### With sharing enabled using Redis
+For enabling share links you may also provide a Redis interface for the plantuml-editor.
+The following docker-compose example shows a maximal example.
+
+```yaml
+version: '3'
+services:
+  plantuml-editor:
+    image: hakenadu/plantuml-editor
+    container_name: plantuml-editor
+    environment:
+      # MANDATORY VARIABLES
+      SPRING_PROFILES_ACTIVE: redis
+      DOCUMENT_SALT: my-fancy-at-least-8-bytes-long-salt
+      REDIS_HOST: plantuml-editor-redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: doe1337 # use a better one ;-)
+      # OPTIONAL VARIABLES
+      REDIS_PREFIX: /documents/ # prefix for persisted values
+      DOCUMENT_SALT: my-fancy-at-least-8-bytes-long-salt # salt for symmetrically encrypting document content
+      DOCUMENT_LIFETIME: PT168H # the maximum age for stored documents (defaults to 7 days)
+creating a new one (defaults to '')
+    ports:
+    - 80:8080
+    build:
+      context: ./
+  plantuml-editor-redis:
+    image: bitnami/redis # or registry.redhat.io/rhel8/redis-5:1-144
+    container_name: plantuml-editor-redis
+    environment:
+      REDIS_PASSWORD: doe1337 # use a better one ;-)
 ```
