@@ -20,7 +20,7 @@ const CustomHighlightRules = function () {
     start: [
       {
         token: "comment.line.source.wsd",
-        regex: /^(?:#|')/,
+        regex: /^(?:#|'|@start[a-z]+|@end[a-z]+)/,
         push: [
           {token: "comment.line.source.wsd", regex: /$/, next: "pop"},
           {defaultToken: "comment.line.source.wsd"}
@@ -51,8 +51,8 @@ const CustomHighlightRules = function () {
         regex: /\b(?:AliceBlue|AntiqueWhite|Aqua|Aquamarine|Azure|Beige|Bisque|Black|BlanchedAlmond|Blue|BlueViolet|Brown|BurlyWood|CadetBlue|Chartreuse|Chocolate|Coral|CornflowerBlue|Cornsilk|Crimson|Cyan|DarkBlue|DarkCyan|DarkGoldenRod|DarkGray|DarkGreen|DarkGrey|DarkKhaki|DarkMagenta|DarkOliveGreen|DarkOrchid|DarkRed|DarkSalmon|DarkSeaGreen|DarkSlateBlue|DarkSlateGray|DarkSlateGrey|DarkTurquoise|DarkViolet|Darkorange|DeepPink|DeepSkyBlue|DimGray|DimGrey|DodgerBlue|FireBrick|FloralWhite|ForestGreen|Fuchsia|Gainsboro|GhostWhite|Gold|GoldenRod|Gray|Green|GreenYellow|Grey|HoneyDew|HotPink|IndianRed|Indigo|Ivory|Khaki|Lavender|LavenderBlush|LawnGreen|LemonChiffon|LightBlue|LightCoral|LightCyan|LightGoldenRodYellow|LightGray|LightGreen|LightGrey|LightPink|LightSalmon|LightSeaGreen|LightSkyBlue|LightSlateGray|LightSlateGrey|LightSteelBlue|LightYellow|Lime|LimeGreen|Linen|Magenta|Maroon|MediumAquaMarine|MediumBlue|MediumOrchid|MediumPurple|MediumSeaGreen|MediumSlateBlue|MediumSpringGreen|MediumTurquoise|MediumVioletRed|MidnightBlue|MintCream|MistyRose|Moccasin|NavajoWhite|Navy|OldLace|Olive|OliveDrab|Orange|OrangeRed|Orchid|PaleGoldenRod|PaleGreen|PaleTurquoise|PaleVioletRed|PapayaWhip|PeachPuff|Peru|Pink|Plum|PowderBlue|Purple|Red|RosyBrown|RoyalBlue|SaddleBrown|Salmon|SandyBrown|SeaGreen|SeaShell|Sienna|Silver|SkyBlue|SlateBlue|SlateGray|SlateGrey|Snow|SpringGreen|SteelBlue|Tan|Teal|Thistle|Tomato|Turquoise|Violet|Wheat|White|WhiteSmoke|Yellow|YellowGreen)\b/
       },
       {
-        token: ["constant.string.source.wsd", "string.quoted.double.source.wsd", "keyword.control.source.wsd", "string.quoted.double.source.wsd", "constant.string.source.wsd", "string.quoted.double.source.wsd"],
-        regex: /([A-Za-z_0-9]+)( +)(-?->|<-?-)( +)([A-Za-z_0-9]+)(:)/,
+        token: ["constant.string.source.wsd", "string.quoted.double.source.wsd", "keyword.control.source.wsd", "string.quoted.double.source.wsd", "constant.string.source.wsd", "string.quoted.double.source.wsd", "variable.parameter.source.wsd"],
+        regex: /([A-Za-z_0-9äöü]+)( +)(-?->|<-?-)( +)([A-Za-z_0-9]+)(:)(.*)/,
         push: [
           {
             token: "string.quoted.double.source.wsd",
@@ -90,7 +90,9 @@ const CustomHighlightRules = function () {
         token: "constant.string.source.wsd",
         regex: /\b[A-Z]+[A-Za-z_0-9]*\b/
       },
-      {token: "variable.parameter.source.wsd", regex: /\b[a-z_]+[A-Za-z_0-9]*\b/}
+      // {token: "variable.parameter.source.wsd", regex: /@startuml|@enduml/}
+      // {token: "variable.parameter.source.wsd", regex: /\b[a-z_]+[A-Za-z_0-9]*\b/}
+      {token: "variable.parameter.source.wsd", regex: /[A-ZÜÖÄa-züöä_]+[A-ZÜÖÄa-züöä_0-9\(\)]*/}
     ]
   };
 };
