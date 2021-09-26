@@ -1,6 +1,5 @@
 package com.github.hakenadu.plantuml.service.document;
 
-import java.util.Collection;
 import java.util.UUID;
 
 import com.github.hakenadu.plantuml.model.DocumentMetaData;
@@ -13,6 +12,4 @@ public interface DocumentService {
 	String getDocument(UUID id, String key) throws DocumentServiceException;
 
 	void deleteDocument(DocumentMetaData metaData) throws DocumentServiceException;
-
-	Collection<? extends DocumentMetaData> getDocumentMetaData() throws DocumentServiceException;
 }

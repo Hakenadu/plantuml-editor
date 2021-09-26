@@ -16,7 +16,7 @@ import com.github.hakenadu.plantuml.service.document.exception.DocumentServiceEx
 
 @Profile("local")
 @Service
-public class LocalDocumentService implements DocumentService {
+public class LocalDocumentService implements DocumentServiceWithoutExpirationMechanism {
 
 	private final CryptService cryptService;
 	private final Map<UUID, LocalDocument> data = new ConcurrentHashMap<>();
