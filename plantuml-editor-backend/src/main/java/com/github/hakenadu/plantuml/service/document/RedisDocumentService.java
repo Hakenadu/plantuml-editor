@@ -26,7 +26,7 @@ public class RedisDocumentService implements DocumentService {
 	private final HostAndPort hostAndPort;
 	private final JedisClientConfig jedisClientConfig;
 	private final String prefix;
-	private Duration documentLifetime;
+	private final Duration documentLifetime;
 
 	public RedisDocumentService(final CryptService cryptService, HostAndPort hostAndPort,
 			final JedisClientConfig jedisClientConfig, final @Value("${plantuml-editor.redis.prefix}") String prefix,
