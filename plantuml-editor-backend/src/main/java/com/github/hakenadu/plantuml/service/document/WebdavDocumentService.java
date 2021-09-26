@@ -47,7 +47,7 @@ import com.github.hakenadu.plantuml.service.document.exception.DocumentServiceEx
 
 @Profile("webdav")
 @Service
-public class WebdavDocumentService implements DocumentService {
+public class WebdavDocumentService implements DocumentServiceWithoutExpirationMechanism {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(WebdavDocumentService.class);
 	private static final Pattern UUID_PATTERN = Pattern.compile(".*/([a-f0-9]{8}(-[a-f0-9]{4}){4}[a-f0-9]{8})$");

@@ -1,0 +1,7 @@
+plantuml-editor:
+  redis:
+    prefix: ${REDIS_PREFIX:/documents/}
+    host: ${REDIS_HOST}
+    port: ${REDIS_PORT:6379}
+    username: ${REDIS_USERNAME:} # optional
+    password: ${REDIS_PASSWORD} # mandatory

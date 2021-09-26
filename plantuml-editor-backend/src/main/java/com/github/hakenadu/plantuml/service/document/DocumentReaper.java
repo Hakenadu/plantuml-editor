@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 import com.github.hakenadu.plantuml.model.DocumentMetaData;
 import com.github.hakenadu.plantuml.service.document.exception.DocumentServiceException;
 
-@ConditionalOnBean(DocumentService.class)
+@ConditionalOnBean(DocumentServiceWithoutExpirationMechanism.class)
 @Component
 @EnableScheduling
 public class DocumentReaper {
@@ -22,7 +22,7 @@ public class DocumentReaper {
 	private Duration lifetime;
 
 	@Autowired
-	private DocumentService documentService;
+	private DocumentServiceWithoutExpirationMechanism documentService;
 
 	@Scheduled(cron = "${plantuml-editor.document.reaper.cron}")
 	public void deleteOldDocuments() throws DocumentServiceException {
