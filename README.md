@@ -223,9 +223,9 @@ services:
       SPRING_PROFILES_ACTIVE: redis
       DOCUMENT_SALT: my-fancy-at-least-8-bytes-long-salt
       REDIS_HOST: plantuml-editor-redis
-      REDIS_PORT: 6379
       REDIS_PASSWORD: doe1337 # use a better one ;-)
       # OPTIONAL VARIABLES
+      REDIS_PORT: 6379
       REDIS_PREFIX: /documents/ # prefix for persisted values
       DOCUMENT_SALT: my-fancy-at-least-8-bytes-long-salt # salt for symmetrically encrypting document content
       DOCUMENT_LIFETIME: PT168H # the maximum age for stored documents (defaults to 7 days)
