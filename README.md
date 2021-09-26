@@ -82,7 +82,7 @@ plantuml-editor:
   image: hakenadu/plantuml-editor
   container_name: plantuml-editor
   ports:
-  - "80:80"
+  - "80:8080"
 ```
 
 ## Customized usage
@@ -157,7 +157,7 @@ Currently two types of icons are supported:
 
 ### run with docker
 ```shell
-docker run -d -p 80:80 --name plantuml-editor -v /path/to/your/frontend-config.json:/opt/config/frontend-config.json hakenadu/plantuml-editor
+docker run -d -p 80:8080 --name plantuml-editor -v /path/to/your/frontend-config.json:/opt/config/frontend-config.json hakenadu/plantuml-editor
 ```
 
 ### run with docker-compose
@@ -168,7 +168,7 @@ plantuml-editor:
    image: hakenadu/plantuml-editor
    container_name: plantuml-editor
    ports:
-   - "80:80"
+   - 80:8080
    volumes:
    - /path/to/your/frontend-config.json:/opt/config/frontend-config.json
 ```
@@ -195,7 +195,7 @@ services:
       DOCUMENT_REAPER_CRON: '0 0/10 * * * ?' # the cron definition which determines the frequency for the document reaper to delete old documents (defaults to 10 minutes)
       WEBDAV_COLLECTION: # if passed, an existing webdav collection will be used instead of creating a new one (defaults to '')
     ports:
-    - 80:80
+    - 80:8080
     build:
       context: ./
   plantuml-editor-webdav:

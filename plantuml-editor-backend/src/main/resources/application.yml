@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8081
 plantuml-editor:
   document:
     salt: ${DOCUMENT_SALT:my-fancy-at-least-8-bytes-long-salt}

@@ -3,6 +3,9 @@ services:
   plantuml-editor:
     image: hakenadu/plantuml-editor
     container_name: plantuml-editor
+    build:
+      context: ../../
+      dockerfile: ./build/adoptopenjdk/Dockerfile
     environment:
       SPRING_PROFILES_ACTIVE: webdav
       DOCUMENT_SALT: my-fancy-at-least-8-bytes-long-salt
@@ -10,9 +13,7 @@ services:
       WEBDAV_USERNAME: john
       WEBDAV_PASSWORD: doe1337
     ports:
-    - 80:80
-    build:
-      context: ./
+    - 80:8080
   plantuml-editor-webdav:
     image: bytemark/webdav
     container_name: plantuml-editor-webdav

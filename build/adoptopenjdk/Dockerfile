@@ -34,6 +34,22 @@ RUN apt update && apt install --yes nginx && apt install --yes graphviz
 
 ADD ./nginx.conf /etc/nginx/nginx.conf
 
+RUN adduser --disabled-password --gecos '' nginx
+
+WORKDIR /app
+
+RUN chown -R nginx:nginx /app && chmod -R 755 /app && \
+        mkdir -p /var/cache/nginx && \
+		mkdir -p /var/lib/nginx && \
+		touch /var/run/nginx.pid && \
+        chown -R nginx:nginx /var/cache/nginx && \
+        chown -R nginx:nginx /var/lib/nginx && \
+        chown -R nginx:nginx /var/run/nginx.pid && \
+        chown -R nginx:nginx /var/log/nginx && \
+        chown -R nginx:nginx /etc/nginx/conf.d
+
+USER nginx
+
 COPY --from=build-frontend /app/dist/plantuml-editor /usr/share/nginx/html
 COPY --from=build-backend /app/target/plantuml-editor-backend.jar ./plantuml-editor-backend.jar
 
