@@ -229,7 +229,6 @@ services:
       REDIS_PREFIX: /documents/ # prefix for persisted values
       DOCUMENT_SALT: my-fancy-at-least-8-bytes-long-salt # salt for symmetrically encrypting document content
       DOCUMENT_LIFETIME: PT168H # the maximum age for stored documents (defaults to 7 days)
-creating a new one (defaults to '')
     ports:
     - 80:8080
     build:
