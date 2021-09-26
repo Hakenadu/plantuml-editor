@@ -176,7 +176,7 @@ plantuml-editor:
 ```
 
 #### With sharing enabled using WebDAV
-For enabling share links you may to provide a WebDAV interface for the plantuml-editor.
+For enabling share links you may provide a WebDAV interface for the plantuml-editor.
 The following docker-compose example shows a maximal example.
 
 ```yaml
