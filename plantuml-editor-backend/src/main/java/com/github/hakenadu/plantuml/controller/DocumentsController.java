@@ -6,7 +6,7 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -22,7 +22,8 @@ import com.github.hakenadu.plantuml.service.AnnotationsService;
 import com.github.hakenadu.plantuml.service.document.DocumentService;
 import com.github.hakenadu.plantuml.service.document.exception.DocumentServiceException;
 
-@ConditionalOnBean(DocumentService.class)
+@Profile({ "local", "webdav",
+		"redis" })
 @RestController
 @RequestMapping("/documents")
 @CrossOrigin
