@@ -221,7 +221,6 @@ services:
     environment:
       # MANDATORY VARIABLES
       SPRING_PROFILES_ACTIVE: redis
-      DOCUMENT_SALT: my-fancy-at-least-8-bytes-long-salt
       REDIS_HOST: plantuml-editor-redis
       REDIS_PASSWORD: doe1337 # use a better one ;-)
       # OPTIONAL VARIABLES
