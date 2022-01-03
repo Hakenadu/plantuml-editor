@@ -1,5 +1,9 @@
 .carousel {
 
+  .carousel-inner .sr-only {
+    display: none;
+  }
+
   .carousel-control-prev-icon, .carousel-control-next-icon {
     direction: ltr;
     display: inline-block;
