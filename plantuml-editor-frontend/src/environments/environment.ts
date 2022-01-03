@@ -4,6 +4,13 @@ export const environment = {
   // backendUrl: 'http://localhost:8080',
   configUrl: undefined,
   config: { // Default frontend config for local development without docker
+    intro: {
+      // description: '<h1>custom stuff</h2>',
+      slideshow: {
+        showMessage: true,
+        visible: true
+      }
+    },
     share: {
       description: `
         <p>

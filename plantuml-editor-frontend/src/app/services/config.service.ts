@@ -35,6 +35,14 @@ export interface LinkFooterActionConfig {
   href: string | SafeUrl;
 }
 
+export interface IntroConfig {
+  description?: string | SafeHtml;
+  slideshow?: {
+    showMessage?: boolean,
+    visible?: boolean
+  };
+}
+
 export interface FooterConfig {
   actions?: FooterActionConfig[];
 }
@@ -44,6 +52,7 @@ export interface ShareConfig {
 }
 
 export interface FrontendConfig {
+  intro?: IntroConfig;
   footer?: FooterConfig;
   share?: ShareConfig;
 }
@@ -87,6 +96,12 @@ export class ConfigService {
     }
   }
 
+  private sanitizeIntroConfig(config: FrontendConfig) {
+    if (config?.intro?.description) {
+      config.intro.description = this.domSanitizer.bypassSecurityTrustHtml(<string>config.intro.description);
+    }
+  }
+
   private sanitizeShareConfig(config: FrontendConfig) {
     if (config?.share?.description) {
       config.share.description = this.domSanitizer.bypassSecurityTrustHtml(<string>config.share.description);
@@ -94,6 +109,7 @@ export class ConfigService {
   }
 
   private sanitize(config: FrontendConfig): FrontendConfig {
+    this.sanitizeIntroConfig(config);
     this.sanitizeFooterConfig(config);
     this.sanitizeShareConfig(config);
     return config;

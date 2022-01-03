@@ -13,7 +13,7 @@ import {AngularResizedEventModule} from 'angular-resize-event';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {ImageComponent} from './image/image.component';
 import {MatToolbarModule} from '@angular/material/toolbar';
-import {DescriptionComponent} from './description/description.component';
+import {IntroComponent} from './intro/intro.component';
 import {FooterComponent} from './footer/footer.component';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
@@ -38,7 +38,7 @@ import {MatInputModule} from '@angular/material/input';
     AppComponent,
     EditorComponent,
     ImageComponent,
-    DescriptionComponent,
+    IntroComponent,
     FooterComponent,
     ExampleDiagramComponent,
     ShareComponent

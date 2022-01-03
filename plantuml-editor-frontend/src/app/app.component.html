@@ -21,9 +21,9 @@
       <as-split-area [size]="rightSplitSize">
         <div class="app-secondary-theme h-100 w-100">
           <app-image *ngIf="plantumlHolder.image"></app-image>
-          <app-description *ngIf="!plantumlHolder.image"
-                           [scrollDirection]="splitDirection">
-          </app-description>
+          <app-intro *ngIf="!plantumlHolder.image"
+                     [scrollDirection]="splitDirection">
+          </app-intro>
         </div>
       </as-split-area>
 
