@@ -75,7 +75,7 @@ A running demo is available at https://plantuml.mseiche.de/.
 ## Basic usage
 ### run with docker
 ```shell
-docker run -d -p 80:80 --name plantuml-editor hakenadu/plantuml-editor
+docker run -d -p 80:8080 --name plantuml-editor hakenadu/plantuml-editor
 ```
 
 ### run with docker-compose
