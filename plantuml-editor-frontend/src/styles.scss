@@ -1,5 +1,7 @@
 $primary: #CC5555;
 
+@import '~material-icons/iconfont/material-icons.css';
+
 @import "~bootstrap/scss/bootstrap";
 @import "styles/card";
 @import "styles/carousel";
@@ -37,7 +39,12 @@ html, body {
   height: 100%;
 }
 
+@font-face {
+  font-family: "Roboto-Regular";
+  src: url("./assets/fonts/Roboto-Regular.ttf");
+}
+
 body {
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: Roboto-Regular, "Helvetica Neue", sans-serif;
 }
