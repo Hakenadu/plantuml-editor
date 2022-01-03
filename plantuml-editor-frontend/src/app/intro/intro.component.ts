@@ -1,11 +1,12 @@
 import {Component, Input} from '@angular/core';
 import {PlantumlHolder} from '../services/plantuml-holder';
+import {ConfigService} from '../services/config.service';
 
 @Component({
-  selector: 'app-description',
-  templateUrl: './description.component.html'
+  selector: 'app-intro',
+  templateUrl: './intro.component.html'
 })
-export class DescriptionComponent {
+export class IntroComponent {
 
   @Input()
   scrollDirection?: 'horizontal' | 'vertical';
@@ -15,7 +16,8 @@ export class DescriptionComponent {
     {type: 'use-case-diagram', title: 'Use Case Diagram'}
   ];
 
-  constructor(public plantumlHolder: PlantumlHolder) {
+  constructor(public plantumlHolder: PlantumlHolder,
+              public configService: ConfigService) {
 
   }
 }
