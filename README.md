@@ -77,6 +77,7 @@ A running demo is available at https://plantuml.mseiche.de/.
 ```shell
 docker run -d -p 80:8080 --name plantuml-editor hakenadu/plantuml-editor
 ```
+then open the app in your browser: [http://localhost](http://localhost)
 
 ### run with docker-compose
 ```yaml
@@ -86,6 +87,7 @@ plantuml-editor:
   ports:
   - "80:8080"
 ```
+then open the app in your browser: [http://localhost](http://localhost)
 
 ## Customized usage
 You may customize parts of the application by providing config options.
