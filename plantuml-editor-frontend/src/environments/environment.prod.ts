@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  backendUrl: '/api',
-  configUrl: '/config',
+  backendUrl: 'api',
+  configUrl: 'config',
   config: undefined
 };

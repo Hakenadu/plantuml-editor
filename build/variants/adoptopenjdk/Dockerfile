@@ -32,11 +32,16 @@ FROM adoptopenjdk:16-jre-hotspot-focal
 
 RUN apt update && apt install --yes nginx && apt install --yes graphviz
 
-ADD ./nginx.conf /etc/nginx/nginx.conf
+ADD ./build/config/nginx.conf /etc/nginx/nginx.conf
 
 RUN adduser --disabled-password --gecos '' nginx
 
 WORKDIR /app
+
+ADD ./build/scripts/apply-context-path-prefix.sh ./apply-context-path-prefix.sh
+
+COPY --from=build-frontend /app/dist/plantuml-editor /usr/share/nginx/html
+COPY --from=build-backend /app/target/plantuml-editor-backend.jar ./plantuml-editor-backend.jar
 
 RUN chown -R nginx:nginx /app && chmod -R 755 /app && \
         mkdir -p /var/cache/nginx && \
@@ -46,15 +51,15 @@ RUN chown -R nginx:nginx /app && chmod -R 755 /app && \
         chown -R nginx:nginx /var/lib/nginx && \
         chown -R nginx:nginx /var/run/nginx.pid && \
         chown -R nginx:nginx /var/log/nginx && \
-        chown -R nginx:nginx /etc/nginx/conf.d
+        chown -R nginx:nginx /etc/nginx/conf.d && \
+        chown -R nginx:nginx /etc/nginx && \
+        chown -R nginx:nginx /usr/share/nginx/html     
 
 USER nginx
-
-COPY --from=build-frontend /app/dist/plantuml-editor /usr/share/nginx/html
-COPY --from=build-backend /app/target/plantuml-editor-backend.jar ./plantuml-editor-backend.jar
 
 COPY ./config /opt/config
 
 EXPOSE 80
 
-CMD ["sh","-c","nginx && java -jar plantuml-editor-backend.jar"]
+
+CMD ["sh","-c","./apply-context-path-prefix.sh /etc/nginx/nginx.conf /usr/share/nginx/html/index.html && nginx && java -jar plantuml-editor-backend.jar"]
