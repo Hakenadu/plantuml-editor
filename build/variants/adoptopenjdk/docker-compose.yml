@@ -1,0 +1,10 @@
+version: '3'
+services:
+  plantuml-editor:
+    image: hakenadu/plantuml-editor
+    container_name: plantuml-editor
+    build:
+      context: ../../../
+      dockerfile: ./build/variants/adoptopenjdk/Dockerfile
+    ports:
+    - 80:8080
