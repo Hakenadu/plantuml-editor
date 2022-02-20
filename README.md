@@ -70,7 +70,9 @@ deactivate Developer
 ![Screenshot](./misc/plantuml-editor-demo-snapshot.png)
 
 ## Demo
-A running demo is available at https://plantuml.mseiche.de/.
+~~A running demo is available at https://plantuml.mseiche.de/.~~
+
+:exclamation: I'm sorry, I took the demo offline because of insecurity regarding GDPR compliance
 
 ## Basic usage
 ### run with docker
