@@ -20,8 +20,8 @@ FROM maven:3.8.1-adoptopenjdk-16 AS build-backend
 WORKDIR /app
 COPY plantuml-editor-backend .
 RUN mvn org.apache.maven.plugins:maven-install-plugin:2.3.1:install-file \
-	-Dfile=/app/repo/plantuml-1.2021.9-SNAPSHOT.jar -DgroupId=net.sourceforge.plantuml \ 
-	-DartifactId=plantuml -Dversion=1.2021.9 \
+	-Dfile=/app/repo/plantuml-1.2023.4.jar -DgroupId=net.sourceforge.plantuml \ 
+	-DartifactId=plantuml -Dversion=1.2023.4 \
 	-Dpackaging=jar
 RUN mvn package spring-boot:repackage
 
