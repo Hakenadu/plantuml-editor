@@ -12,8 +12,8 @@
         * [Share links](#share-links)
         * [Footer actions](#footer-actions)
         * [Icons](#icons)
-    * [run with docker](#run-with-docker-1)
-    * [run with docker-compose](#run-with-docker-compose-1) 
+    * [run with docker](#run-with-docker)
+    * [run with docker-compose](#run-with-docker-compose) 
         * [With sharing disabled](#with-sharing-disabled)
         * [With sharing enabled using WebDAV](#with-sharing-enabled-using-webdav)
         * [With sharing enabled using Redis](#with-sharing-enabled-using-redis)
@@ -70,9 +70,7 @@ deactivate Developer
 ![Screenshot](./misc/plantuml-editor-demo-snapshot.png)
 
 ## Demo
-~~A running demo is available at https://plantuml.mseiche.de/.~~
-
-:exclamation: I'm sorry, I took the demo offline because of insecurity regarding GDPR compliance
+A running demo is available at https://plantuml.mseiche.de/.
 
 ## Basic usage
 ### run with docker

@@ -19,7 +19,7 @@
 
 		<spring.boot.version>2.5.3</spring.boot.version>
 		<spring.framework.version>5.5.2</spring.framework.version>
-		<plantuml.version>1.2021.9</plantuml.version>
+		<plantuml.version>1.2023.4</plantuml.version>
 		<jedis.version>3.7.0</jedis.version>
 	</properties>
 
