@@ -1,6 +1,9 @@
 {
 	"share": {
-		"description": "just a placeholder"
+		"description": "just a placeholder",
+		"imageOnlyLinks": {
+			"visible": true
+		}
 	},
 	"footer": {
 		"actions": [
