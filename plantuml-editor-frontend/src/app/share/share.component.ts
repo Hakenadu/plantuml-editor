@@ -49,15 +49,19 @@ export class ShareComponent implements OnInit, OnDestroy {
   generateLink() {
     this.loading = true;
 
+    let baseUrl = location.protocol + '//' + location.host + location.pathname;
+    if (baseUrl.endsWith('/')) {
+      baseUrl = baseUrl.substring(0, baseUrl.length - 1);
+    }
+
     const keySnapshot = this.key.value;
     this.documentService.createDocument(keySnapshot).subscribe(uuid => {
       if (this.imageOnlyLink.value) {
-        this.link = `${environment.backendUrl}/documents/${uuid}/images/${this.imageType.value}?key=${keySnapshot}`;
+        this.link = new URL(
+          `${environment.backendUrl}/documents/${uuid}/images/${this.imageType.value}?key=${keySnapshot}`,
+          baseUrl
+        ).href;
       } else {
-        let baseUrl = location.protocol + '//' + location.host + location.pathname;
-        if (baseUrl.endsWith('/')) {
-          baseUrl = baseUrl.substring(0, baseUrl.length - 1);
-        }
         this.link = `${baseUrl}?document-id=${uuid}&document-key=${keySnapshot}`;
 
         if (this.imageFullsize.value) {
