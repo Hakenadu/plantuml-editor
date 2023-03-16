@@ -1,7 +1,7 @@
 export const environment = {
   production: false,
-  backendUrl: 'https://plantuml.mseiche.de/api',
-  // backendUrl: 'http://localhost:8080',
+  // backendUrl: 'https://plantuml.mseiche.de/api',
+  backendUrl: 'http://localhost:8081',
   configUrl: undefined,
   config: { // Default frontend config for local development without docker
     intro: {
@@ -24,7 +24,14 @@ export const environment = {
           Anyhow if you use this functionality you agree to my
           <a href="https://mseiche.de/terms-of-service">Terms of Service</a>
         </p>
-      `
+      `,
+      imageOnlyLinks: {
+        visible: true,
+        warningMessage: `
+          If an image only link is used, the key is inserted as a query parameter for a GET request.
+          The key is therefore more likely to appear in reverse proxy logs.
+        `
+      }
     },
     footer: {
       actions: [

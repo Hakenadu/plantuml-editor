@@ -49,6 +49,10 @@ export interface FooterConfig {
 
 export interface ShareConfig {
   description?: string | SafeHtml;
+  imageOnlyLinks?: {
+    visible?: boolean;
+    warningMessage?: string;
+  }
 }
 
 export interface FrontendConfig {

@@ -103,7 +103,11 @@ For the app published at https://plantuml.mseiche.de/ I'm using the following *f
 ```json
 { 
    "share": {
-      "description": "<p>Your PlantUML spec will be stored symmetrically encrypted via <a href=\"https:\/\/en.wikipedia.org\/wiki\/WebDAV\">WebDAV<\/a>.<\/p><p>The information needed to decrypt the stored data is the id which is sent by your browser when accessing the data.<\/p><p class=\"mb-0\">Anyhow if you use this functionality you agree to my <a href=\"https:\/\/mseiche.de\/terms-of-service\">Terms of Service<\/a><\/p>"
+      "description": "<p>Your PlantUML spec will be stored symmetrically encrypted via <a href=\"https:\/\/en.wikipedia.org\/wiki\/WebDAV\">WebDAV<\/a>.<\/p><p>The information needed to decrypt the stored data is the id which is sent by your browser when accessing the data.<\/p><p class=\"mb-0\">Anyhow if you use this functionality you agree to my <a href=\"https:\/\/mseiche.de\/terms-of-service\">Terms of Service<\/a><\/p>",
+      "imageOnlyLinks": {
+         "visible": true,
+         "If an image only link is used, the key is inserted as a query parameter for a GET request. The key will therefore most likely appear in my reverse proxy logs when the Link is used to download the image."
+      }
    },
    "footer": {
       "actions": [
