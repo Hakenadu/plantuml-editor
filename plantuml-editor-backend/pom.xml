@@ -21,6 +21,7 @@
 		<spring.framework.version>5.5.2</spring.framework.version>
 		<plantuml.version>1.2023.4</plantuml.version>
 		<jedis.version>3.7.0</jedis.version>
+		<openai.client.version>0.11.1</openai.client.version>
 	</properties>
 
 	<repositories>
@@ -74,6 +75,19 @@
 			<groupId>redis.clients</groupId>
 			<artifactId>jedis</artifactId>
 			<version>${jedis.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.theokanning.openai-gpt3-java</groupId>
+			<artifactId>service</artifactId>
+			<version>${openai.client.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<version>${spring.boot.version}</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 </project>

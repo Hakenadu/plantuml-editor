@@ -1,0 +1,6 @@
+plantuml-editor:
+  openai:
+    api-key: ${OPENAI_API_KEY:false}
+    chat: ${OPENAI_CHAT:true}
+    model: ${OPENAI_MODEL:gpt-3.5-turbo}
+    max-tokens: ${OPENAI_MAX_TOKENS:1000}
