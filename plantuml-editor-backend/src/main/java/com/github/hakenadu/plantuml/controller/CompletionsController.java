@@ -28,7 +28,7 @@ public class CompletionsController {
 	public String complete(final @RequestBody Map<String, String> body) {
 		final String originalSpec = body.get("originalSpec");
 		final String textualDescription = body.get("textualDescription");
-		final String openAiApiKey = body.get("OPENAI_API_KEY");
+		final String openAiApiKey = body.get("openAiApiKey");
 		return completionService.getCompletion(originalSpec, textualDescription, openAiApiKey);
 	}
 }
