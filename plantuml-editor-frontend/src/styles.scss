@@ -48,3 +48,11 @@ body {
   margin: 0;
   font-family: Roboto-Regular, "Helvetica Neue", sans-serif;
 }
+
+.mat-form-field {
+  &.mat-form-field-slim {
+    .mat-form-field-wrapper {
+      margin-bottom: -1.25em;
+    }
+  }
+}

@@ -32,6 +32,8 @@ import {ClipboardModule} from '@angular/cdk/clipboard';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
+import { CompletionsComponent } from './completions/completions.component';
+import { ApiKeySettingsComponent } from './completions/api-key-settings/api-key-settings.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +43,9 @@ import {MatInputModule} from '@angular/material/input';
     IntroComponent,
     FooterComponent,
     ExampleDiagramComponent,
-    ShareComponent
+    ShareComponent,
+    CompletionsComponent,
+    ApiKeySettingsComponent
   ],
   imports: [
     AngularResizedEventModule,

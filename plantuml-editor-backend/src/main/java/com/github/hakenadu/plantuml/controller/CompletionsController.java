@@ -3,6 +3,8 @@ package com.github.hakenadu.plantuml.controller;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,12 +19,18 @@ import com.github.hakenadu.plantuml.service.completion.CompletionService;
  * for Java: <a href=
  * "https://github.com/TheoKanning/openai-java">TheoKanning/openai-java</a>
  */
+@CrossOrigin
 @RestController
 @RequestMapping("/completions")
 public class CompletionsController {
 
 	@Autowired
 	private CompletionService completionService;
+
+	@GetMapping
+	public boolean apiKeyConfiguredTrue() {
+		return completionService.hasApiKey();
+	}
 
 	@PostMapping
 	public String complete(final @RequestBody Map<String, String> body) {

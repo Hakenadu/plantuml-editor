@@ -1,5 +1,8 @@
 package com.github.hakenadu.plantuml.service.completion;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -13,7 +16,9 @@ import com.theokanning.openai.service.OpenAiService;
  */
 public abstract class OpenAiCompletionService implements CompletionService {
 
-	private static final String CODE_START_END_SEQUENCE = "```";
+	private static final Pattern PLANTUML_CUT_PATTERN = Pattern.compile(
+			".*(@start(?:[a-z]+)(?:.*)@end(?:[a-z]+))(?:\\s|\\t|\\r|\\n|$).*",
+			Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
 	@Autowired(required = false)
 	private OpenAiService openAiService;
@@ -28,6 +33,11 @@ public abstract class OpenAiCompletionService implements CompletionService {
 			final String textualDescription);
 
 	@Override
+	public boolean hasApiKey() {
+		return openAiService != null;
+	}
+
+	@Override
 	public String getCompletion(final String originalSpec, final String textualDescription, final String openAiApiKey) {
 		final OpenAiService openAiService;
 		if (this.openAiService != null) {
@@ -39,16 +49,14 @@ public abstract class OpenAiCompletionService implements CompletionService {
 				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "no OPENAI_API_KEY");
 			}
 		}
-		final String completion = getCompletion(openAiService, originalSpec, textualDescription);
-		if (completion.contains(CODE_START_END_SEQUENCE)) {
-			final int startIndex = completion.indexOf(CODE_START_END_SEQUENCE + CODE_START_END_SEQUENCE.length());
-			final String completionFromStartIndex = completion.substring(startIndex);
 
-			// we do it that way to prevent a response with multiple code fragments
-			final int endIndex = completionFromStartIndex.indexOf(CODE_START_END_SEQUENCE);
-			return completionFromStartIndex.substring(0, endIndex);
+		final String completion = getCompletion(openAiService, originalSpec, textualDescription);
+
+		final Matcher matcher = PLANTUML_CUT_PATTERN.matcher(completion);
+		if (!matcher.matches()) {
+			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		return completion;
+		return matcher.group(1);
 	}
 
 	protected final String getModel() {

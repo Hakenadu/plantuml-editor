@@ -1,0 +1,9 @@
+<h2 mat-dialog-title>OpenAI API Key</h2>
+<mat-dialog-content class="overflow-hidden">
+  <mat-form-field class="mat-form-field-slim">
+    <input matInput type="text" [(ngModel)]="completionsService.apiKey"/>
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-raised-button mat-dialog-close>Close</button>
+</mat-dialog-actions>

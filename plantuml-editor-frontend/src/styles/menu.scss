@@ -3,6 +3,17 @@
 
   .mat-menu-content {
     height: unset;
-    padding: 1em !important;
+  }
+
+  &:not(.slim-menu) {
+    .mat-menu-content {
+      padding: 1em !important;
+    }
+  }
+
+  &.slim-menu {
+    .mat-menu-content {
+      padding: 0em 1em;
+    }
   }
 }

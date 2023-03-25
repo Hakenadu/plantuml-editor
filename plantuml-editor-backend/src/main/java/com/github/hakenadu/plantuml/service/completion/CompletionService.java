@@ -6,5 +6,7 @@ package com.github.hakenadu.plantuml.service.completion;
  */
 public interface CompletionService {
 
+	boolean hasApiKey();
+
 	String getCompletion(String originalSpec, String textualDescription, String openAiApiKey);
 }
