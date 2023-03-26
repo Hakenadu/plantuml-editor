@@ -1,14 +1,14 @@
 # --------------------------------------------------------------------------------
 # BUILD FRONTEND
 # --------------------------------------------------------------------------------
-FROM node:14.17-alpine AS build-frontend
+FROM node:14.20-alpine AS build-frontend
 WORKDIR /app
 
 COPY plantuml-editor-frontend/package.json ./
 RUN npm install
 
 COPY plantuml-editor-frontend/src src
-COPY plantuml-editor-frontend/angular.json plantuml-editor-frontend/.browserslistrc plantuml-editor-frontend/karma.conf.js plantuml-editor-frontend/tsconfig.app.json plantuml-editor-frontend/tsconfig.json plantuml-editor-frontend/tsconfig.spec.json plantuml-editor-frontend/.editorconfig ./
+COPY plantuml-editor-frontend/angular.json plantuml-editor-frontend/karma.conf.js plantuml-editor-frontend/tsconfig.app.json plantuml-editor-frontend/tsconfig.json plantuml-editor-frontend/tsconfig.spec.json plantuml-editor-frontend/.editorconfig ./
 
 RUN npm run build-release
 
@@ -23,7 +23,7 @@ RUN mvn org.apache.maven.plugins:maven-install-plugin:2.3.1:install-file \
 	-Dfile=/app/repo/plantuml-1.2023.4.jar -DgroupId=net.sourceforge.plantuml \ 
 	-DartifactId=plantuml -Dversion=1.2023.4 \
 	-Dpackaging=jar
-RUN mvn package spring-boot:repackage
+RUN mvn -DskipTests package spring-boot:repackage
 
 # --------------------------------------------------------------------------------
 # DISTRIBUTION

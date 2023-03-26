@@ -9,11 +9,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 @ConditionalOnProperty(prefix = "plantuml-editor.openai", name = "api-key")
-@ActiveProfiles("openai")
+@ActiveProfiles("completion")
 @SpringBootTest
 public class OpenAiChatCompletionServiceTest {
 
-	@Autowired
+	@Autowired(required = false)
 	private CompletionService completionService;
 
 	@Test
