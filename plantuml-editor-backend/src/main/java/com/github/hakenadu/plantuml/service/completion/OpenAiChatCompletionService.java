@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Optional;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import com.theokanning.openai.completion.chat.ChatCompletionRequest;
@@ -15,8 +16,9 @@ import com.theokanning.openai.service.OpenAiService;
  * Abstract base class for {@link CompletionService} implementations using the
  * OpenAI API
  */
-@ConditionalOnProperty(prefix = "plantuml-editor.openai", name = "chat", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(prefix = "plantuml-editor.openai", name = "chat", havingValue = "true", matchIfMissing = false)
 @Service
+@Profile("completion")
 public class OpenAiChatCompletionService extends OpenAiCompletionService {
 
 	private final ChatMessage SYSTEM_SCOPE = new ChatMessage("system", new StringBuilder()//

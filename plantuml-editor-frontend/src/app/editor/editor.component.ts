@@ -3,7 +3,6 @@
 import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import ace, {Ace} from 'ace-builds';
 import {PlantumlHolder} from '../services/plantuml-holder';
-import {ResizedEvent} from 'angular-resize-event';
 import Completer = Ace.Completer;
 
 const oop = ace.require('ace/lib/oop');
@@ -52,7 +51,7 @@ const CustomHighlightRules = function () {
       },
       {
         token: ["constant.string.source.wsd", "string.quoted.double.source.wsd", "keyword.control.source.wsd", "string.quoted.double.source.wsd", "constant.string.source.wsd", "string.quoted.double.source.wsd", "variable.parameter.source.wsd"],
-        regex: /([A-Za-z_0-9äöüß]+)( +)(-?->|<-?-)( +)([A-Za-z_0-9äöüß]+)(:)(.*)/,
+        regex: /([A-ZÜÖÄa-z_0-9äöüß]+)( +)(-?->|<-?-)( +)([A-ZÜÖÄa-z_0-9äöüß]+)(:)(.*)/,
         push: [
           {
             token: "string.quoted.double.source.wsd",
@@ -92,7 +91,7 @@ const CustomHighlightRules = function () {
       },
       {
         token: "constant.string.source.wsd",
-        regex: /\b[A-Z]+[A-Za-z_0-9äöüß]*\b/
+        regex: /\b[A-Z]+[A-ZÜÖÄa-z_0-9äöüß]*\b/
       },
       // {token: "variable.parameter.source.wsd", regex: /@startuml|@enduml/}
       // {token: "variable.parameter.source.wsd", regex: /\b[a-z_]+[A-Za-z_0-9]*\b/}
@@ -178,10 +177,10 @@ export class EditorComponent implements OnInit, AfterViewInit {
     }
   }
 
-  onResized($event: ResizedEvent) {
+  onResized($event: ResizeObserverEntry) {
     if (this.editor) {
-      const newContainerHeight = `${$event.newHeight}px`;
-      const newContainerWidth = `${$event.newWidth}px`;
+      const newContainerHeight = `${$event.contentRect.height}px`;
+      const newContainerWidth = `${$event.contentRect.width}px`;
 
       if (this.editor.container.style.height === newContainerHeight
         && this.editor.container.style.width === newContainerWidth) {

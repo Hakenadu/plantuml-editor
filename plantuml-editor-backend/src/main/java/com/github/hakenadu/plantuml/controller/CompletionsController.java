@@ -3,6 +3,7 @@ package com.github.hakenadu.plantuml.controller;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,6 +23,7 @@ import com.github.hakenadu.plantuml.service.completion.CompletionService;
 @CrossOrigin
 @RestController
 @RequestMapping("/completions")
+@ConditionalOnBean(CompletionService.class)
 public class CompletionsController {
 
 	@Autowired

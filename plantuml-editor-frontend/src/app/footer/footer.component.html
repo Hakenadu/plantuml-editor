@@ -17,18 +17,20 @@
       <h1>PlantUML Editor</h1>
 
       <div class="ps-2 flex-grow-1 d-flex flex-row justify-content-end align-items-center">
-        <mat-menu #chatGptMenu="matMenu"
+        <mat-menu #completionMenu="matMenu"
                   [hasBackdrop]="false"
                   class="slim-menu">
           <ng-template matMenuContent>
             <app-completions></app-completions>
           </ng-template>
         </mat-menu>
-        <button class="chat-gpt-button"
+        <button *ngIf="completionsService.apiEnabled"
+                class="chat-gpt-button"
                 mat-raised-button
-                matTooltip="use an OpenAI GPT model to modify your PlantUML spec"
-                [matMenuTriggerFor]="chatGptMenu">
-          <img src="assets/images/openai-logo.svg" [height]="16" class="w-auto"/>
+                matTooltip="use a large language model to modify your PlantUML spec"
+                [matMenuTriggerFor]="completionMenu">
+          <mat-icon fontSet="material-icons-outlined">chat</mat-icon>
+          AI driven Completion
         </button>
 
         <!-- the following content is dynamically rendered based on the contents of the FrontendConfig -->

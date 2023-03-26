@@ -4,8 +4,9 @@
             [formControl]="textualDescription"
             cdkTextareaAutosize></textarea>
     <div matSuffix class="d-flex align-items-center">
-      <mat-spinner *ngIf="loading" [diameter]="20" color="primary"></mat-spinner>
+      <mat-spinner *ngIf="loading" [diameter]="24" color="primary"></mat-spinner>
       <button matSuffix mat-icon-button
+              [disabled]="!completionService.remoteApiKeyConfigured && !completionService.apiKey || textualDescription.invalid"
               (click)="runCompletion()">
         <mat-icon>send</mat-icon>
       </button>
@@ -16,13 +17,13 @@
       Insert a command like: 'add another actor User' or 'create a new sequence diagram with two actors'.
       Then click the send button.
     </p>
-    <div *ngIf="error" class="alert alert-warning">
-      That didn't work. Try again or remodel your prompt.
-    </div>
+    <div *ngIf="error" class="alert alert-warning">That didn't work. Try again or remodel your prompt.</div>
     <div *ngIf="!completionService.remoteApiKeyConfigured" class="w-100 text-end">
-      <button mat-raised-button
+      <button *ngIf="configService.config$ | async as config"
+              mat-raised-button
+              [matBadge]="completionService.apiKey ? undefined : '?'"
               (click)="openApiKeyModal()">
-        OpenAI API Key
+        {{config.completion?.apiKeyLabel || 'API Key'}}
         <mat-icon fontSet="material-icons-outlined" class="text-white">settings</mat-icon>
       </button>
     </div>

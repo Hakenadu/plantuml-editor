@@ -1,15 +1,15 @@
 .image-footer {
 
   ::ng-deep {
-    .mat-icon-button {
+    .mat-mdc-icon-button {
       border: 1px solid rgba(0, 0, 0, 0.12);
       border-radius: 0px;
     }
 
-    .mat-button-toggle-group {
+    .mat-mdc-button-toggle-group {
       border-radius: 0px;
 
-      .mat-button-toggle-label-content {
+      .mat-mdc-button-toggle-label-content {
         line-height: 40px;
       }
     }

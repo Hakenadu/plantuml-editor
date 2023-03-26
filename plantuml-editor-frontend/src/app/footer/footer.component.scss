@@ -10,11 +10,19 @@
     font-size: 28px;
     line-height: 28px;
   }
+
+  .mat-mdc-icon-button {
+    height: 50px;
+    width: 50px;
+
+    img {
+      vertical-align: unset;
+    }
+  }
 }
 
 .chat-gpt-button {
-  background-color: #212121;
-  margin-right: 0.5em;
+  background-color: #212121 !important;
 
   .mat-icon {
     font-size: 20px;
