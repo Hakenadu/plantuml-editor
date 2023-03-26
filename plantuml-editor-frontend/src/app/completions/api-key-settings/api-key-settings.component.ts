@@ -1,5 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {CompletionsService} from '../completions.service';
+import {ConfigService} from '../../services/config.service';
 
 @Component({
   selector: 'app-api-key-settings',
@@ -7,6 +8,6 @@ import {CompletionsService} from '../completions.service';
 })
 export class ApiKeySettingsComponent {
 
-  constructor(public completionsService: CompletionsService) {
+  constructor(public completionsService: CompletionsService, public configService: ConfigService) {
   }
 }

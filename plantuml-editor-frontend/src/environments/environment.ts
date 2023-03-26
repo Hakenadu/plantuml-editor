@@ -30,14 +30,6 @@ export const environment = {
         warningMessage: `If an image only link is used, the key is inserted as a query parameter for a GET request.The key is therefore more likely to appear in reverse proxy logs.`
       }
     },
-    completion: {
-      apiKeyLabel: 'OpenAI API Key',
-      warningMessage: `
-        <div class="alert alert-warning">
-            This is just for demo purposes!
-        </div>
-      `
-    },
     footer: {
       actions: [
         {

@@ -24,11 +24,12 @@
             <app-completions></app-completions>
           </ng-template>
         </mat-menu>
-        <button *ngIf="completionsService.apiEnabled"
-                class="chat-gpt-button"
-                mat-raised-button
-                matTooltip="use a large language model to modify your PlantUML spec"
-                [matMenuTriggerFor]="completionMenu">
+        <button
+          *ngIf="completionsService.apiEnabled && (completionsService.remoteApiKeyConfigured || completionsService.allowLocalApiKey)"
+          class="chat-gpt-button"
+          mat-raised-button
+          matTooltip="use a large language model to modify your PlantUML spec"
+          [matMenuTriggerFor]="completionMenu">
           <mat-icon fontSet="material-icons-outlined">chat</mat-icon>
           AI driven Completion
         </button>

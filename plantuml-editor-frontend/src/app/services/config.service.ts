@@ -57,7 +57,7 @@ export interface ShareConfig {
 
 export interface CompletionConfig {
   apiKeyLabel?: string;
-  warningMessage?: string | SafeHtml;
+  apiKeyWarningMessage?: string | SafeHtml;
 }
 
 export interface FrontendConfig {
@@ -119,8 +119,8 @@ export class ConfigService {
   }
 
   private sanitizeCompletionConfig(config: FrontendConfig) {
-    if (config?.completion?.warningMessage) {
-      config.completion.warningMessage = this.domSanitizer.bypassSecurityTrustHtml(<string>config.completion.warningMessage);
+    if (config?.completion?.apiKeyWarningMessage) {
+      config.completion.apiKeyWarningMessage = this.domSanitizer.bypassSecurityTrustHtml(<string>config.completion.apiKeyWarningMessage);
     }
   }
 

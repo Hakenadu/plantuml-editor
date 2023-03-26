@@ -4,7 +4,8 @@ import {environment} from '../../environments/environment';
 import {PlantumlHolder} from '../services/plantuml-holder';
 import {Observable} from 'rxjs';
 
-const LOCAL_STORAGE_KEY = 'hakenadu/plantuml-editor.completions.api-key';
+const API_KEY_LOCAL_STORAGE_KEY = 'hakenadu/plantuml-editor.completions.api-key';
+const ALLOW_LOCAL_API_KEY_LOCAL_STORAGE_KEY = 'hakenadu/plantuml-editor.completions.allow-local-api-key';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,7 @@ export class CompletionsService {
 
   apiEnabled = false;
   remoteApiKeyConfigured = false;
+  allowLocalApiKey = false;
 
   constructor(private httpClient: HttpClient, private plantumlHolder: PlantumlHolder) {
     this.httpClient.get(`${environment.backendUrl}/completions`).subscribe(response => {
@@ -23,9 +25,15 @@ export class CompletionsService {
       }
       this.apiEnabled = true;
     });
-    const storedApiKey = localStorage.getItem(LOCAL_STORAGE_KEY);
+
+    const storedApiKey = localStorage.getItem(API_KEY_LOCAL_STORAGE_KEY);
     if (storedApiKey) {
       this.apiKey = storedApiKey;
+    }
+
+    const allowLocalApiKey = localStorage.getItem(ALLOW_LOCAL_API_KEY_LOCAL_STORAGE_KEY);
+    if ('true' === allowLocalApiKey) {
+      this.allowLocalApiKey = true;
     }
   }
 
@@ -43,9 +51,9 @@ export class CompletionsService {
     this._apiKey = apiKey;
 
     if (apiKey) {
-      localStorage.setItem(LOCAL_STORAGE_KEY, apiKey);
+      localStorage.setItem(API_KEY_LOCAL_STORAGE_KEY, apiKey);
     } else {
-      localStorage.removeItem(LOCAL_STORAGE_KEY);
+      localStorage.removeItem(API_KEY_LOCAL_STORAGE_KEY);
     }
   }
 

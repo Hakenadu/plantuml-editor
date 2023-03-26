@@ -18,12 +18,11 @@
       Then click the send button.
     </p>
     <div *ngIf="error" class="alert alert-warning">That didn't work. Try again or remodel your prompt.</div>
-    <div *ngIf="!completionService.remoteApiKeyConfigured" class="w-100 text-end">
-      <button *ngIf="configService.config$ | async as config"
-              mat-raised-button
+    <div *ngIf="!completionService.remoteApiKeyConfigured && completionService.allowLocalApiKey" class="w-100 text-end">
+      <button mat-raised-button
               [matBadge]="completionService.apiKey ? undefined : '?'"
               (click)="openApiKeyModal()">
-        {{config.completion?.apiKeyLabel || 'API Key'}}
+        API Key
         <mat-icon fontSet="material-icons-outlined" class="text-white">settings</mat-icon>
       </button>
     </div>

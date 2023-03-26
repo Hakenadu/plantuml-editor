@@ -1,5 +1,6 @@
 package com.github.hakenadu.plantuml.service.completion;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -29,6 +30,9 @@ public abstract class OpenAiCompletionService implements CompletionService {
 	@Value("${plantuml-editor.openai.max-tokens}")
 	private int maxTokens;
 
+	@Value("#{'${plantuml-editor.openai.allowed-frontend-api-keys}'.split(',')}")
+	private List<String> allowedFrontendApiKeys;
+
 	protected abstract String getCompletion(final OpenAiService openAiService, final String originalSpec,
 			final String textualDescription);
 
@@ -43,7 +47,8 @@ public abstract class OpenAiCompletionService implements CompletionService {
 		if (this.openAiService != null) {
 			openAiService = this.openAiService;
 		} else {
-			if (openAiApiKey != null) {
+			if (openAiApiKey != null && !openAiApiKey.trim().isEmpty()
+					&& allowedFrontendApiKeys.contains(openAiApiKey)) {
 				openAiService = new OpenAiService(openAiApiKey);
 			} else {
 				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "no OPENAI_API_KEY");

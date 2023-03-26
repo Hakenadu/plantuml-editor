@@ -1,7 +1,10 @@
-<h2 mat-dialog-title>API Key</h2>
-<div mat-dialog-content class="overflow-hidden">
+<h2 mat-dialog-title>Hidden Developer Option Dialog</h2>
+<div mat-dialog-content>
+  <ng-container *ngIf="configService.config$ | async as config">
+    <div [innerHTML]="config.completion?.apiKeyWarningMessage"></div>
+  </ng-container>
   <mat-form-field class="mat-form-field-slim">
-    <input matInput type="text" [(ngModel)]="completionsService.apiKey"/>
+    <input matInput type="password" [(ngModel)]="completionsService.apiKey"/>
   </mat-form-field>
 </div>
 <div mat-dialog-actions align="end">
