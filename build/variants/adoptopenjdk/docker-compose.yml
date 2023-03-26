@@ -1,7 +1,7 @@
 version: '3'
 services:
   plantuml-editor:
-    image: hakenadu/plantuml-editor
+    image: hakenadu/plantuml-editor:0.4.0-beta
     container_name: plantuml-editor
     build:
       context: ../../../
