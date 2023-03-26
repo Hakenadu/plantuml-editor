@@ -55,10 +55,16 @@ export interface ShareConfig {
   }
 }
 
+export interface CompletionConfig {
+  apiKeyLabel?: string;
+  warningMessage?: string | SafeHtml;
+}
+
 export interface FrontendConfig {
   intro?: IntroConfig;
   footer?: FooterConfig;
   share?: ShareConfig;
+  completion?: CompletionConfig;
 }
 
 @Injectable({
@@ -109,6 +115,12 @@ export class ConfigService {
   private sanitizeShareConfig(config: FrontendConfig) {
     if (config?.share?.description) {
       config.share.description = this.domSanitizer.bypassSecurityTrustHtml(<string>config.share.description);
+    }
+  }
+
+  private sanitizeCompletionConfig(config: FrontendConfig) {
+    if (config?.completion?.warningMessage) {
+      config.completion.warningMessage = this.domSanitizer.bypassSecurityTrustHtml(<string>config.completion.warningMessage);
     }
   }
 

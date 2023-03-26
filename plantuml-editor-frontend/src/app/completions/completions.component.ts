@@ -4,6 +4,7 @@ import {CompletionsService} from './completions.service';
 import {MatDialog} from '@angular/material/dialog';
 import {ApiKeySettingsComponent} from './api-key-settings/api-key-settings.component';
 import {PlantumlHolder} from '../services/plantuml-holder';
+import {ConfigService} from '../services/config.service';
 
 @Component({
   selector: 'app-completions',
@@ -16,7 +17,7 @@ export class CompletionsComponent {
   loading = false;
   error = false;
 
-  constructor(public completionService: CompletionsService, private plantumlHolder: PlantumlHolder, private matDialog: MatDialog) {
+  constructor(public completionService: CompletionsService, public configService: ConfigService, private plantumlHolder: PlantumlHolder, private matDialog: MatDialog) {
   }
 
   openApiKeyModal() {
