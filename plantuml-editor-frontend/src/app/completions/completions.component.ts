@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {FormControl, Validators} from '@angular/forms';
+import {UntypedFormControl, Validators} from '@angular/forms';
 import {CompletionsService} from './completions.service';
 import {MatDialog} from '@angular/material/dialog';
 import {ApiKeySettingsComponent} from './api-key-settings/api-key-settings.component';
@@ -12,7 +12,7 @@ import {PlantumlHolder} from '../services/plantuml-holder';
 })
 export class CompletionsComponent {
 
-  textualDescription = new FormControl(null, Validators.required);
+  textualDescription = new UntypedFormControl(null, Validators.required);
   loading = false;
   error = false;
 

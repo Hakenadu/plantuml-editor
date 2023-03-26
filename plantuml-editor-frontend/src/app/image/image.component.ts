@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {PlantumlHolder} from '../services/plantuml-holder';
-import {FormControl} from '@angular/forms';
+import {UntypedFormControl} from '@angular/forms';
 import {Observable, of, Subscription} from 'rxjs';
 import {ConfigService} from '../services/config.service';
 import {MatDialog} from '@angular/material/dialog';
@@ -19,7 +19,7 @@ const ALLOW_OVERFLOW_LOCAL_STORAGE_KEY = 'hakenadu/plantuml-editor.allow-overflo
 })
 export class ImageComponent implements OnInit, OnDestroy {
 
-  allowOverflow = new FormControl(localStorage.getItem(ALLOW_OVERFLOW_LOCAL_STORAGE_KEY) === 'true');
+  allowOverflow = new UntypedFormControl(localStorage.getItem(ALLOW_OVERFLOW_LOCAL_STORAGE_KEY) === 'true');
   private allowOverflowValueChangesSubscription?: Subscription;
 
   sharingSupported: Observable<boolean>;
