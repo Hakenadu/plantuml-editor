@@ -16,36 +16,54 @@
     <div class="d-flex flex-row w-100 align-items-center">
       <h1>PlantUML Editor</h1>
 
-      <!-- the following content is dynamically rendered based on the contents of the FrontendConfig -->
-      <div *ngIf="configService.config$ | async as config"
-           class="ps-2 flex-grow-1 d-flex flex-row justify-content-end align-items-center">
-        <ng-container *ngFor="let action of config.footer?.actions || []">
-          <ng-template #iconTemplate>
-            <mat-icon *ngIf="action.icon.type==='material'">
-              {{action.icon.name}}
-            </mat-icon>
-            <img *ngIf="action.icon.type==='img'"
-                 [src]="action.icon.src"
-                 [height]="action.icon.height || '32'"
-                 [width]="action.icon.width || 'auto'"/>
+      <div class="ps-2 flex-grow-1 d-flex flex-row justify-content-end align-items-center">
+        <mat-menu #completionMenu="matMenu"
+                  [hasBackdrop]="false"
+                  class="slim-menu">
+          <ng-template matMenuContent>
+            <app-completions></app-completions>
           </ng-template>
-          <ng-container *ngIf="action.type==='popup'">
-            <mat-menu #menu="matMenu">
-              <div class="text-light" [innerHTML]="action.content"></div>
-            </mat-menu>
-            <button mat-icon-button
-                    [matMenuTriggerFor]="menu"
-                    [matTooltip]="action.tooltip || ''">
+        </mat-menu>
+        <button
+          *ngIf="completionsService.apiEnabled && (completionsService.remoteApiKeyConfigured || completionsService.allowLocalApiKey)"
+          class="chat-gpt-button"
+          mat-raised-button
+          matTooltip="use a large language model to modify your PlantUML spec"
+          [matMenuTriggerFor]="completionMenu">
+          <mat-icon fontSet="material-icons-outlined">chat</mat-icon>
+          AI driven Completion
+        </button>
+
+        <!-- the following content is dynamically rendered based on the contents of the FrontendConfig -->
+        <ng-container *ngIf="configService.config$ | async as config">
+          <ng-container *ngFor="let action of config.footer?.actions || []">
+            <ng-template #iconTemplate>
+              <mat-icon *ngIf="action.icon.type==='material'">
+                {{action.icon.name}}
+              </mat-icon>
+              <img *ngIf="action.icon.type==='img'"
+                   [src]="action.icon.src"
+                   [height]="action.icon.height || '32'"
+                   [width]="action.icon.width || 'auto'"/>
+            </ng-template>
+            <ng-container *ngIf="action.type==='popup'">
+              <mat-menu #menu="matMenu">
+                <div class="text-light" [innerHTML]="action.content"></div>
+              </mat-menu>
+              <button mat-icon-button
+                      [matMenuTriggerFor]="menu"
+                      [matTooltip]="action.tooltip || ''">
+                <ng-container *ngTemplateOutlet="iconTemplate"></ng-container>
+              </button>
+            </ng-container>
+            <a *ngIf="action.type==='link'"
+               mat-icon-button
+               [href]="action.href"
+               target="_blank"
+               [matTooltip]="action.tooltip || ''">
               <ng-container *ngTemplateOutlet="iconTemplate"></ng-container>
-            </button>
+            </a>
           </ng-container>
-          <a *ngIf="action.type==='link'"
-             mat-icon-button
-             [href]="action.href"
-             target="_blank"
-             [matTooltip]="action.tooltip || ''">
-            <ng-container *ngTemplateOutlet="iconTemplate"></ng-container>
-          </a>
         </ng-container>
       </div>
     </div>

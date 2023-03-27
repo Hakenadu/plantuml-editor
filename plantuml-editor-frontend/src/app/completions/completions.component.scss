@@ -1,0 +1,12 @@
+.chat-form-field ::ng-deep {
+  color: white;
+
+  textarea {
+    overflow-y: hidden;
+    resize: none;
+  }
+}
+
+.mat-icon {
+  font-size: 20px;
+}

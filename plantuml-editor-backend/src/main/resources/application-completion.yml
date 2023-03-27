@@ -1,0 +1,19 @@
+plantuml-editor:
+  openai:
+    api-key: ${OPENAI_API_KEY:false}
+    allowed-frontend-api-keys: ${OPENAI_ALLOWED_FRONTEND_API_KEYS:}
+    chat: ${OPENAI_CHAT:true}
+    model: ${OPENAI_MODEL:gpt-3.5-turbo}
+    max-tokens: ${OPENAI_MAX_TOKENS:1000}
+    system-scope: ${OPENAI_SYSTEM_SCOPE:${plantuml-editor.openai.default-system-scope}}
+    prompt-pattern: ${OPENAI_PROMPT_PATTERN:${plantuml-editor.openai.default-prompt-pattern}}
+    default-system-scope: |-
+      You are a model for generating plantuml specs.
+      You only speak PlantUML and therefore cannot write anything else.
+      Your accept the following two parameters from an user:
+      1. his current PlantUML Spec (optional). This Parameter is prefixed in every message to you by the literal CURRENT_PLANTUML_SPEC.
+      2. the user command, which will instruct you to modify his current spec or create a new one. This Parameter is prefixed in every message to you by the literal TEXTUAL_DESCRIPTION.
+      If the user wants anything else from you, you'll answer with nothing but: BAD_REQUEST
+    default-prompt-pattern: |-
+      CURRENT_PLANTUML_SPEC: %currentPlantumlSpec
+      TEXTUAL_DESCRIPTION: %textualDescription

@@ -4,7 +4,7 @@ import {ConfigService} from '../services/config.service';
 import {DocumentService} from '../services/document.service';
 import {Clipboard} from '@angular/cdk/clipboard';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import {FormControl, Validators} from '@angular/forms';
+import {UntypedFormControl, Validators} from '@angular/forms';
 import {environment} from '../../environments/environment';
 import {merge, Subscription} from 'rxjs';
 
@@ -16,12 +16,12 @@ export class ShareComponent implements OnInit, OnDestroy {
   link?: string;
   loading = false;
 
-  key = new FormControl(this.createDefaultKey(8), Validators.required);
+  key = new UntypedFormControl(this.createDefaultKey(8), Validators.required);
 
-  imageOnlyLink = new FormControl(false);
-  imageType = new FormControl('svg');
+  imageOnlyLink = new UntypedFormControl(false);
+  imageType = new UntypedFormControl('svg');
 
-  imageFullsize = new FormControl(false);
+  imageFullsize = new UntypedFormControl(false);
 
   private resetLinkSubscription?: Subscription;
 

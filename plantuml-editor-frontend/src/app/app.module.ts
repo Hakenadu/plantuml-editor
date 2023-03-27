@@ -9,7 +9,6 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {AngularSplitModule} from 'angular-split';
 import {LayoutModule} from '@angular/cdk/layout';
-import {AngularResizedEventModule} from 'angular-resize-event';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {ImageComponent} from './image/image.component';
 import {MatToolbarModule} from '@angular/material/toolbar';
@@ -32,6 +31,10 @@ import {ClipboardModule} from '@angular/cdk/clipboard';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
+import {CompletionsComponent} from './completions/completions.component';
+import {ApiKeySettingsComponent} from './completions/api-key-settings/api-key-settings.component';
+import {NgxResizeObserverModule} from 'ngx-resize-observer';
+import {MatBadgeModule} from '@angular/material/badge';
 
 @NgModule({
   declarations: [
@@ -41,10 +44,11 @@ import {MatInputModule} from '@angular/material/input';
     IntroComponent,
     FooterComponent,
     ExampleDiagramComponent,
-    ShareComponent
+    ShareComponent,
+    CompletionsComponent,
+    ApiKeySettingsComponent
   ],
   imports: [
-    AngularResizedEventModule,
     AngularSplitModule,
     AppRoutingModule,
     BrowserAnimationsModule,
@@ -71,9 +75,11 @@ import {MatInputModule} from '@angular/material/input';
     MatSnackBarModule,
     MatToolbarModule,
     MatTooltipModule,
+    MatBadgeModule,
     NgbCarouselModule,
     NgbModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxResizeObserverModule
   ],
   bootstrap: [AppComponent]
 })

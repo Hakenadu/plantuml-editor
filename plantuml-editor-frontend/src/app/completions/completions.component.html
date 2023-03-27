@@ -1,0 +1,30 @@
+<div (click)="$event.stopPropagation()">
+  <mat-form-field class="mat-form-field-slim d-block chat-form-field">
+  <textarea matInput
+            [formControl]="textualDescription"
+            cdkTextareaAutosize></textarea>
+    <div matSuffix class="d-flex align-items-center">
+      <mat-spinner *ngIf="loading" [diameter]="24" color="primary"></mat-spinner>
+      <button matSuffix mat-icon-button
+              [disabled]="!completionService.remoteApiKeyConfigured && !completionService.apiKey || textualDescription.invalid"
+              (click)="runCompletion()">
+        <mat-icon>send</mat-icon>
+      </button>
+    </div>
+  </mat-form-field>
+  <div class="mb-2">
+    <p class="text-primary mt-2">
+      Insert a command like: 'add another actor User' or 'create a new sequence diagram with two actors'.
+      Then click the send button.
+    </p>
+    <div *ngIf="error" class="alert alert-warning">That didn't work. Try again or remodel your prompt.</div>
+    <div *ngIf="!completionService.remoteApiKeyConfigured && completionService.allowLocalApiKey" class="w-100 text-end">
+      <button mat-raised-button
+              [matBadge]="completionService.apiKey ? undefined : '?'"
+              (click)="openApiKeyModal()">
+        API Key
+        <mat-icon fontSet="material-icons-outlined" class="text-white">settings</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,6 +1,9 @@
 # PlantUML Editor
-![hakenadu/plantuml-editor logo](./plantuml-editor-frontend/src/favicon.svg)
+## now with AI driven completions!
+![AI Driven Completions](misc/ai-driven-completions.gif)
+Visit [this section](#with-ai-driven-completions) to see how to run the editor with AI driven completions using the OpenAI API.
 
+![hakenadu/plantuml-editor logo](./plantuml-editor-frontend/src/favicon.svg)
 * [How does it work?](#how-does-it-work)  
 * [Screenshot](#screenshot)
 * [Demo](#demo)
@@ -17,6 +20,7 @@
         * [With sharing disabled](#with-sharing-disabled)
         * [With sharing enabled using WebDAV](#with-sharing-enabled-using-webdav)
         * [With sharing enabled using Redis](#with-sharing-enabled-using-redis)
+        * [With AI driven completions](#with-ai-driven-completions)
 
 Backend and frontend for a [PlantUML](https://plantuml.com/de/) editor web application
 * The backend generates images from [PlantUML](https://plantuml.com/de/) using [plantuml/plantuml](https://github.com/plantuml/plantuml). It also provides annotations in case of invalid source.
@@ -158,7 +162,11 @@ For the app published at https://plantuml.mseiche.de/ I'm using the following *f
       }
    },
    "share": {
-      "description": "<p>Your PlantUML spec will be stored symmetrically encrypted via <a href=\"https:\/\/en.wikipedia.org\/wiki\/WebDAV\">WebDAV<\/a>.<\/p><p>The information needed to decrypt the stored data is the id which is sent by your browser when accessing the data.<\/p><p class=\"mb-0\">Anyhow if you use this functionality you agree to my <a href=\"https:\/\/mseiche.de\/terms-of-service\">Terms of Service<\/a><\/p>"
+      "description": "<p>Your PlantUML spec will be stored symmetrically encrypted via <a href=\"https:\/\/en.wikipedia.org\/wiki\/WebDAV\">WebDAV<\/a>.<\/p><p>The information needed to decrypt the stored data is the id which is sent by your browser when accessing the data.<\/p><p class=\"mb-0\">Anyhow if you use this functionality you agree to my <a href=\"https:\/\/mseiche.de\/terms-of-service\">Terms of Service<\/a><\/p>",
+      "imageOnlyLinks": {
+        "visible": true, 
+        "warningMessage": "If an image only link is used, the key is inserted as a query parameter for a GET request. The key will therefore most likely appear in my reverse proxy logs when the Link is used to download the image."
+      }
    },
    "footer": {
       "actions": [
@@ -258,8 +266,8 @@ services:
       WEBDAV_COLLECTION: # if passed, an existing webdav collection will be used
     ports:
     - 80:8080
-    build:
-      context: ./
+    volumes:
+    - /path/to/your/frontend-config.json:/opt/config/frontend-config.json
   plantuml-editor-webdav:
     image: bytemark/webdav
     container_name: plantuml-editor-webdav
@@ -290,11 +298,34 @@ services:
       DOCUMENT_LIFETIME: PT168H # the maximum age for stored documents (defaults to 7 days)
     ports:
     - 80:8080
-    build:
-      context: ./
+    volumes:
+    - /path/to/your/frontend-config.json:/opt/config/frontend-config.json
   plantuml-editor-redis:
     image: bitnami/redis # or registry.redhat.io/rhel8/redis-5:1-144
     container_name: plantuml-editor-redis
     environment:
       REDIS_PASSWORD: doe1337 # use a better one ;-)
+```
+
+#### With AI driven Completions
+This is an example for running the plantuml-editor with AI driven Completions using the [OpenAI API](https://platform.openai.com/docs/api-reference). If you also want to run WebDAV or Redis you may also add the Environment Variables from the previous examples and join the SPRING_PROFILES_ACTIVE variables by comma (f. e. webdav,completion or redis,completion) 
+```yaml
+version: '3'
+services:
+  plantuml-editor:
+    image: hakenadu/plantuml-editor
+    container_name: plantuml-editor
+    environment:
+      # MANDATORY VARIABLES
+      SPRING_PROFILES_ACTIVE: completion
+      OPENAI_API_KEY: sk-thisistherestofmyapikey
+      # OPTIONAL VARIABLES
+      OPENAI_MODEL: gpt-3.5-turbo # currently only chat models are supported
+      OPENAI_MAX_TOKENS: 1000
+      OPENAI_SYSTEM_SCOPE: # allows to set the models system context (take a look at src/main/resources/application-completion.yml)
+      OPENAI_PROMPT_PATTERN: # allows to set the models prompt pattern (take a look at src/main/resources/application-completion.yml)
+    ports:
+    - 80:8080
+    volumes:
+    - /path/to/your/frontend-config.json:/opt/config/frontend-config.json
 ```
