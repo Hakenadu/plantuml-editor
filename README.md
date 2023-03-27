@@ -1,7 +1,7 @@
 # PlantUML Editor
 ## now with AI driven completions!
 ![AI Driven Completions](misc/ai-driven-completions.gif)
-
+Visit [this section](#with-ai-driven-completions) to see how to run the editor with AI driven completions using the OpenAI API.
 
 ![hakenadu/plantuml-editor logo](./plantuml-editor-frontend/src/favicon.svg)
 * [How does it work?](#how-does-it-work)  
@@ -308,7 +308,7 @@ services:
 ```
 
 #### With AI driven Completions
-This is an example for running the plantuml-editor with AI driven Completions using the [OpenAI ChatGPT API](https://platform.openai.com/docs/api-reference). If you also want to run WebDAV or Redis you may also add the Environment Variables from the previous examples and join the SPRING_PROFILES_ACTIVE variables by comma (f. e. webdav,completion or redis,completion) 
+This is an example for running the plantuml-editor with AI driven Completions using the [OpenAI API](https://platform.openai.com/docs/api-reference). If you also want to run WebDAV or Redis you may also add the Environment Variables from the previous examples and join the SPRING_PROFILES_ACTIVE variables by comma (f. e. webdav,completion or redis,completion) 
 ```yaml
 version: '3'
 services:
