@@ -3,6 +3,7 @@ package com.github.hakenadu.plantuml.service.completion;
 import java.util.Arrays;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
@@ -21,16 +22,26 @@ import com.theokanning.openai.service.OpenAiService;
 @Profile("completion")
 public class OpenAiChatCompletionService extends OpenAiCompletionService {
 
-	private final ChatMessage SYSTEM_SCOPE = new ChatMessage("system", new StringBuilder()//
-			.append("You are a model for generating plantuml specs.\n\n")
-			.append("You only speak PlantUML and therefore cannot write anything else.\n\n")
-			.append("Your purpose is to take two parameters from an user:\n")
-			.append("1. his current PlantUML Spec (optional).")
-			.append("This Parameter is prefixed in every message to you by the literal CURRENT_PLANTUML_SPEC.\n")
-			.append("2. the user command, which will instruct you to modify his current spec or create a new one.")
-			.append("This Parameter is prefixed in every message to you by the literal TEXTUAL_DESCRIPTION.\n\n")
-			.append("If the user wants anything else from you, you'll answer with nothing but the following Token: BAD_REQUEST")
-			.toString());
+	private static final String CURRENT_PLANTUML_SPEC_PLACEHOLDER = "%currentPlantumlSpec";
+	private static final String TEXTUAL_DESCRIPTION_PLACEHOLDER = "%textualDescription";
+
+	private final ChatMessage systemScopeMessage;
+	private final String promptPattern;
+
+	public OpenAiChatCompletionService(final @Value("${plantuml-editor.openai.system-scope}") String systemScope,
+			final @Value("${plantuml-editor.openai.prompt-pattern}") String promptPattern) {
+		this.systemScopeMessage = new ChatMessage("system", systemScope);
+
+		if (!promptPattern.contains(CURRENT_PLANTUML_SPEC_PLACEHOLDER)) {
+			throw new IllegalArgumentException(CURRENT_PLANTUML_SPEC_PLACEHOLDER + " missing in prompt-pattern");
+		}
+
+		if (!promptPattern.contains(TEXTUAL_DESCRIPTION_PLACEHOLDER)) {
+			throw new IllegalArgumentException(TEXTUAL_DESCRIPTION_PLACEHOLDER + " missing in prompt-pattern");
+		}
+
+		this.promptPattern = promptPattern;
+	}
 
 	@Override
 	protected String getCompletion(final OpenAiService openAiService, final String originalSpec,
@@ -49,15 +60,16 @@ public class OpenAiChatCompletionService extends OpenAiCompletionService {
 
 	private ChatCompletionRequest createChatCompletionRequest(final String originalSpec,
 			final String textualDescription) {
-		return ChatCompletionRequest.builder().model(getModel()).maxTokens(getMaxTokens()).messages(Arrays
-				.asList(SYSTEM_SCOPE, new ChatMessage("user", createUserPrompt(originalSpec, textualDescription))))
+		return ChatCompletionRequest.builder().model(getModel()).maxTokens(getMaxTokens())
+				.messages(Arrays.asList(systemScopeMessage,
+						new ChatMessage("user", createUserPrompt(originalSpec, textualDescription))))
 				.build();
 	}
 
 	private String createUserPrompt(final String originalSpec, final String textualDescription) {
-		return new StringBuilder()//
-				.append("CURRENT_PLANTUML_SPEC: ").append(Optional.ofNullable(originalSpec).orElse("")).append("\n\n\n")//
-				.append("TEXTUAL_DESCRIPTION: ").append(textualDescription)//
-				.toString();
+		final String currentPlantumlSpec = Optional.ofNullable(originalSpec).orElse("");
+		final String userPrompt = promptPattern.replaceAll(CURRENT_PLANTUML_SPEC_PLACEHOLDER, currentPlantumlSpec)
+				.replaceAll(TEXTUAL_DESCRIPTION_PLACEHOLDER, textualDescription);
+		return userPrompt;
 	}
 }
