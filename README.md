@@ -1,6 +1,9 @@
 # PlantUML Editor
-![hakenadu/plantuml-editor logo](./plantuml-editor-frontend/src/favicon.svg)
+## now with AI driven completions!
+![AI Driven Completions](misc/ai-driven-completions.gif)
 
+
+![hakenadu/plantuml-editor logo](./plantuml-editor-frontend/src/favicon.svg)
 * [How does it work?](#how-does-it-work)  
 * [Screenshot](#screenshot)
 * [Demo](#demo)
