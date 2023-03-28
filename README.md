@@ -322,8 +322,8 @@ services:
       # OPTIONAL VARIABLES
       OPENAI_MODEL: gpt-3.5-turbo # currently only chat models are supported
       OPENAI_MAX_TOKENS: 1000
-      OPENAI_SYSTEM_SCOPE: # allows to set the models system context (take a look at plantuml-editor-backend/src/main/resources/application-completion.yml)
-      OPENAI_PROMPT_PATTERN: # allows to set the models prompt pattern (take a look at plantuml-editor-backend/src/main/resources/application-completion.yml)
+      # OPENAI_SYSTEM_SCOPE: allows to set the models system context (take a look at plantuml-editor-backend/src/main/resources/application-completion.yml)
+      # OPENAI_PROMPT_PATTERN: allows to set the models prompt pattern (take a look at plantuml-editor-backend/src/main/resources/application-completion.yml)
     ports:
     - 80:8080
 ```
