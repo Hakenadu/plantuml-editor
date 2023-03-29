@@ -47,11 +47,12 @@ export class AppComponent implements AfterViewInit {
     });
 
     const sharedDocumentSubscription = activatedRoute.queryParamMap.pipe(
-      filter(params => params.has('document-id') && params.has('document-key')),
+      filter(params => params.has('document-id') && params.has('document-key') || params.has('document-source')),
       map(params => {
         return {
           documentId: params.get('document-id'),
-          documentKey: params.get('document-key')
+          documentKey: params.get('document-key'),
+          documentSource: params.get('document-source')
         }
       }),
     ).subscribe(documentReference => {
@@ -59,18 +60,25 @@ export class AppComponent implements AfterViewInit {
       router.navigate([], {
         queryParams: {
           'document-id': null,
-          'document-key': null
+          'document-key': null,
+          'document-source': null
         },
         queryParamsHandling: 'merge'
       });
       if (documentReference.documentId !== null && documentReference.documentKey !== null) {
+        documentService.currentDocumentId = documentReference.documentId;
+        documentService.currentDocumentKey = documentReference.documentKey;
         const getDocumentSubscription = documentService.getDocument(
           documentReference.documentId,
           documentReference.documentKey
         ).subscribe(plantuml => {
           getDocumentSubscription.unsubscribe();
           this.plantumlHolder.plantuml = plantuml;
+          documentService.currentDocumentBasePlantuml = plantuml;
         });
+      } else if (documentReference.documentSource !== null) {
+        const documentSourceDecoded = atob(documentReference.documentSource);
+        this.plantumlHolder.plantuml = documentSourceDecoded;
       }
     });
 

@@ -40,9 +40,8 @@ public class RedisDocumentService implements DocumentService {
 
 	@Override
 	public UUID createDocument(final String plantuml, final String key) throws DocumentServiceException {
-		final String encrypted = cryptService.encrypt(plantuml, key);
 		final UUID documentId = UUID.randomUUID();
-		createClient().set(prefix + documentId, encrypted, new SetParams().ex(documentLifetime.getSeconds()));
+		createClient().set(prefix + documentId, plantuml, new SetParams().ex(documentLifetime.getSeconds()));
 		return documentId;
 	}
 
@@ -60,9 +59,15 @@ public class RedisDocumentService implements DocumentService {
 		createClient().del(prefix + metaData.getId());
 	}
 
+	@Override
+	public void setDocument(final UUID id, final String plantuml, final String key) {
+		final String encrypted = cryptService.encrypt(plantuml, key);
+		createClient().set(prefix + id, encrypted, new SetParams().ex(documentLifetime.getSeconds()));
+	}
+
 	/**
-	 * {@link Jedis} is not threadsafe, therefore we only provide the configurations as beans
-	 * and instantiate a new client for each request.
+	 * {@link Jedis} is not threadsafe, therefore we only provide the configurations
+	 * as beans and instantiate a new client for each request.
 	 */
 	private Jedis createClient() {
 		return new Jedis(hostAndPort, jedisClientConfig);

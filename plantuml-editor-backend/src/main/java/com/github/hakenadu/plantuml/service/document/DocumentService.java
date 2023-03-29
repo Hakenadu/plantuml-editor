@@ -12,4 +12,6 @@ public interface DocumentService {
 	String getDocument(UUID id, String key) throws DocumentServiceException;
 
 	void deleteDocument(DocumentMetaData metaData) throws DocumentServiceException;
+
+	void setDocument(UUID id, String plantuml, String key) throws DocumentServiceException;
 }

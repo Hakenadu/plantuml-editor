@@ -7,6 +7,8 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import {UntypedFormControl, Validators} from '@angular/forms';
 import {environment} from '../../environments/environment';
 import {merge, Subscription} from 'rxjs';
+import {PlantumlHolder} from '../services/plantuml-holder';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   templateUrl: './share.component.html'
@@ -28,8 +30,10 @@ export class ShareComponent implements OnInit, OnDestroy {
   constructor(public matDialogRef: MatDialogRef<ShareComponent>,
               public configService: ConfigService,
               public documentService: DocumentService,
+              private plantumlHolder: PlantumlHolder,
               private clipboard: Clipboard,
-              private matSnackbar: MatSnackBar) {
+              private matSnackbar: MatSnackBar,
+              private activatedRoute: ActivatedRoute) {
   }
 
   ngOnInit() {
@@ -46,6 +50,30 @@ export class ShareComponent implements OnInit, OnDestroy {
     this.resetLinkSubscription?.unsubscribe();
   }
 
+  overrideDocument() {
+    this.documentService.getDocument(this.documentService.currentDocumentId!, this.documentService.currentDocumentKey!).subscribe(plantuml => {
+      if (plantuml !== this.documentService.currentDocumentBasePlantuml) {
+        this.matSnackbar.open('document changed in the meantime => overriding failed', 'OK', {
+          horizontalPosition: 'end',
+          duration: 3500
+        });
+      } else {
+        this.documentService.setDocument(this.documentService.currentDocumentId!, this.documentService.currentDocumentKey!).subscribe(success => {
+          let message = '';
+          if (success) {
+            message = 'document was successfully overridden';
+          } else {
+            message = 'overriding failed';
+          }
+          this.matSnackbar.open(message, 'OK', {
+            horizontalPosition: 'end',
+            duration: 3500
+          });
+        });
+      }
+    });
+  }
+
   generateLink() {
     this.loading = true;
 
@@ -54,6 +82,14 @@ export class ShareComponent implements OnInit, OnDestroy {
       baseUrl = baseUrl.substring(0, baseUrl.length - 1);
     }
 
+    if (this.documentService.documentsApiEnabled) {
+      this.generateDocumentLink(baseUrl);
+    } else {
+      this.generateBase64Link(baseUrl);
+    }
+  }
+
+  private generateDocumentLink(baseUrl: string) {
     const keySnapshot = this.key.value;
     this.documentService.createDocument(keySnapshot).subscribe(uuid => {
       if (this.imageOnlyLink.value) {
@@ -72,6 +108,23 @@ export class ShareComponent implements OnInit, OnDestroy {
       this.copyLinkToClipboard();
       this.loading = false;
     });
+  }
+
+  private generateBase64Link(baseUrl: string) {
+    const documentSource = btoa(this.plantumlHolder.plantuml || '');
+    if (this.imageOnlyLink.value) {
+      this.link = new URL(
+        `${environment.backendUrl}/images/${this.imageType.value}?source=${documentSource}`,
+        baseUrl
+      ).href;
+    } else {
+      this.link = `${baseUrl}?document-source=${documentSource}`;
+      if (this.imageFullsize.value) {
+        this.link += '&split-position=0'
+      }
+    }
+    this.copyLinkToClipboard();
+    this.loading = false;
   }
 
   copyLinkToClipboard() {
@@ -95,5 +148,10 @@ export class ShareComponent implements OnInit, OnDestroy {
         charactersLength));
     }
     return result;
+  }
+
+
+  get overrideButtonVisible(): boolean {
+    return this.documentService.documentsOverridingEnabled === true && this.documentService.currentDocumentId !== undefined && this.documentService.currentDocumentKey !== undefined;
   }
 }

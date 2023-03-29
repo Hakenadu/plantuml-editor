@@ -28,7 +28,7 @@ public class LocalDocumentService implements DocumentServiceWithoutExpirationMec
 	@Override
 	public UUID createDocument(final String source, final String key) throws DocumentServiceException {
 		final UUID id = UUID.randomUUID();
-		data.put(id, new LocalDocument(cryptService.encrypt(source, key), id, LocalDateTime.now()));
+		setDocument(id, source, key);
 		return id;
 	}
 
@@ -45,5 +45,10 @@ public class LocalDocumentService implements DocumentServiceWithoutExpirationMec
 	@Override
 	public Collection<? extends DocumentMetaData> getDocumentMetaData() throws DocumentServiceException {
 		return data.values();
+	}
+
+	@Override
+	public void setDocument(final UUID id, final String source, final String key) {
+		data.put(id, new LocalDocument(cryptService.encrypt(source, key), id, LocalDateTime.now()));
 	}
 }

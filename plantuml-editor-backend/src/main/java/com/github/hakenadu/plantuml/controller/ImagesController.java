@@ -4,9 +4,11 @@ import java.util.Base64;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.hakenadu.plantuml.service.ImageService;
@@ -36,6 +38,12 @@ public class ImagesController {
 		return toDataUri("image/svg+xml", imageService.getSvg(source));
 	}
 
+	@GetMapping(path = "/svg", produces = "image/svg+xml")
+	public byte[] getSvgByBase64Source(final @RequestParam String source) throws ImageServiceException {
+		final String sourceDecoded = new String(Base64.getDecoder().decode(source));
+		return imageService.getSvg(sourceDecoded);
+	}
+
 	@PostMapping(path = "/png", produces = MediaType.IMAGE_PNG_VALUE) // :-(
 	public byte[] getPng(final @RequestBody String source) throws ImageServiceException {
 		return imageService.getPng(source);
@@ -44,6 +52,12 @@ public class ImagesController {
 	@PostMapping(path = "/png", produces = MediaType.TEXT_PLAIN_VALUE) // :-(
 	public String getPngDataUri(final @RequestBody String source) throws ImageServiceException {
 		return toDataUri("image/png", imageService.getPng(source));
+	}
+
+	@GetMapping(path = "/png", produces = MediaType.IMAGE_PNG_VALUE)
+	public byte[] getPngByBase64Source(final @RequestParam String source) throws ImageServiceException {
+		final String sourceDecoded = new String(Base64.getDecoder().decode(source));
+		return imageService.getPng(sourceDecoded);
 	}
 
 	private String toDataUri(final String type, final byte[] data) {

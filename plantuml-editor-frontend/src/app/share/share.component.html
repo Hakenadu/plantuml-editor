@@ -1,74 +1,77 @@
 <h2 mat-dialog-title>Share your PlantUML source</h2>
-<mat-dialog-content *ngIf="configService.config$ | async as config">
-  <div *ngIf="config.share?.description"
-       [innerHTML]="config.share?.description || ''">
-  </div>
-
-  <mat-divider class="mt-2 mb-2"></mat-divider>
-
-  <div class="row align-items-center">
-    <div class="col-12 col-md">
-      <mat-form-field appearance="outline">
-        <mat-label>Key</mat-label>
-        <input [formControl]="key" matInput>
-        <mat-icon matSuffix>key</mat-icon>
-        <mat-hint>key used to encrypt the stored data</mat-hint>
-      </mat-form-field>
+<ng-container *ngIf="configService.config$ | async as config">
+  <mat-dialog-content>
+    <div *ngIf="config.share?.description"
+         [innerHTML]="config.share?.description || ''">
     </div>
-    <div class="col-12 col-md-auto mt-2 mt-md-0">
-      <mat-checkbox *ngIf="!imageOnlyLink.value"
-                    [formControl]="imageFullsize"
-                    color="primary"
-                    matTooltip="if this box is checked the receiver of your link will have the image shown in fullsize with the editor hidden">
-        image fullsize
-      </mat-checkbox>
-      <div *ngIf="config?.share?.imageOnlyLinks?.visible && !imageFullsize.value">
-        <mat-checkbox [formControl]="imageOnlyLink"
+
+    <mat-divider class="mt-2 mb-2"></mat-divider>
+
+    <div class="row align-items-center">
+      <div *ngIf="documentService.documentsApiEnabled" class="col-12 col-md">
+        <mat-form-field appearance="outline">
+          <mat-label>Key</mat-label>
+          <input [formControl]="key" matInput>
+          <mat-icon matSuffix>key</mat-icon>
+          <mat-hint>key used to encrypt the stored data</mat-hint>
+        </mat-form-field>
+      </div>
+      <div class="col-12 col-md-auto mt-2 mt-md-0">
+        <mat-checkbox *ngIf="!imageOnlyLink.value"
+                      [formControl]="imageFullsize"
                       color="primary"
-                      matTooltip="if this box is checked an image download link is generated">
-          image only link
+                      matTooltip="if this box is checked the receiver of your link will have the image shown in fullsize with the editor hidden">
+          image fullsize
         </mat-checkbox>
-        <mat-button-toggle-group *ngIf="imageOnlyLink.value"
-                                 [formControl]="imageType"
-                                 class="ms-2">
-          <mat-button-toggle value="svg"
-                             matTooltip="select this toggle to generate the plantuml image as scalable vector graphic">
-            svg
-          </mat-button-toggle>
-          <mat-button-toggle value="png"
-                             matTooltip="select this toggle to generate the plantuml image as portable network graphic">
-            png
-          </mat-button-toggle>
-        </mat-button-toggle-group>
+        <div *ngIf="config?.share?.imageOnlyLinks?.visible && !imageFullsize.value">
+          <mat-checkbox [formControl]="imageOnlyLink"
+                        color="primary"
+                        matTooltip="if this box is checked an image download link is generated">
+            image only link
+          </mat-checkbox>
+          <mat-button-toggle-group *ngIf="imageOnlyLink.value"
+                                   [formControl]="imageType"
+                                   class="ms-2">
+            <mat-button-toggle value="svg"
+                               matTooltip="select this toggle to generate the plantuml image as scalable vector graphic">
+              svg
+            </mat-button-toggle>
+            <mat-button-toggle value="png"
+                               matTooltip="select this toggle to generate the plantuml image as portable network graphic">
+              png
+            </mat-button-toggle>
+          </mat-button-toggle-group>
+        </div>
       </div>
     </div>
-  </div>
 
-  <div *ngIf="config?.share?.imageOnlyLinks?.warningMessage && imageOnlyLink.value"
-       class="mt-3 mb-0 flex-grow-1 d-flex flex-row align-items-center alert alert-warning">
-    <p class="m-0">{{config?.share?.imageOnlyLinks?.warningMessage}}</p>
-  </div>
-
-  <div *ngIf="link" class="mt-3 mb-0 p-0 alert alert-success flex-grow-1 d-flex flex-row align-items-center">
-    <button mat-icon-button
-            (click)="copyLinkToClipboard()">
-      <mat-icon>content_copy</mat-icon>
-    </button>
-    <label>{{link}}</label>
-  </div>
-</mat-dialog-content>
-<mat-dialog-actions>
-  <div class="w-100 d-flex justify-content-end align-items-center">
-    <mat-spinner *ngIf="loading" [diameter]="24" class="me-2"></mat-spinner>
-    <button [disabled]="link !== undefined || key.invalid"
-            mat-raised-button
-            class="bg-success"
-            (click)="generateLink()">
-      Generate Link
-    </button>
-    <button mat-raised-button
-            (click)="matDialogRef.close()">
-      Close
-    </button>
-  </div>
-</mat-dialog-actions>
+    <div *ngIf="link" class="mt-3 mb-0 p-0 alert alert-success flex-grow-1 d-flex flex-row align-items-center">
+      <button mat-icon-button
+              (click)="copyLinkToClipboard()">
+        <mat-icon>content_copy</mat-icon>
+      </button>
+      <span style="word-break: break-all">{{link}}</span>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <div class="w-100 d-flex justify-content-end align-items-center">
+      <mat-spinner *ngIf="loading" [diameter]="24" class="me-2"></mat-spinner>
+      <button *ngIf="overrideButtonVisible"
+              mat-raised-button
+              class="bg-danger"
+              (click)="overrideDocument()">
+        Override current document
+      </button>
+      <button [disabled]="link !== undefined || documentService.documentsApiEnabled && key.invalid"
+              mat-raised-button
+              class="bg-success"
+              (click)="generateLink()">
+        Generate Link
+      </button>
+      <button mat-raised-button
+              (click)="matDialogRef.close()">
+        Close
+      </button>
+    </div>
+  </mat-dialog-actions>
+</ng-container>

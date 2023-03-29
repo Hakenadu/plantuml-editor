@@ -105,12 +105,29 @@ public class WebdavDocumentService implements DocumentServiceWithoutExpirationMe
 	}
 
 	@Override
-	public UUID createDocument(final String source, final String key) throws DocumentServiceException {
-		final UUID id = UUID.randomUUID();
+	public void setDocument(final UUID id, final String source, final String key) throws DocumentServiceException {
 		final String encrypted = cryptService.encrypt(source, key);
 
-		storeDocument(id, encrypted);
+		final URI documentUri = webdavCollectionUriComponentsBuilder().path('/' + id.toString()).build().toUri();
+		LOGGER.info("storing document {}", documentUri);
 
+		final HttpRequest request = httpRequestBuilder().uri(documentUri).PUT(BodyPublishers.ofString(encrypted))
+				.build();
+
+		try {
+			final HttpResponse<?> response = HttpClient.newHttpClient().send(request, BodyHandlers.discarding());
+			if (response.statusCode() >= 400) {
+				throw new DocumentServiceException("unexpected http status storing document: " + response.statusCode());
+			}
+		} catch (final IOException | InterruptedException ioException) {
+			throw new DocumentServiceException("error storing document", ioException);
+		}
+	}
+
+	@Override
+	public UUID createDocument(final String source, final String key) throws DocumentServiceException {
+		final UUID id = UUID.randomUUID();
+		setDocument(id, source, key);
 		return id;
 	}
 
@@ -235,23 +252,6 @@ public class WebdavDocumentService implements DocumentServiceWithoutExpirationMe
 			return response.body();
 		} catch (final IOException | InterruptedException ioException) {
 			throw new DocumentServiceException("error reading document", ioException);
-		}
-	}
-
-	private void storeDocument(final UUID id, final String encrypted) throws DocumentServiceException {
-		final URI documentUri = webdavCollectionUriComponentsBuilder().path('/' + id.toString()).build().toUri();
-		LOGGER.info("storing document {}", documentUri);
-
-		final HttpRequest request = httpRequestBuilder().uri(documentUri).PUT(BodyPublishers.ofString(encrypted))
-				.build();
-
-		try {
-			final HttpResponse<?> response = HttpClient.newHttpClient().send(request, BodyHandlers.discarding());
-			if (response.statusCode() >= 400) {
-				throw new DocumentServiceException("unexpected http status storing document: " + response.statusCode());
-			}
-		} catch (final IOException | InterruptedException ioException) {
-			throw new DocumentServiceException("error storing document", ioException);
 		}
 	}
 }

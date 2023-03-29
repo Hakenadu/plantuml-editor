@@ -2,6 +2,7 @@ server:
   port: 8081
 plantuml-editor:
   document:
+    overriding-enabled: ${DOCUMENT_OVERRIDING_ENABLED:false}
     salt: ${DOCUMENT_SALT:my-fancy-at-least-8-bytes-long-salt}
     lifetime: ${DOCUMENT_LIFETIME:PT168H}
     reaper:

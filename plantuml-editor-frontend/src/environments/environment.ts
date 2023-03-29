@@ -26,8 +26,7 @@ export const environment = {
         </p>
       `,
       imageOnlyLinks: {
-        visible: true,
-        warningMessage: `If an image only link is used, the key is inserted as a query parameter for a GET request.The key is therefore more likely to appear in reverse proxy logs.`
+        visible: true
       }
     },
     footer: {
