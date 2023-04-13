@@ -1,0 +1,18 @@
+@startuml
+
+package "Example System" {
+  component "Web Server" as web
+  component "Application Server" as app
+  database Database as db
+
+  web --> app
+  app --> db
+}
+
+cloud "External Service" {
+  [API Gateway] as api
+}
+
+web --> api
+
+@enduml

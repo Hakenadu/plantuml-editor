@@ -12,6 +12,7 @@ export class IntroComponent {
   scrollDirection?: 'horizontal' | 'vertical';
 
   exampleDiagramEntries: { type: string, title: string }[] = [
+    {type: 'component-diagram', title: 'Component Diagram'},
     {type: 'sequence-diagram', title: 'Sequence Diagram'},
     {type: 'use-case-diagram', title: 'Use Case Diagram'}
   ];

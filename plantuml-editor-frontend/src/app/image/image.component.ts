@@ -62,4 +62,8 @@ export class ImageComponent implements OnInit, OnDestroy {
       return `check this box to remove the image size limit`;
     }
   }
+
+  saveImage() {
+
+  }
 }

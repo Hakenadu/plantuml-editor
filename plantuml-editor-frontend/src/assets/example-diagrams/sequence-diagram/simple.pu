@@ -4,12 +4,19 @@ autonumber
 
 actor A
 participant B
+database C
 
 activate A
 
 A -> B: click()
 
 activate B
+B -> C: save()
+
+activate C
+C --> B: OK
+deactivate C
+
 B --> A: result
 deactivate B
 

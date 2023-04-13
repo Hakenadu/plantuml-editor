@@ -1,0 +1,42 @@
+@startuml
+
+package "Example System" {
+  component "Web Server" as web
+  component "Application Server" as app
+  database Database as db
+
+  web --> app
+  app --> db
+  app --> api
+  api --> db
+
+  package "Security" {
+    [Auth Service] as auth
+    [Auth DB] as authdb
+    auth --> authdb
+    web --> auth
+    auth --> api
+    api --> authdb
+  }
+
+  package "Payments" {
+    [Payment Service] as payment
+    [Payment Gateway] as pg
+    pg --> payment
+    payment --> db
+    web --> pg
+  }
+
+  package "Analytics" {
+    [Analytics Service] as stats
+    [Logs DB] as logs
+    stats --> db
+    stats --> logs
+    web --> stats
+  }
+
+}
+
+web --> api
+
+@enduml

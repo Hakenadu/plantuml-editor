@@ -7,22 +7,16 @@
       <img width="100%" height="auto" [src]="logoSrc"/>
     </mat-card-content>
     <mat-card-actions>
-      <div class="row justify-content-center">
-        <div class="col-auto">
-          <button mat-flat-button
-                  class="w-100"
-                  (click)="simpleClicked()">
-            Simple
-          </button>
-        </div>
-        <div class="col-auto">
-          <button mat-flat-button
-                  class="w-100"
-                  (click)="extendedClicked()">
-            Extended
-          </button>
-        </div>
-      </div>
+      <button mat-flat-button
+              class="w-100"
+              (click)="simpleClicked()">
+        Simple
+      </button>
+      <button mat-flat-button
+              class="w-100"
+              (click)="extendedClicked()">
+        Extended
+      </button>
     </mat-card-actions>
   </mat-card>
 </div>

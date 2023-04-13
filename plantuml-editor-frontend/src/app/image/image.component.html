@@ -32,6 +32,15 @@
         </mat-button-toggle-group>
       </div>
 
+      <div class="col-auto py-1 px-1">
+        <a mat-icon-button
+           [href]="plantumlHolder.image"
+           [matTooltip]="'save image as .' + plantumlHolder.type"
+           [download]="'plantuml-diagram.' + plantumlHolder.type">
+          <mat-icon>save</mat-icon>
+        </a>
+      </div>
+
       <ng-container *ngIf="configService.config$ | async as config">
         <div class="col-auto py-1 ps-1" *ngIf="config.share">
           <button mat-icon-button
