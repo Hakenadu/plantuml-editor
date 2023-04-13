@@ -16,6 +16,7 @@ export class IntroComponent {
     {type: 'component-diagram', title: 'Component Diagram'},
     {type: 'sequence-diagram', title: 'Sequence Diagram'},
     {type: 'state-diagram', title: 'State Diagram'},
+    {type: 'timing-diagram', title: 'Timing Diagram'},
     {type: 'use-case-diagram', title: 'Use Case Diagram'}
   ];
 
