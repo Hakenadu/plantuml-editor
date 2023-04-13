@@ -1,0 +1,10 @@
+@startuml
+start
+:Login Page;
+if (Valid User) then (yes)
+  :Home Page;
+else (no)
+  :Error Page;
+endif
+stop
+@enduml

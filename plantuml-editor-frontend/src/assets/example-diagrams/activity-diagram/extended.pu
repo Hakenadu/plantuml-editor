@@ -1,0 +1,34 @@
+@startuml
+start
+:Select Operation;
+
+if (Operation is Addition) then (yes)
+  :Get Numbers;
+  if (Numbers Valid?) then (yes)
+    :Calculate Sum;
+    if (Sum > 100) then (yes)
+      :Display Error;
+    else (no)
+      :Display Sum;
+    endif
+  else (no)
+    :Display Error;
+  endif
+elseif (Operation is Subtraction) then (yes)
+  :Get Numbers;
+  if (Numbers Valid?) then (yes)
+    :Calculate Difference;
+    if (Difference > 100) then (yes)
+      :Display Error;
+    else (no)
+      :Display Difference;
+    endif
+  else (no)
+    :Display Error;
+  endif
+else (no)
+  :Display Error;
+endif
+
+stop
+@enduml
