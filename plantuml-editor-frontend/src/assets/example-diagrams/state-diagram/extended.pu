@@ -1,0 +1,23 @@
+@startuml
+[*] --> Idle
+
+state Idle {
+  [*] --> Standby
+  Standby --> [*]
+  Standby --> Active
+  Active --> [*]
+  Active --> Inactive
+  Inactive --> [*]
+  Inactive --> Active
+}
+
+state Error {
+  [*] --> Alert
+  Alert --> [*]
+  Alert --> Resolved
+  Resolved --> [*]
+}
+
+Idle --right-> Error : on Error
+Error -right-> Idle : on Resolved
+@enduml
