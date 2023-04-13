@@ -36,4 +36,18 @@ export class CompletionsComponent {
       this.loading = false;
     });
   }
-}
+
+  get sendDisabled(): boolean {
+    return this.loading || !this.completionService.remoteApiKeyConfigured && !this.completionService.apiKey || this.textualDescription.invalid;
+  }
+
+  handleTextAreaKeydown(keyboardEvent: KeyboardEvent) {
+    if (this.sendDisabled || keyboardEvent.shiftKey) {
+      return;
+    }
+    if ('Enter' === keyboardEvent.key) {
+      this.runCompletion();
+      keyboardEvent.preventDefault();
+    }
+  }
+};

@@ -1,7 +1,7 @@
 export const environment = {
   production: false,
-  // backendUrl: 'https://plantuml.mseiche.de/api',
-  backendUrl: 'http://localhost:8081',
+  backendUrl: 'https://plantuml.mseiche.de/api',
+  // backendUrl: 'http://localhost:8081',
   configUrl: undefined,
   config: { // Default frontend config for local development without docker
     intro: {

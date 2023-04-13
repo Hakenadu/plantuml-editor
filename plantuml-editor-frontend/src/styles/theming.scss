@@ -49,10 +49,8 @@ $plantuml-editor-theme-config: (
 $plantuml-editor-theme-dark: mat.define-dark-theme($plantuml-editor-theme-config);
 $plantuml-editor-theme-light: mat.define-light-theme($plantuml-editor-theme-config);
 
-.dark-theme {
-  @include mat.all-component-themes($plantuml-editor-theme-dark);
-}
+@include mat.all-component-themes($plantuml-editor-theme-dark);
 
 .light-theme {
-  @include mat.all-component-themes($plantuml-editor-theme-light)
+  @include mat.all-component-colors($plantuml-editor-theme-light);
 }
