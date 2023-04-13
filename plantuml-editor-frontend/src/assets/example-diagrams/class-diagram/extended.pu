@@ -1,0 +1,129 @@
+@startuml
+class User {
+  - id: int
+  - name: String
+  - email: String
+  - password: String
+  - createdAt: Date
+  - updatedAt: Date
+  + User(name: String, email: String, password: String)
+  + getId(): int
+  + getName(): String
+  + getEmail(): String
+  + getPassword(): String
+  + getCreatedAt(): Date
+  + getUpdatedAt(): Date
+  + setName(name: String)
+  + setEmail(email: String)
+  + setPassword(password: String)
+}
+
+class Order {
+  - id: int
+  - status: String
+  - createdAt: Date
+  - updatedAt: Date
+  + Order(user: User)
+  + getId(): int
+  + getStatus(): String
+  + getCreatedAt(): Date
+  + getUpdatedAt(): Date
+  + setStatus(status: String)
+}
+
+abstract class Product {
+  - id: int
+  - name: String
+  - description: String
+  - price: double
+  - createdAt: Date
+  - updatedAt: Date
+  + Product(name: String, description: String, price: double)
+  + getId(): int
+  + getName(): String
+  + getDescription(): String
+  + getPrice(): double
+  + getCreatedAt(): Date
+  + getUpdatedAt(): Date
+  + setName(name: String)
+  + setDescription(description: String)
+  + setPrice(price: double)
+}
+
+class Item {
+  - id: int
+  - quantity: int
+  - createdAt: Date
+  - updatedAt: Date
+  + Item(product: Product, order: Order, quantity: int)
+  + getId(): int
+  + getQuantity(): int
+  + getCreatedAt(): Date
+  + getUpdatedAt(): Date
+  + setQuantity(quantity: int)
+}
+
+class PhysicalProduct {
+  - weight: double
+  - size: String
+  + PhysicalProduct(name: String, description: String, price: double, weight: double, size: String)
+  + getWeight(): double
+  + getSize(): String
+  + setWeight(weight: double)
+  + setSize(size: String)
+}
+
+class DigitalProduct {
+  - downloadUrl: String
+  + DigitalProduct(name: String, description: String, price: double, downloadUrl: String)
+  + getDownloadUrl(): String
+  + setDownloadUrl(downloadUrl: String)
+}
+
+class ShoppingCart {
+  - items: List<Item>
+  + ShoppingCart()
+  + addItem(item: Item)
+  + removeItem(item: Item)
+  + getTotal(): double
+}
+
+class PaymentGateway {
+  - apiKey: String
+  - apiSecret: String
+  + PaymentGateway(apiKey: String, apiSecret: String)
+  + processPayment(amount: double, user: User, order: Order): boolean
+}
+
+class ShippingService {
+  - apiKey: String
+  + ShippingService(apiKey: String)
+  + shipOrder(order: Order): boolean
+}
+
+class EmailService {
+  - apiKey: String
+  + EmailService(apiKey: String)
+  + sendEmail(user: User, subject: String, body: String): boolean
+}
+
+class NotificationService {
+  - apiKey: String
+  + NotificationService(apiKey: String)
+  + sendNotification(user: User, message: String): boolean
+}
+
+User "1" -- "n" Order
+Order "n" -- "n" Item
+Item "1" -- "1" Product : contains
+
+PhysicalProduct --|> Product
+DigitalProduct --|> Product
+
+ShoppingCart "1" -- "n" Item
+ShoppingCart --> PaymentGateway : <<Uses>>
+ShoppingCart --> ShippingService : <<Uses>>
+ShoppingCart --> EmailService : <<Uses>>
+ShoppingCart --> NotificationService : <<Uses>>
+
+@enduml

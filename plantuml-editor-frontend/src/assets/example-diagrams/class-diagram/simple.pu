@@ -1,0 +1,21 @@
+@startuml
+class Person {
+  - name: String
+  - age: int
+  + Person(name: String, age: int)
+  + getName(): String
+  + getAge(): int
+}
+
+class Address {
+  - street: String
+  - city: String
+  - zipCode: String
+  + Address(street: String, city: String, zipCode: String)
+  + getStreet(): String
+  + getCity(): String
+  + getZipCode(): String
+}
+
+Person "1" -- "1" Address
+@enduml
