@@ -1,0 +1,70 @@
+@startuml
+
+object "John Doe" as john {
+    class: Person
+    name = "John Doe"
+    age = 30
+}
+
+object "Jane Smith" as jane {
+    class: Person
+    name = "Jane Smith"
+    age = 25
+}
+
+object "John's Address" as johnAddress {
+    class: Address
+    street = "123 Main St"
+    city = "Anytown"
+    state = "TX"
+    country = "USA"
+}
+
+object "Jane's Address" as janeAddress {
+    class: Address
+    street = "456 Elm St"
+    city = "Anytown"
+    state = "NY"
+    country = "USA"
+}
+
+object "John's Bank Account" as johnBankAccount {
+    class: BankAccount
+    number = 123456
+    balance = 1000.00
+}
+
+object "Jane's Bank Account" as janeBankAccount {
+    class: BankAccount
+    number = 654321
+    balance = 500.00
+}
+
+object "Jane's Credit Card" as janeCreditCard {
+    class: CreditCard
+    number = 987654
+    limit = 5000.00
+}
+
+object "John's Customer Info" as johnCustomer {
+    class: Customer
+    id = 1234
+    phone = "555-555-1234"
+    email = "john@example.com"
+}
+
+object "Jane's Customer Info" as janeCustomer {
+    class: Customer
+    id = 5678
+    phone = "555-555-5678"
+    email = "jane@example.com"
+}
+jane <-down-> john: married
+john -> johnAddress : has
+jane -> janeAddress : has
+john -> johnCustomer : is a
+jane -> janeCustomer : is a
+johnCustomer -> johnBankAccount : has
+janeCustomer -> janeBankAccount : has
+janeCustomer -> janeCreditCard : has
+@enduml

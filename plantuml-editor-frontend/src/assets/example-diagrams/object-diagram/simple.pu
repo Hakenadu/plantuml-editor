@@ -1,0 +1,20 @@
+@startuml
+object "John Doe" as john {
+    name = "John Doe"
+    age = 30
+}
+
+object "Jane Smith" as jane {
+    name = "Jane Smith"
+    age = 25
+}
+
+object "Peter Doe" as peter {
+    name = "Peter Doe"
+    age = 1
+}
+
+john -down-> jane : married to
+jane -right-> peter : mother of
+john -right-> peter : father of
+@enduml
