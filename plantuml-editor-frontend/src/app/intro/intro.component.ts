@@ -14,6 +14,7 @@ export class IntroComponent {
   exampleDiagramEntries: { type: string, title: string }[] = [
     {type: 'class-diagram', title: 'Class Diagram'},
     {type: 'component-diagram', title: 'Component Diagram'},
+    {type: 'deployment-diagram', title: 'Deployment Diagram'},
     {type: 'sequence-diagram', title: 'Sequence Diagram'},
     {type: 'state-diagram', title: 'State Diagram'},
     {type: 'timing-diagram', title: 'Timing Diagram'},

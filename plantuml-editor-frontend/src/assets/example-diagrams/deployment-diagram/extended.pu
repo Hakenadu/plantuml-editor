@@ -1,0 +1,30 @@
+@startuml
+node WebServer {
+  component WebApp
+  component LoadBalancer
+  database "WebApp DB" as webdb
+}
+
+node ApplicationServer {
+  component "Business Logic" as bizlogic
+  component "Queue Processor" as queue
+}
+
+node DatabaseServer {
+  component "Database Connector" as dbconn
+  database "Application DB" as appdb
+}
+
+node CacheServer {
+  component "Cache Connector" as cacheconn
+  component "Session Cache" as sessioncache
+}
+
+WebServer --> LoadBalancer : HTTP
+LoadBalancer --> ApplicationServer : TCP/IP
+ApplicationServer --> queue : JMS
+ApplicationServer --> dbconn : JDBC
+dbconn --> appdb : JDBC
+ApplicationServer --> cacheconn : Memcached
+cacheconn --> sessioncache : Memcached
+@enduml

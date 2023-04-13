@@ -1,0 +1,17 @@
+@startuml
+node WebServer {
+  component WebApp
+  component Database
+}
+
+node ApplicationServer {
+  component BusinessLogic
+}
+
+node DatabaseServer {
+  component Database
+}
+
+WebServer -up-> ApplicationServer : HTTP
+ApplicationServer -down-> DatabaseServer : JDBC
+@enduml
