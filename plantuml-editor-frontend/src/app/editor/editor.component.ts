@@ -67,7 +67,7 @@ const CustomHighlightRules = function () {
       },
       {
         token: "keyword.control.source.wsd",
-        regex: /\b(?:@enduml|@startuml|activate|again|also|alt|as|autonumber|bottom|box|break|center|cloud|create|critical|deactivate|destroy|down|else|end|endif|endwhile|footbox|footer|fork|group|header|hide|if|is|left|link|loop|namespace|newpage|note|of|on|opt|over|package|page|par|partition|ref|repeat|return|right|rotate|show|skin|skinparam|start|stop|title|top|top to bottom direction|up|while)\b/
+        regex: /\b(?:@enduml|@startuml|activate|again|also|alt|as|autonumber|bottom|box|break|center|cloud|create|critical|deactivate|destroy|down|else|end|endif|endwhile|footbox|footer|fork|group|header|hide|if|is|left|link|loop|namespace|newpage|node|note|of|on|opt|over|package|page|par|partition|ref|repeat|return|right|rotate|show|skin|skinparam|start|stop|title|top|top to bottom direction|up|while)\b/
       },
       {
         token: "variable.source.wsd",
