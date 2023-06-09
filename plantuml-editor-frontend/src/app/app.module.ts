@@ -37,54 +37,57 @@ import {NgxResizeObserverModule} from 'ngx-resize-observer';
 import {MatBadgeModule} from '@angular/material/badge';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    EditorComponent,
-    ImageComponent,
-    IntroComponent,
-    FooterComponent,
-    ExampleDiagramComponent,
-    ShareComponent,
-    CompletionsComponent,
-    ApiKeySettingsComponent
-  ],
-  imports: [
-    AngularSplitModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    BrowserModule,
-    ClipboardModule,
-    FormsModule,
-    HttpClientModule,
-    LayoutModule,
-    LoggerModule.forRoot({
-      level: NgxLoggerLevel.INFO,
-      colorScheme: ['purple', 'teal', 'gray', 'gray', 'red', 'red', 'red']
-    }),
-    MatButtonModule,
-    MatButtonToggleModule,
-    MatCardModule,
-    MatCheckboxModule,
-    MatDialogModule,
-    MatDividerModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatInputModule,
-    MatMenuModule,
-    MatProgressSpinnerModule,
-    MatSnackBarModule,
-    MatToolbarModule,
-    MatTooltipModule,
-    MatBadgeModule,
-    NgbCarouselModule,
-    NgbModule,
-    ReactiveFormsModule,
-    NgxResizeObserverModule,
-    MatFormFieldModule,
-    MatCardModule,
-    MatButtonModule
-  ],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        EditorComponent,
+        ImageComponent,
+        IntroComponent,
+        FooterComponent,
+        ExampleDiagramComponent,
+        ShareComponent,
+        CompletionsComponent,
+        ApiKeySettingsComponent
+    ],
+    imports: [
+        AngularSplitModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        BrowserModule,
+        ClipboardModule,
+        FormsModule,
+        HttpClientModule,
+        LayoutModule,
+        LoggerModule.forRoot({
+            level: NgxLoggerLevel.INFO,
+            colorScheme: ['purple', 'teal', 'gray', 'gray', 'red', 'red', 'red']
+        }),
+        MatButtonModule,
+        MatButtonToggleModule,
+        MatCardModule,
+        MatCheckboxModule,
+        MatDialogModule,
+        MatDividerModule,
+        MatFormFieldModule,
+        MatIconModule,
+        MatInputModule,
+        MatMenuModule,
+        MatProgressSpinnerModule,
+        MatSnackBarModule,
+        MatToolbarModule,
+        MatTooltipModule,
+        MatBadgeModule,
+        NgbCarouselModule,
+        NgbModule,
+        ReactiveFormsModule,
+        NgxResizeObserverModule,
+        MatFormFieldModule,
+        MatCardModule,
+        MatButtonModule
+    ],
+    exports: [
+        FooterComponent
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule {
 }
